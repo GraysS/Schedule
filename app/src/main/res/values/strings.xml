@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Schedule</string>
+    <string name="button_auth">Вход</string>
+    <string name="button_registr">Регистрация</string>
+    <string name="toolbar_account">Account</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="et_name">Имя</string>
+    <string name="et_surname">Фамилия</string>
+    <string name="et_patronymic">Отчество</string>
+    <string name="et_username">Никнейм</string>
+    <string name="et_password">Пароль</string>
+    <string name="btn_registr">Регистрация</string>
+    <string name="btn_auth">Авторизация</string>
+</resources>
