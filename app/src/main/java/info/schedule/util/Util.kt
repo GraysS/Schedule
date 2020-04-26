@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import info.schedule.network.ErrorResponseNetwork
 import retrofit2.HttpException
 import java.net.HttpURLConnection
-import javax.net.ssl.HttpsURLConnection
+
 
 fun handleApiError(
     error: HttpException,

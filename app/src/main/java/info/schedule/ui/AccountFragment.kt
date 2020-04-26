@@ -95,7 +95,6 @@ class AccountFragment : Fragment() {
             ) {
                 val account: Account? = adapter.getItem(position)
                 if(account != null) {
-                    Toast.makeText(context, account.username,Toast.LENGTH_LONG).show()
                     viewModel.setUsername(account.username)
                 }
 
@@ -152,6 +151,7 @@ class AccountFragment : Fragment() {
             adapter.add(it.get(0))
             if(binding.llAddovs.visibility == View.INVISIBLE)
                  binding.llAddovs.visibility = View.VISIBLE
+            Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
         })
 
         viewModel.liveAccountTeachersResponseFailure.observe(viewLifecycleOwner, Observer {

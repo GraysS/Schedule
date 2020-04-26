@@ -11,7 +11,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
 
-enum class ErrorResponseNetwork() {
+enum class ErrorResponseNetwork {
     BAD_REQUEST,
     UNAUTHORIZED,
     NO_NETWORK,
