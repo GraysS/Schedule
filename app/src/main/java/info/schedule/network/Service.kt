@@ -8,8 +8,16 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.POST
+import retrofit2.http.*
+
+
+enum class ErrorResponseNetwork() {
+    BAD_REQUEST,
+    UNAUTHORIZED,
+    NO_NETWORK,
+    FORBIDDEN,
+    INTERNAL_ERROR
+}
 
 interface ScheduleService {
 
@@ -18,6 +26,21 @@ interface ScheduleService {
 
     @POST("ubs/v1/authenticate")
     fun authorization(@Body networkAccount: AuthNetworkAccount) : Deferred<NetworkAccount>
+
+    @GET("ubs/v1/user/get")
+    fun getAccountData(@Header("Authorization") token: String) : Deferred<NetworkAccount>
+
+    @GET("ubs/v1/user/find")
+    fun getTeacherData(@Header("Authorization") token: String,
+                       @Query("name") name: String,
+                       @Query("surname") surname: String,
+                       @Query("patronymic") patronymic: String) : Deferred<List<NetworkAccount>>
+
+    @POST("schedule/add/{username}/{groups}/{university}")
+    fun teachersUniversityGroups(@Header("Authorization") token: String,
+                                 @Path("username")  username: String,
+                                 @Path("groups") groups: String,
+                                 @Path("university") university: String) : Deferred<NetworkAccount>
 
 }
 
@@ -40,5 +63,5 @@ object Network {
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
 
-    val schedule = retrofits.create(ScheduleService::class.java)
+    val schedule: ScheduleService = retrofits.create(ScheduleService::class.java)
 }

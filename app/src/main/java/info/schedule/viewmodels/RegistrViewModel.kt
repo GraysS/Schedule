@@ -1,8 +1,12 @@
 package info.schedule.viewmodels
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import info.schedule.domain.Account
+import info.schedule.network.ErrorResponseNetwork
 import info.schedule.network.RegistrNetworkAccount
 import info.schedule.repository.AccountRepository
 import kotlinx.coroutines.CoroutineScope
@@ -10,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
-class RegistrViewModel() : ViewModel() {
+class RegistrViewModel(application: Application) : AndroidViewModel(application) {
 
     private val viewModelJob = SupervisorJob()
 
@@ -19,7 +23,7 @@ class RegistrViewModel() : ViewModel() {
     private val accountRepository = AccountRepository()
 
     val liveRegistrResponse: LiveData<Account> = accountRepository.registrResponse
-    val liveRegistrResponseFailure: LiveData<String> = accountRepository.registrResponseFailure
+    val liveRegistrResponseFailure: LiveData<ErrorResponseNetwork> = accountRepository.registrResponseFailure
 
     fun registers(networkAccount: RegistrNetworkAccount) {
         viewModelScope.launch {
@@ -32,5 +36,13 @@ class RegistrViewModel() : ViewModel() {
         viewModelJob.cancel()
     }
 
-
+    class Factory(val app: Application) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(RegistrViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return RegistrViewModel(app) as T
+            }
+            throw IllegalArgumentException("Unable to construct viewmodel")
+        }
+    }
 }

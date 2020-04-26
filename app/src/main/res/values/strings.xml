@@ -4,8 +4,6 @@
     <string name="button_registr">Регистрация</string>
     <string name="toolbar_account">Account</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="et_name">Имя</string>
     <string name="et_surname">Фамилия</string>
     <string name="et_patronymic">Отчество</string>
@@ -13,4 +11,30 @@
     <string name="et_password">Пароль</string>
     <string name="btn_registr">Регистрация</string>
     <string name="btn_auth">Авторизация</string>
+    <string name="error_nickname">Такой никнейм уже есть, придумайте другой никнейм</string>
+    <string name="success">Success</string>
+    <string name="lenght_password">"Заполните все поля.У пароля должно быть минимум 8 букв/цифр "</string>
+    <string name="empty">Заполните все поля</string>
+    <string name="failure_auth">Неправильно введен логин или пароль</string>
+    <string name="error_connect">Вы не подключенны к интернету, или же повторите запрос</string>
+    <string name="button_logout">logout</string>
+    <string name="tv_pleaseWait">Пожалуйста!Подождите...</string>
+    <string name="button_assign">Назначить</string>
+    <string name="btn_addTeacher">Добавить преподавателя</string>
+    <string name="btn_add">Добавить</string>
+    <string name="tv_token">Токен действует 1 час.После 1 часа вы не сможете добавлять/изменять.Вам придеться повторно сделать авторизацию</string>
+    <string name="error_teachers">Нету этого преподавателя</string>
+
+    <string-array name="array_teacher">
+        <item>Добавьте сверху преподавателя </item>
+    </string-array>
+    
+    <string-array name="array_university">
+        <item>KHIBS</item>
+    </string-array>
+
+    <string-array name="array_groups">
+        <item>304-KH-X</item>
+        <item>206-KH-CK-X</item>
+    </string-array>
 </resources>

@@ -24,17 +24,28 @@
         <action
             android:id="@+id/action_accountFragment_to_registrFragment"
             app:destination="@id/registrFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/authFragment"
         android:name="info.schedule.ui.AuthFragment"
         android:label="fragment_auth"
-        tools:layout="@layout/fragment_auth" />
+        tools:layout="@layout/fragment_auth" >
+        <action
+            android:id="@+id/action_authFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
+    </fragment>
     <fragment
         android:id="@+id/registrFragment"
         android:name="info.schedule.ui.RegistrFragment"
         android:label="fragment_registr"
-        tools:layout="@layout/fragment_registr" />
+        tools:layout="@layout/fragment_registr" >
+        <action
+            android:id="@+id/action_registrFragment_to_authFragment"
+            app:destination="@id/authFragment" />
+    </fragment>
 
 </navigation>
