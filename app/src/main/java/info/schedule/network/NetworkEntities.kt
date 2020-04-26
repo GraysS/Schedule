@@ -1,6 +1,5 @@
 package info.schedule.network
 
-import com.squareup.moshi.FromJson
 import com.squareup.moshi.JsonClass
 import info.schedule.database.DatabaseAccount
 import info.schedule.domain.Account
@@ -17,9 +16,6 @@ data class RegistrNetworkAccount(val name: String,
 data class AuthNetworkAccount(val username: String,
                               val password: String)
 
-
-/*@JsonClass(generateAdapter = true)
-data class NetworkAccountContainer(val accounts: List<NetworkAccount>)*/
 
 @JsonClass(generateAdapter = true)
 data class NetworkAccount(
@@ -40,17 +36,7 @@ fun asDomainListAccountModel(listNetworkAccount: List<NetworkAccount> ) : List<A
         )
     }
 }
-/*
-fun NetworkAccountContainer.asDomainListAccountModel() : List<Account>{
-    return accounts.map {
-        Account(
-            name = it.name,
-            surname = it.surname,
-            patronymic = it.patronymic,
-            username = it.username
-        )
-    }
-*/
+
 
 fun NetworkAccount.asDomainAccountModel() : Account {
     return Account(name = name,

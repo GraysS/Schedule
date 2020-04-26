@@ -28,9 +28,12 @@ class CustomAccountPreferense(context: Context) {
         sharedPreferenseEditor.apply()
     }
 
-    fun getToken(): String? {
+
+    private fun getToken(): String? {
         return sharedPreferense.getString(jwtToken,null)
     }
 
-
+    fun asDatabaseAccountModel() : DatabaseAccount{
+        return DatabaseAccount(getToken())
+    }
 }

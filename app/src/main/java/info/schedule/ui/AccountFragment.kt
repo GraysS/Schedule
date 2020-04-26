@@ -60,6 +60,7 @@ class AccountFragment : Fragment() {
         binding.btnLogout.setOnClickListener {
             viewModel.accountLogout()
             findNavController().navigate(R.id.action_accountFragment_to_scheduleFragment)
+            Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
         }
 
         binding.btnAddTeacher.setOnClickListener {
@@ -157,14 +158,14 @@ class AccountFragment : Fragment() {
             if(ErrorResponseNetwork.NO_NETWORK == it)
                  Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
             else
-                Toast.makeText(context,R.string.error_teachers,Toast.LENGTH_LONG).show()
+                 Toast.makeText(context,R.string.error_teachers,Toast.LENGTH_LONG).show()
         })
 
         viewModel.liveAccountAddTeachersUniversityGroups.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
             binding.etName.text.clear()
             binding.etSurname.text.clear()
             binding.etPatronymic.text.clear()
+            Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
         })
 
         viewModel.liveAccountAddTeachersUniversityGroupsFailure.observe(viewLifecycleOwner, Observer {

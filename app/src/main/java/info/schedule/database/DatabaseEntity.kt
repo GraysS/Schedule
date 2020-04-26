@@ -1,3 +1,3 @@
 package info.schedule.database
 
-data class DatabaseAccount(val jwtToken: String)
+data class DatabaseAccount(val jwtToken: String?)

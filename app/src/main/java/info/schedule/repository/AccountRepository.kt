@@ -2,6 +2,7 @@ package info.schedule.repository
 
 import androidx.lifecycle.MutableLiveData
 import info.schedule.database.CustomAccountPreferense
+import info.schedule.database.DatabaseAccount
 import info.schedule.domain.Account
 import info.schedule.network.*
 import info.schedule.util.handleApiError
@@ -14,6 +15,7 @@ import timber.log.Timber
 class AccountRepository() {
 
     private lateinit var customAccountPreferense: CustomAccountPreferense
+    private lateinit var databaseAccount: DatabaseAccount
 
     val registrResponse: MutableLiveData<Account> = MutableLiveData()
     val registrResponseFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
@@ -32,6 +34,7 @@ class AccountRepository() {
 
     constructor(customAccountPreferense: CustomAccountPreferense) : this() {
         this.customAccountPreferense = customAccountPreferense
+        this.databaseAccount = customAccountPreferense.asDatabaseAccountModel()
     }
 
 
@@ -71,7 +74,7 @@ class AccountRepository() {
     suspend fun accountGetData() {
         withContext(Dispatchers.Main) {
             try {
-                val getAccount = Network.schedule.getAccountData(token="Bearer ${customAccountPreferense.getToken()}").await()
+                val getAccount = Network.schedule.getAccountData(token="Bearer ${databaseAccount.jwtToken}").await()
                 Timber.d("Name %s ", getAccount.name)
                 Timber.d("Surname %s ", getAccount.surname)
                 Timber.d("Patronymic %s ", getAccount.patronymic)
@@ -92,7 +95,7 @@ class AccountRepository() {
     suspend fun accountGetTeachersData(name: String,surname: String, patronymic: String) {
         withContext(Dispatchers.Main) {
             try {
-                val getTeachers: List<NetworkAccount> = Network.schedule.getTeacherData(token = "Bearer ${customAccountPreferense.getToken()}",
+                val getTeachers: List<NetworkAccount> = Network.schedule.getTeacherData(token = "Bearer ${databaseAccount.jwtToken}",
                     name = name,surname = surname,patronymic = patronymic).await()
                 accountTeachersResponse.value = asDomainListAccountModel(getTeachers)
             }catch (exception: HttpException) {
@@ -109,7 +112,7 @@ class AccountRepository() {
     suspend fun accountAddteachersUniversityGroups(username: String,groups: String,university: String) {
         withContext(Dispatchers.Main) {
             try {
-                val addTeachersUniversityGroups = Network.schedule.teachersUniversityGroups(token = "Bearer ${customAccountPreferense.getToken()}",
+                val addTeachersUniversityGroups = Network.schedule.teachersUniversityGroups(token = "Bearer ${databaseAccount.jwtToken}",
                                                         username = username,groups = groups,university = university).await()
 
                 accountAddteachersUniversityGroups.value = addTeachersUniversityGroups.asDomainAccountModel()
