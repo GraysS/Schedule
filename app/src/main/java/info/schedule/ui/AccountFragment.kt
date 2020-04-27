@@ -19,12 +19,17 @@ import info.schedule.R
 import info.schedule.databinding.FragmentAccountBinding
 import info.schedule.domain.Account
 import info.schedule.network.ErrorResponseNetwork
+import info.schedule.ui.dialog.DateDialogFragment
+import info.schedule.ui.dialog.FinishTimeDialogFragment
+import info.schedule.ui.dialog.StartTimeDialogFragment
 import info.schedule.viewmodels.AccountViewModel
 
 /**
  * A simple [Fragment] subclass.
  */
-class AccountFragment : Fragment() {
+class AccountFragment : Fragment(), DateDialogFragment.DateDialogListener,
+                                StartTimeDialogFragment.StartTimeDialogListener,
+                                FinishTimeDialogFragment.FinishTimeDialogListener{
 
     lateinit var binding: FragmentAccountBinding
     lateinit var adapter: ArrayAdapter<Account>
@@ -127,6 +132,67 @@ class AccountFragment : Fragment() {
             }
         }
 
+        binding.spListSubjectName.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                viewModel.setSubjectName(parent?.getItemAtPosition(position).toString())
+            }
+
+        }
+
+        binding.spTypeLecture.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                viewModel.setTypeLecture(parent?.getItemAtPosition(position).toString())
+            }
+        }
+
+        binding.spListLectureRoom.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                viewModel.setLectureRoom(parent?.getItemAtPosition(position).toString())
+            }
+        }
+
+        binding.cvClickDate.setOnClickListener {
+            val bundles: Bundle = Bundle()
+            bundles.putSerializable("dialog",this)
+            findNavController().navigate(R.id.dateDialogFragment,bundles)
+        }
+
+        binding.cvClickStartTime.setOnClickListener {
+            val bundles: Bundle = Bundle()
+            bundles.putSerializable("dialog",this)
+            findNavController().navigate(R.id.startTimeDialogFragment,bundles)
+        }
+
+        binding.cvClickFinishTime.setOnClickListener {
+            val bundles: Bundle = Bundle()
+            bundles.putSerializable("dialog",this)
+            findNavController().navigate(R.id.finishTimeDialogFragment,bundles)
+        }
+
         return binding.root
     }
 
@@ -165,6 +231,9 @@ class AccountFragment : Fragment() {
             binding.etName.text.clear()
             binding.etSurname.text.clear()
             binding.etPatronymic.text.clear()
+            binding.tvDateLecture.text=  getString(R.string.tv_date)
+            binding.tvStartTimeLecture.text = getString(R.string.tv_startTimeLecture)
+            binding.tvFinishTimeLecture.text = getString(R.string.tv_finishTimeLecture)
             Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
         })
 
@@ -172,6 +241,23 @@ class AccountFragment : Fragment() {
             if(ErrorResponseNetwork.NO_NETWORK == it)
                 Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
         })
+
+
+    }
+
+    override fun doPositiveClick(textDate: String) {
+        binding.tvDateLecture.text = textDate
+        viewModel.setDate(textDate)
+    }
+
+    override fun doPositiveClickStart(textTimeStart: String) {
+       binding.tvStartTimeLecture.text = textTimeStart
+       viewModel.setStartTime(textTimeStart)
+    }
+
+    override fun doPositiveClickFinish(textTimeFinish: String) {
+        binding.tvFinishTimeLecture.text = textTimeFinish
+        viewModel.setFinishTime(textTimeFinish)
     }
 
 }

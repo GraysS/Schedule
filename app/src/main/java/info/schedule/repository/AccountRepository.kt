@@ -29,7 +29,7 @@ class AccountRepository() {
     val accountTeachersResponse: MutableLiveData<List<Account>> = MutableLiveData()
     val accountTeachersResponseFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
 
-    val accountAddteachersUniversityGroups: MutableLiveData<Account> = MutableLiveData()
+    val accountAddteachersUniversityGroups: MutableLiveData<String> = MutableLiveData()
     val accountAddteachersUniversityGroupsFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
 
     constructor(customAccountPreferense: CustomAccountPreferense) : this() {
@@ -109,13 +109,13 @@ class AccountRepository() {
     }
 
 
-    suspend fun accountAddteachersUniversityGroups(username: String,groups: String,university: String) {
+    suspend fun accountAddteachersUniversityGroups(username: String,groups: String,university: String,networkSchedule: NetworkSchedule) {
         withContext(Dispatchers.Main) {
             try {
                 val addTeachersUniversityGroups = Network.schedule.teachersUniversityGroups(token = "Bearer ${databaseAccount.jwtToken}",
-                                                        username = username,groups = groups,university = university).await()
+                                                        username = username,groups = groups,university = university,networkSchedule = networkSchedule).await()
 
-                accountAddteachersUniversityGroups.value = addTeachersUniversityGroups.asDomainAccountModel()
+                accountAddteachersUniversityGroups.value = "Success"
             }catch (exception: HttpException) {
                 exception.printStackTrace()
                 handleApiError(exception,accountAddteachersUniversityGroupsFailure)

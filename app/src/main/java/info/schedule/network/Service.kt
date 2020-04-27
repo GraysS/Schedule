@@ -6,6 +6,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
@@ -36,11 +37,12 @@ interface ScheduleService {
                        @Query("surname") surname: String,
                        @Query("patronymic") patronymic: String) : Deferred<List<NetworkAccount>>
 
-    @POST("schedule/add/{username}/{groups}/{university}")
+    @POST("ubs/v1/schedule/add/{username}/{groups}/{university}")
     fun teachersUniversityGroups(@Header("Authorization") token: String,
                                  @Path("username")  username: String,
                                  @Path("groups") groups: String,
-                                 @Path("university") university: String) : Deferred<NetworkAccount>
+                                 @Path("university") university: String,
+                                 @Body networkSchedule: NetworkSchedule) : Deferred<Response<Void>>
 
 }
 

@@ -18,6 +18,14 @@ data class AuthNetworkAccount(val username: String,
 
 
 @JsonClass(generateAdapter = true)
+data class NetworkSchedule(val subjectName: String,
+                           val typeLecture: String,
+                           val date: String,
+                           val startLecture: String,
+                           val finishLecture: String,
+                           val lectureRoom: String)
+
+@JsonClass(generateAdapter = true)
 data class NetworkAccount(
     val name: String="",
     val surname: String="",

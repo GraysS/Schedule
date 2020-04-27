@@ -28,7 +28,7 @@
     <string-array name="array_teacher">
         <item>Добавьте сверху преподавателя </item>
     </string-array>
-    
+
     <string-array name="array_university">
         <item>KHIBS</item>
     </string-array>
@@ -37,4 +37,26 @@
         <item>304-KH-X</item>
         <item>206-KH-CK-X</item>
     </string-array>
+
+
+    <string-array name="array_subjectName">
+        <item>Программирование</item>
+        <item>Интелектуальний анализ данных</item>
+    </string-array>
+
+    <string-array name="array_typeLecture">
+        <item>Практика</item>
+        <item>Лекцыя</item>
+    </string-array>
+
+    <string-array name="array_lectureRoom">
+        <item>221</item>
+        <item>220</item>
+        <item>133</item>
+    </string-array>
+
+    <string name="tv_date">Дата лекции</string>
+    <string name="tv_startTimeLecture">Время начала лекции</string>
+    <string name="tv_finishTimeLecture">Время завершения лекции</string>
+
 </resources>

@@ -1,9 +1,13 @@
 package info.schedule.util
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import info.schedule.network.ErrorResponseNetwork
 import retrofit2.HttpException
+import java.lang.StringBuilder
 import java.net.HttpURLConnection
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 fun handleApiError(
@@ -21,4 +25,12 @@ fun handleApiError(
 
 fun handleNetworkError(mutableLiveData: MutableLiveData<ErrorResponseNetwork>) {
     mutableLiveData.value = ErrorResponseNetwork.NO_NETWORK
+}
+
+
+@SuppressLint("SimpleDateFormat")
+fun datesFormat(pattern: String, textlong: Long) : String {
+    val outputFormat = SimpleDateFormat(pattern, Locale.getDefault())
+    val strDate: String = outputFormat.format(textlong)
+    return strDate
 }
