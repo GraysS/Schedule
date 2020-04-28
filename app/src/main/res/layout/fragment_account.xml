@@ -54,13 +54,6 @@
                         android:layout_margin="10dp"
                         android:text="@string/button_logout" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:scrollbars="vertical"
-                        android:text="@string/tv_token" />
-
                 </LinearLayout>
 
 
@@ -103,14 +96,27 @@
                         android:imeOptions="actionDone"
                         android:singleLine="true" />
 
-                    <Button
-                        android:id="@+id/btn_addTeacher"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp"
-                        android:text="@string/btn_addTeacher" />
+                        android:padding="5dp"
+                        android:orientation="horizontal">
+                        <Button
+                            android:id="@+id/btn_clearText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/btn_clearText" />
+                        <Button
+                            android:id="@+id/btn_addTeacher"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/btn_addTeacher" />
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout

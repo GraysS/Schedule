@@ -97,6 +97,9 @@ class AccountRepository() {
             try {
                 val getTeachers: List<NetworkAccount> = Network.schedule.getTeacherData(token = "Bearer ${databaseAccount.jwtToken}",
                     name = name,surname = surname,patronymic = patronymic).await()
+                // Глобал коллекция или же проверка accountGetTeachersData name,surname,patronymic
+                Timber.d("GETTEACHERS")
+            //    teachersContains(asDomainListAccountModel(getTeachers).get(0))
                 accountTeachersResponse.value = asDomainListAccountModel(getTeachers)
             }catch (exception: HttpException) {
                 exception.printStackTrace()

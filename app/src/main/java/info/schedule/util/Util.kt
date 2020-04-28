@@ -2,8 +2,10 @@ package info.schedule.util
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
+import info.schedule.domain.Account
 import info.schedule.network.ErrorResponseNetwork
 import retrofit2.HttpException
+import timber.log.Timber
 import java.lang.StringBuilder
 import java.net.HttpURLConnection
 import java.text.SimpleDateFormat
@@ -19,6 +21,7 @@ fun handleApiError(
         HttpURLConnection.HTTP_BAD_REQUEST -> mutableLiveData.value = ErrorResponseNetwork.BAD_REQUEST
         HttpURLConnection.HTTP_FORBIDDEN -> mutableLiveData.value = ErrorResponseNetwork.FORBIDDEN
         HttpURLConnection.HTTP_INTERNAL_ERROR -> mutableLiveData.value = ErrorResponseNetwork.INTERNAL_ERROR
+        HttpURLConnection.HTTP_UNAVAILABLE -> mutableLiveData.value = ErrorResponseNetwork.UNAVAILABLE
         else -> mutableLiveData.value = ErrorResponseNetwork.NO_NETWORK
     }
 }
@@ -33,4 +36,22 @@ fun datesFormat(pattern: String, textlong: Long) : String {
     val outputFormat = SimpleDateFormat(pattern, Locale.getDefault())
     val strDate: String = outputFormat.format(textlong)
     return strDate
+}
+
+fun isDuplicatus(newListAccount: List<Account>,oldListAccount: List<Account>): Boolean {
+    var isDuplicatus = false
+    if(oldListAccount.isNotEmpty()) {
+        for (oldAccount: Account in oldListAccount) {
+            Timber.d(oldAccount.username)
+            for(newAccount: Account in newListAccount) {
+                Timber.d("%s And %s",oldAccount.username,newAccount.username)
+                if (oldAccount.username.equals(newAccount.username)) {
+                    isDuplicatus = true
+                    Timber.d("vipOLNIS")
+                    return isDuplicatus
+                }
+            }
+        }
+    }
+    return isDuplicatus
 }

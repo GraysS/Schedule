@@ -33,6 +33,7 @@ class AccountFragment : Fragment(), DateDialogFragment.DateDialogListener,
 
     lateinit var binding: FragmentAccountBinding
     lateinit var adapter: ArrayAdapter<Account>
+    var isLiveData: Boolean = false
 
     private val viewModel: AccountViewModel by lazy {
         val activity = requireNotNull(this.activity) {
@@ -52,6 +53,7 @@ class AccountFragment : Fragment(), DateDialogFragment.DateDialogListener,
         binding.lifecycleOwner = viewLifecycleOwner
 
         adapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item)
+
         binding.spListSearchesTeacher.adapter = adapter
 
         binding.btnAuth.setOnClickListener {
@@ -68,10 +70,17 @@ class AccountFragment : Fragment(), DateDialogFragment.DateDialogListener,
             Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
         }
 
+        binding.btnClearText.setOnClickListener {
+            binding.etName.text.clear()
+            binding.etSurname.text.clear()
+            binding.etPatronymic.text.clear()
+        }
+
         binding.btnAddTeacher.setOnClickListener {
             if(!binding.etName.text.toString().isEmpty() &&
                !binding.etSurname.text.toString().isEmpty() &&
                !binding.etPatronymic.text.toString().isEmpty()) {
+                isLiveData = true
                 viewModel.accountGetTeacher(
                     binding.etName.text.toString(),
                     binding.etSurname.text.toString(),
@@ -83,7 +92,14 @@ class AccountFragment : Fragment(), DateDialogFragment.DateDialogListener,
         }
 
         binding.btnAdd.setOnClickListener {
-            viewModel.addTeachersUniversityGroups()
+            if(binding.tvDateLecture.text != getString(R.string.tv_date) &&
+               binding.tvStartTimeLecture.text != getString(R.string.tv_startTimeLecture) &&
+                binding.tvFinishTimeLecture.text != getString(R.string.tv_finishTimeLecture)) {
+                    isLiveData = true
+                    viewModel.addTeachersUniversityGroups()
+            } else{
+                Toast.makeText(context, R.string.incorrect_date, Toast.LENGTH_LONG).show()
+            }
         }
 
 
@@ -101,6 +117,7 @@ class AccountFragment : Fragment(), DateDialogFragment.DateDialogListener,
                 val account: Account? = adapter.getItem(position)
                 if(account != null) {
                     viewModel.setUsername(account.username)
+                    Toast.makeText(context, account.username, Toast.LENGTH_LONG).show()
                 }
 
             }
@@ -207,6 +224,12 @@ class AccountFragment : Fragment(), DateDialogFragment.DateDialogListener,
             if (ErrorResponseNetwork.NO_NETWORK == it) {
                 binding.tvPleaseWait.text = getString(R.string.error_connect)
                 Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
+            } else if (ErrorResponseNetwork.UNAVAILABLE == it) {
+                binding.tvPleaseWait.text = getString(R.string.error_service)
+                Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
+            } else if(ErrorResponseNetwork.FORBIDDEN == it) {
+                    Toast.makeText(context, R.string.reauth, Toast.LENGTH_LONG).show()
+                    findNavController().navigate(R.id.action_accountFragment_to_authFragment)
             } else {
                 binding.llRegistrAndLogin.visibility = View.VISIBLE
                 binding.llPleaseWait.visibility = View.INVISIBLE
@@ -214,49 +237,85 @@ class AccountFragment : Fragment(), DateDialogFragment.DateDialogListener,
         })
 
         viewModel.liveAccountTeachersResponse.observe(viewLifecycleOwner, Observer {
-            adapter.add(it.get(0))
-            if(binding.llAddovs.visibility == View.INVISIBLE)
-                 binding.llAddovs.visibility = View.VISIBLE
-            Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
+            viewModel.dataTeachers(it)
+        })
+
+        viewModel.liveAccountDataTeachers.observe(viewLifecycleOwner, Observer {
+            adapter.addAll(it)
+            binding.llAddovs.visibility = View.VISIBLE
+            if(isLiveData) {
+                Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
+                isLiveData = false
+            }
+        })
+
+        viewModel.liveAccountDataTeachersDuplicates.observe(viewLifecycleOwner, Observer {
+            if(isLiveData) {
+                Toast.makeText(context, R.string.error_teachers_duplicates, Toast.LENGTH_LONG)
+                    .show()
+                isLiveData = false
+            }
         })
 
         viewModel.liveAccountTeachersResponseFailure.observe(viewLifecycleOwner, Observer {
-            if(ErrorResponseNetwork.NO_NETWORK == it)
-                 Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
-            else
-                 Toast.makeText(context,R.string.error_teachers,Toast.LENGTH_LONG).show()
+            if(isLiveData) {
+                if (ErrorResponseNetwork.NO_NETWORK == it)
+                    Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
+                else if (ErrorResponseNetwork.UNAVAILABLE == it)
+                    Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
+                else if(ErrorResponseNetwork.FORBIDDEN == it) {
+                    Toast.makeText(context, R.string.reauth, Toast.LENGTH_LONG).show()
+                    findNavController().navigate(R.id.action_accountFragment_to_authFragment)
+                } else
+                    Toast.makeText(context, R.string.error_teachers, Toast.LENGTH_LONG).show()
+                isLiveData = false
+            }
         })
 
         viewModel.liveAccountAddTeachersUniversityGroups.observe(viewLifecycleOwner, Observer {
-            binding.etName.text.clear()
-            binding.etSurname.text.clear()
-            binding.etPatronymic.text.clear()
-            binding.tvDateLecture.text=  getString(R.string.tv_date)
-            binding.tvStartTimeLecture.text = getString(R.string.tv_startTimeLecture)
-            binding.tvFinishTimeLecture.text = getString(R.string.tv_finishTimeLecture)
-            Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
+            if(isLiveData) {
+                viewModel.setDate(getString(R.string.tv_date))
+                viewModel.setStartTime(getString(R.string.tv_startTimeLecture))
+                viewModel.setFinishTime(getString(R.string.tv_finishTimeLecture))
+                Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
+                isLiveData = false
+            }
         })
 
         viewModel.liveAccountAddTeachersUniversityGroupsFailure.observe(viewLifecycleOwner, Observer {
-            if(ErrorResponseNetwork.NO_NETWORK == it)
-                Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
+            if(isLiveData) {
+                if (ErrorResponseNetwork.NO_NETWORK == it)
+                    Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
+                else if (ErrorResponseNetwork.UNAVAILABLE == it)
+                    Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
+                else if(ErrorResponseNetwork.FORBIDDEN == it) {
+                    Toast.makeText(context, R.string.reauth, Toast.LENGTH_LONG).show()
+                    findNavController().navigate(R.id.action_accountFragment_to_authFragment)
+                }
+                isLiveData = false
+            }
         })
-
-
+        viewModel.liveAccountDate.observe(viewLifecycleOwner, Observer {
+            binding.tvDateLecture.text = it
+        })
+        viewModel.liveAccountStartTime.observe(viewLifecycleOwner, Observer {
+            binding.tvStartTimeLecture.text = it
+        })
+        viewModel.liveAccountFinishTime.observe(viewLifecycleOwner, Observer {
+            binding.tvFinishTimeLecture.text = it
+        })
     }
 
+
     override fun doPositiveClick(textDate: String) {
-        binding.tvDateLecture.text = textDate
         viewModel.setDate(textDate)
     }
 
     override fun doPositiveClickStart(textTimeStart: String) {
-       binding.tvStartTimeLecture.text = textTimeStart
        viewModel.setStartTime(textTimeStart)
     }
 
     override fun doPositiveClickFinish(textTimeFinish: String) {
-        binding.tvFinishTimeLecture.text = textTimeFinish
         viewModel.setFinishTime(textTimeFinish)
     }
 

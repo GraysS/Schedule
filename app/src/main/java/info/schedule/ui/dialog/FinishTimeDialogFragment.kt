@@ -20,11 +20,15 @@ import java.util.*
  */
 class FinishTimeDialogFragment : DialogFragment() {
 
+    private lateinit var dateDialogListener: FinishTimeDialogListener
     private var textDate: String = datesFormat("HH:mm", Calendar.getInstance().time.time)
 
     override fun onCreateDialog(
         savedInstanceState: Bundle?): Dialog {
         val view : View = activity?.layoutInflater?.inflate(R.layout.fragment_finish_time_dialog,null)!!
+
+         dateDialogListener = arguments?.getSerializable("dialog")
+                as FinishTimeDialogListener
 
         val timePicker: TimePicker = view.findViewById(R.id.tm_time)
 
@@ -47,16 +51,19 @@ class FinishTimeDialogFragment : DialogFragment() {
             textDate =  datesFormat("HH:mm",calendar.time.time)
             Timber.d(textDate)
         }
-
+        isCancelable = false
         return AlertDialog.Builder(context)
             .setView(view)
             .setPositiveButton(android.R.string.ok) { dialogInterface: DialogInterface, i: Int ->
-                val dateDialogListener = arguments?.getSerializable("dialog")
-                        as FinishTimeDialogListener
                 dateDialogListener.doPositiveClickFinish(textDate)
                 dialogInterface.dismiss()
             }
             .setOnCancelListener {
+                dateDialogListener.doPositiveClickFinish(textDate)
+                it.dismiss()
+            }
+            .setOnDismissListener {
+                dateDialogListener.doPositiveClickFinish(textDate)
                 it.dismiss()
             }
             .create()

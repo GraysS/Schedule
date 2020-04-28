@@ -17,7 +17,8 @@ enum class ErrorResponseNetwork {
     UNAUTHORIZED,
     NO_NETWORK,
     FORBIDDEN,
-    INTERNAL_ERROR
+    INTERNAL_ERROR,
+    UNAVAILABLE
 }
 
 interface ScheduleService {

@@ -7,6 +7,7 @@ import info.schedule.domain.Account
 import info.schedule.network.ErrorResponseNetwork
 import info.schedule.network.NetworkSchedule
 import info.schedule.repository.AccountRepository
+import info.schedule.util.isDuplicatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -20,6 +21,8 @@ class AccountViewModel(application : Application) : AndroidViewModel(application
 
     private val customAccountPreferense = CustomAccountPreferense(application)
     private val accountRepository = AccountRepository(customAccountPreferense)
+
+    private val dataTeachers: MutableList<Account> = mutableListOf()
 
     private lateinit var username: String
     private lateinit var groups: String
@@ -40,11 +43,28 @@ class AccountViewModel(application : Application) : AndroidViewModel(application
     val liveAccountAddTeachersUniversityGroups : LiveData<String> = accountRepository.accountAddteachersUniversityGroups
     val liveAccountAddTeachersUniversityGroupsFailure: LiveData<ErrorResponseNetwork> = accountRepository.accountAddteachersUniversityGroupsFailure
 
+    val liveAccountDate: MutableLiveData<String> = MutableLiveData()
+    val liveAccountStartTime: MutableLiveData<String> = MutableLiveData()
+    val liveAccountFinishTime: MutableLiveData<String> = MutableLiveData()
+
+    val liveAccountDataTeachers: MutableLiveData<List<Account>> = MutableLiveData()
+    val liveAccountDataTeachersDuplicates: MutableLiveData<Boolean> = MutableLiveData()
+
     init {
         viewModelScope.launch {
             accountRepository.accountGetData()
         }
         Timber.d("vipolnis")
+    }
+
+    fun dataTeachers(data: List<Account>) {
+        if(!isDuplicatus(data,dataTeachers)) {
+            Timber.d("DATES TEACHERS")
+            dataTeachers.addAll(data)
+            liveAccountDataTeachers.value = dataTeachers
+        } else {
+            liveAccountDataTeachersDuplicates.value = true
+        }
     }
 
     fun accountGetTeacher(name: String, surname: String, patronymic: String) {
@@ -60,8 +80,6 @@ class AccountViewModel(application : Application) : AndroidViewModel(application
             )
         }
     }
-  //  NetworkSchedule(subjectName,typeLecture,date,timeStart,timeFinish,lectureRoom)
-
 
     fun setUsername(username: String) {
         this.username = username
@@ -89,14 +107,17 @@ class AccountViewModel(application : Application) : AndroidViewModel(application
 
     fun setDate(date: String) {
         this.date = date
+        liveAccountDate.value = date
     }
 
     fun setStartTime(timeStart: String) {
         this.timeStart = timeStart
+        liveAccountStartTime.value = timeStart
     }
 
     fun setFinishTime(timeFinish: String) {
         this.timeFinish = timeFinish
+        liveAccountFinishTime.value = timeFinish
     }
 
 

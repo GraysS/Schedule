@@ -21,6 +21,8 @@ import info.schedule.viewmodels.RegistrViewModel
 
 class RegistrFragment : Fragment() {
 
+    var isLiveData: Boolean = false
+
     private val viewModel: RegistrViewModel by lazy {
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onActivityCreated()"
@@ -42,17 +44,20 @@ class RegistrFragment : Fragment() {
                !binding.etSurname.text.toString().isEmpty() &&
                !binding.etPatronymic.text.toString().isEmpty() &&
                !binding.etUsername.text.toString().isEmpty() &&
-               binding.etPassword.text.length >= 8)
-                viewModel.registers(
-                    RegistrNetworkAccount(
-                    binding.etName.text.toString(),
-                    binding.etSurname.text.toString(),
-                    binding.etPatronymic.text.toString(),
-                    binding.etUsername.text.toString(),
-                    binding.etPassword.text.toString())
-                )
-            else
-               Toast.makeText(context,R.string.lenght_password,Toast.LENGTH_LONG).show()
+               binding.etPassword.text.length >= 8) {
+               isLiveData = true
+               viewModel.registers(
+                   RegistrNetworkAccount(
+                       binding.etName.text.toString(),
+                       binding.etSurname.text.toString(),
+                       binding.etPatronymic.text.toString(),
+                       binding.etUsername.text.toString(),
+                       binding.etPassword.text.toString()
+                   )
+               )
+           } else {
+               Toast.makeText(context, R.string.lenght_password, Toast.LENGTH_LONG).show()
+           }
         }
         return binding.root
     }
@@ -60,14 +65,22 @@ class RegistrFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.liveRegistrResponse.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(context,R.string.success,Toast.LENGTH_LONG).show()
-            findNavController().navigate(R.id.action_registrFragment_to_authFragment)
+            if(isLiveData) {
+                Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
+                findNavController().navigate(R.id.action_registrFragment_to_authFragment)
+                isLiveData = false
+            }
         })
         viewModel.liveRegistrResponseFailure.observe(viewLifecycleOwner, Observer {
-            if(ErrorResponseNetwork.BAD_REQUEST == it)
-                Toast.makeText(context,R.string.error_nickname,Toast.LENGTH_LONG).show()
-            else if(ErrorResponseNetwork.NO_NETWORK == it)
-                Toast.makeText(context,R.string.error_connect,Toast.LENGTH_LONG).show()
+            if(isLiveData) {
+                if (ErrorResponseNetwork.BAD_REQUEST == it)
+                    Toast.makeText(context, R.string.error_nickname, Toast.LENGTH_LONG).show()
+                else if (ErrorResponseNetwork.NO_NETWORK == it)
+                    Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
+                else if (ErrorResponseNetwork.UNAVAILABLE == it)
+                    Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
+                isLiveData = false
+            }
         })
 
     }

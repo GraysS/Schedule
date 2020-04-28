@@ -58,5 +58,10 @@
     <string name="tv_date">Дата лекции</string>
     <string name="tv_startTimeLecture">Время начала лекции</string>
     <string name="tv_finishTimeLecture">Время завершения лекции</string>
+    <string name="error_service">Сервер не отвечает</string>
+    <string name="btn_clearText">Очистить поля</string>
+    <string name="error_teachers_duplicates">Такой преподаватель уже есть в списке</string>
+    <string name="incorrect_date">Выберите дату</string>
+    <string name="reauth">Токен просрочен! Перезайдите</string>
 
 </resources>

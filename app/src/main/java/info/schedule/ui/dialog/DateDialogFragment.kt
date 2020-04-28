@@ -20,6 +20,8 @@ import java.util.*
  */
 class DateDialogFragment : DialogFragment() {
 
+    private lateinit var dateDialogListener: DateDialogListener
+
     private var textDate: String = datesFormat("dd.MM.YYYY",Calendar.getInstance().time.time)
 
 
@@ -27,9 +29,11 @@ class DateDialogFragment : DialogFragment() {
 
         val view : View = activity?.layoutInflater?.inflate(R.layout.fragment_date_dialog,null)!!
 
+        dateDialogListener = arguments?.getSerializable("dialog") as DateDialogListener
+
         val datePicker: DatePicker = view.findViewById(R.id.dp_date)
 
-       // datePicker.minDate = (System.currentTimeMillis() - 1000);
+        datePicker.minDate = (System.currentTimeMillis() - 1000);
 
         val calendar = Calendar.getInstance()
 
@@ -45,14 +49,20 @@ class DateDialogFragment : DialogFragment() {
             textDate =  datesFormat("dd.MM.YYYY",calendar.time.time)
             Timber.d(textDate)
         }
+
+        isCancelable = false
         return AlertDialog.Builder(context)
             .setView(view)
             .setPositiveButton(android.R.string.ok) { dialogInterface: DialogInterface, i: Int ->
-                val dateDialogListener = arguments?.getSerializable("dialog") as DateDialogListener
                 dateDialogListener.doPositiveClick(textDate)
                 dialogInterface.dismiss()
             }
             .setOnCancelListener {
+                dateDialogListener.doPositiveClick(textDate)
+                it.dismiss()
+            }
+            .setOnDismissListener {
+                dateDialogListener.doPositiveClick(textDate)
                 it.dismiss()
             }
             .create()

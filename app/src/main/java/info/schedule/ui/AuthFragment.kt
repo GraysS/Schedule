@@ -24,6 +24,8 @@ import info.schedule.viewmodels.AuthViewModel
  */
 class AuthFragment : Fragment() {
 
+    var isLiveData: Boolean = false
+
     private val viewModel: AuthViewModel by lazy {
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onActivityCreated()"
@@ -44,6 +46,7 @@ class AuthFragment : Fragment() {
         binding.btnAuth.setOnClickListener {
             viewModel.auth(AuthNetworkAccount(binding.etUsername.text.toString(),
                                               binding.etPassword.text.toString()))
+            isLiveData = true
         }
 
         return binding.root
@@ -52,14 +55,22 @@ class AuthFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.liveAuthResponse.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
-            findNavController().navigate(R.id.action_authFragment_to_scheduleFragment)
+            if(isLiveData) {
+                Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
+                findNavController().navigate(R.id.action_authFragment_to_scheduleFragment)
+                isLiveData = false
+            }
         })
         viewModel.liveAuthResponseFailure.observe(viewLifecycleOwner, Observer {
-            if(ErrorResponseNetwork.FORBIDDEN == it)
-                 Toast.makeText(context,R.string.failure_auth,Toast.LENGTH_LONG).show()
-            else if(ErrorResponseNetwork.NO_NETWORK == it)
-                Toast.makeText(context,R.string.error_connect,Toast.LENGTH_LONG).show()
+            if(isLiveData) {
+                if (ErrorResponseNetwork.FORBIDDEN == it)
+                    Toast.makeText(context, R.string.failure_auth, Toast.LENGTH_LONG).show()
+                else if (ErrorResponseNetwork.NO_NETWORK == it)
+                    Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
+                else if (ErrorResponseNetwork.UNAVAILABLE == it)
+                    Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
+                isLiveData = false
+            }
         })
     }
 
