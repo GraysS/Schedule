@@ -6,8 +6,8 @@
 
     <string name="et_name">Имя</string>
     <string name="et_surname">Фамилия</string>
-    <string name="et_patronymic">Отчество</string>
-    <string name="et_username">Никнейм</string>
+    <string name="et_patronymic">Очество</string>
+    <string name="et_username">Идентификатор</string>
     <string name="et_password">Пароль</string>
     <string name="btn_registr">Регистрация</string>
     <string name="btn_auth">Авторизация</string>
@@ -19,49 +19,65 @@
     <string name="error_connect">Вы не подключенны к интернету, или же повторите запрос</string>
     <string name="button_logout">logout</string>
     <string name="tv_pleaseWait">Пожалуйста!Подождите...</string>
-    <string name="button_assign">Назначить</string>
+    <string name="btn_assign">Назначить</string>
     <string name="btn_addTeacher">Добавить преподавателя</string>
     <string name="btn_add">Добавить</string>
     <string name="tv_token">Токен действует 1 час.После 1 часа вы не сможете добавлять/изменять.Вам придеться повторно сделать авторизацию</string>
     <string name="error_teachers">Нету этого преподавателя</string>
 
-    <string-array name="array_teacher">
+  <!--  <string-array name="array_teacher">
         <item>Добавьте сверху преподавателя </item>
-    </string-array>
+    </string-array>-->
+
+    <string name="teachers_username">Преподаватель</string>
+    <string name="university">Учреждение</string>
+    <string name="groups">Группа</string>
+    <string name="subjectName">Занятие</string>
+    <string name="typeLecture">Тип</string>
+    <string name="lectureRoom">Кабинет</string>
 
     <string-array name="array_university">
+        <item>Учреждение</item>
         <item>KHIBS</item>
     </string-array>
 
     <string-array name="array_groups">
+        <item>Группа</item>
         <item>304-KH-X</item>
         <item>206-KH-CK-X</item>
     </string-array>
 
 
     <string-array name="array_subjectName">
+        <item>Занятие</item>
         <item>Программирование</item>
         <item>Интелектуальний анализ данных</item>
     </string-array>
 
     <string-array name="array_typeLecture">
+        <item>Тип</item>
         <item>Практика</item>
         <item>Лекцыя</item>
     </string-array>
 
     <string-array name="array_lectureRoom">
+        <item>Кабинет</item>
         <item>221</item>
         <item>220</item>
         <item>133</item>
     </string-array>
 
-    <string name="tv_date">Дата лекции</string>
-    <string name="tv_startTimeLecture">Время начала лекции</string>
-    <string name="tv_finishTimeLecture">Время завершения лекции</string>
+    <string name="btn_date">Дата</string>
+    <string name="btn_startTimeLecture">Начало лекции</string>
+    <string name="btn_finishTimeLecture">Назначить Конец лекции</string>
+    <string name="btn_panelControl">Панель управления</string>
     <string name="error_service">Сервер не отвечает</string>
     <string name="btn_clearText">Очистить поля</string>
     <string name="error_teachers_duplicates">Такой преподаватель уже есть в списке</string>
-    <string name="incorrect_date">Выберите дату</string>
-    <string name="reauth">Токен просрочен! Перезайдите</string>
+    <string name="incorrect">Выберите правильные данные и время</string>
+    <string name="reauth">Токен просрочен! Авторизируйтеcь</string>
+    <string name="btn_clearData">Очистить</string>
+    <string name="toolbar_home">Home</string>
+
 
 </resources>

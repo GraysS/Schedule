@@ -11,7 +11,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import info.schedule.R
 import info.schedule.databinding.FragmentAuthBinding
@@ -63,12 +62,11 @@ class AuthFragment : Fragment() {
         })
         viewModel.liveAuthResponseFailure.observe(viewLifecycleOwner, Observer {
             if(isLiveData) {
-                if (ErrorResponseNetwork.FORBIDDEN == it)
-                    Toast.makeText(context, R.string.failure_auth, Toast.LENGTH_LONG).show()
-                else if (ErrorResponseNetwork.NO_NETWORK == it)
-                    Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
-                else if (ErrorResponseNetwork.UNAVAILABLE == it)
-                    Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
+                when {
+                    ErrorResponseNetwork.FORBIDDEN == it -> Toast.makeText(context, R.string.failure_auth, Toast.LENGTH_LONG).show()
+                    ErrorResponseNetwork.NO_NETWORK == it -> Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
+                    ErrorResponseNetwork.UNAVAILABLE == it -> Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
+                }
                 isLiveData = false
             }
         })

@@ -34,6 +34,6 @@ class CustomAccountPreferense(context: Context) {
     }
 
     private fun getToken(): String? {
-        return sharedPreferense.getString(jwtToken,null)
+        return sharedPreferense.getString(jwtToken,"NotToken")
     }
 }

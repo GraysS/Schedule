@@ -40,10 +40,10 @@ class RegistrFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.btnRegistr.setOnClickListener {
-           if(!binding.etName.text.toString().isEmpty() &&
-               !binding.etSurname.text.toString().isEmpty() &&
-               !binding.etPatronymic.text.toString().isEmpty() &&
-               !binding.etUsername.text.toString().isEmpty() &&
+           if(binding.etName.text.toString().isNotEmpty() &&
+               binding.etSurname.text.toString().isNotEmpty() &&
+               binding.etPatronymic.text.toString().isNotEmpty() &&
+               binding.etUsername.text.toString().isNotEmpty() &&
                binding.etPassword.text.length >= 8) {
                isLiveData = true
                viewModel.registers(
@@ -73,12 +73,11 @@ class RegistrFragment : Fragment() {
         })
         viewModel.liveRegistrResponseFailure.observe(viewLifecycleOwner, Observer {
             if(isLiveData) {
-                if (ErrorResponseNetwork.BAD_REQUEST == it)
-                    Toast.makeText(context, R.string.error_nickname, Toast.LENGTH_LONG).show()
-                else if (ErrorResponseNetwork.NO_NETWORK == it)
-                    Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
-                else if (ErrorResponseNetwork.UNAVAILABLE == it)
-                    Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
+                when {
+                    ErrorResponseNetwork.BAD_REQUEST == it -> Toast.makeText(context, R.string.error_nickname, Toast.LENGTH_LONG).show()
+                    ErrorResponseNetwork.NO_NETWORK == it -> Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
+                    ErrorResponseNetwork.UNAVAILABLE == it -> Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
+                }
                 isLiveData = false
             }
         })

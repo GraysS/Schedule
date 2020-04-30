@@ -10,9 +10,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_width="match_parent"
-        android:background="@color/colorPrimary" />
+        style="@style/Toolbar" />
 
     <fragment
         android:id="@+id/my_nav_host_fragment"

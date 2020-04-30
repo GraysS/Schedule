@@ -5,10 +5,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.AccountFragment" >
 
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_managerAccess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_managerPanel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/btn_panelControl"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/ll_pleaseWait"
@@ -26,265 +44,6 @@
                 android:text="@string/tv_pleaseWait"/>
         </LinearLayout>
 
-        <!--    android:visibility="invisible" -->
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/ll_panel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-           >
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/linearLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <Button
-                        android:id="@+id/btn_logout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:text="@string/button_logout" />
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/linearLayout2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="72dp"
-                    android:orientation="vertical"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                    tools:layout_editor_absoluteX="32dp">
-
-                    <EditText
-                        android:id="@+id/et_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:hint="@string/et_name"
-                        android:imeOptions="actionNext"
-                        android:singleLine="true" />
-
-                    <EditText
-                        android:id="@+id/et_surname"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:hint="@string/et_surname"
-                        android:imeOptions="actionNext"
-                        android:singleLine="true" />
-
-                    <EditText
-                        android:id="@+id/et_patronymic"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:hint="@string/et_patronymic"
-                        android:imeOptions="actionDone"
-                        android:singleLine="true" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:orientation="horizontal">
-                        <Button
-                            android:id="@+id/btn_clearText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginStart="10dp"
-                            android:text="@string/btn_clearText" />
-                        <Button
-                            android:id="@+id/btn_addTeacher"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/btn_addTeacher" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_addovs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="120dp"
-                    android:orientation="vertical"
-                    android:visibility="invisible"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-                    tools:layout_editor_absoluteX="16dp">
-
-                    <Spinner
-                        android:id="@+id/sp_listSearchesTeacher"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp" />
-
-                    <Spinner
-                        android:id="@+id/sp_listUniversity"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="20dp"
-                        android:entries="@array/array_university" />
-
-
-                    <Spinner
-                        android:id="@+id/sp_listGroups"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="20dp"
-                        android:entries="@array/array_groups" />
-
-                    <Spinner
-                        android:id="@+id/sp_listSubjectName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="20dp"
-                        android:entries="@array/array_subjectName" />
-
-                    <Spinner
-                        android:id="@+id/sp_typeLecture"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="20dp"
-                        android:entries="@array/array_typeLecture" />
-
-                    <Spinner
-                        android:id="@+id/sp_listLectureRoom"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="20dp"
-                        android:entries="@array/array_lectureRoom" />
-
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/cv_clickDate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:foreground="?attr/selectableItemBackground"
-                            app:layout_constraintEnd_toEndOf="@+id/cv_clickStartTime">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/bg_bubble_white"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tv_dateLecture"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:maxLines="2"
-                                    android:text="@string/tv_date"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-
-                        </androidx.cardview.widget.CardView>
-
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/cv_clickStartTime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:foreground="?attr/selectableItemBackground"
-                            app:layout_constraintStart_toEndOf="parent">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/bg_bubble_white"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tv_startTimeLecture"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:maxLines="2"
-                                    android:text="@string/tv_startTimeLecture"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/cv_clickFinishTime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:foreground="?attr/selectableItemBackground">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/bg_bubble_white"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tv_finishTimeLecture"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:maxLines="2"
-                                    android:text="@string/tv_finishTimeLecture"
-                                    android:textStyle="bold" />
-
-                            </LinearLayout>
-
-                        </androidx.cardview.widget.CardView>
-
-
-
-                    <Button
-                        android:id="@+id/btn_add"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="40dp"
-                        android:text="@string/btn_add" />
-
-                </LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.core.widget.NestedScrollView>
 
         <LinearLayout
             android:id="@+id/ll_registrAndLogin"

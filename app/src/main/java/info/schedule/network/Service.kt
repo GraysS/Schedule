@@ -24,26 +24,23 @@ enum class ErrorResponseNetwork {
 interface ScheduleService {
 
     @POST("ubs/v1/registration")
-    fun registration(@Body networkAccount: RegistrNetworkAccount) : Deferred<NetworkAccount>
+    fun registration(@Body networkAccount: RegistrNetworkAccount) : Deferred<Response<Void>>
 
     @POST("ubs/v1/authenticate")
-    fun authorization(@Body networkAccount: AuthNetworkAccount) : Deferred<NetworkAccount>
+    fun authorization(@Body networkAccount: AuthNetworkAccount) : Deferred<NetworkAccountToken>
 
     @GET("ubs/v1/user/get")
-    fun getAccountData(@Header("Authorization") token: String) : Deferred<NetworkAccount>
+    fun getAccountData(@Header("Authorization") token: String) : Deferred<NetworkAccountAccess>
 
-    @GET("ubs/v1/user/find")
-    fun getTeacherData(@Header("Authorization") token: String,
-                       @Query("name") name: String,
-                       @Query("surname") surname: String,
-                       @Query("patronymic") patronymic: String) : Deferred<List<NetworkAccount>>
+    @GET("ubs/v1/schedule/get/control")
+    fun getScheduleData(@Header("Authorization") token: String) : Deferred<NetworkSchedule>
 
     @POST("ubs/v1/schedule/add/{username}/{groups}/{university}")
     fun teachersUniversityGroups(@Header("Authorization") token: String,
                                  @Path("username")  username: String,
                                  @Path("groups") groups: String,
                                  @Path("university") university: String,
-                                 @Body networkSchedule: NetworkSchedule) : Deferred<Response<Void>>
+                                 @Body networkSchedule: AddNetworkSchedule) : Deferred<Response<Void>>
 
 }
 

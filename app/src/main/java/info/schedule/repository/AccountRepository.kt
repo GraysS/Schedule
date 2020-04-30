@@ -17,20 +17,15 @@ class AccountRepository() {
     private lateinit var customAccountPreferense: CustomAccountPreferense
     private lateinit var databaseAccount: DatabaseAccount
 
-    val registrResponse: MutableLiveData<Account> = MutableLiveData()
+    val registrResponse: MutableLiveData<String> = MutableLiveData()
     val registrResponseFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
 
-    val authResponse: MutableLiveData<Account> = MutableLiveData()
+    val authResponse: MutableLiveData<String> = MutableLiveData()
     val authResponseFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
 
     val accountResponse: MutableLiveData<Account> = MutableLiveData()
+    val accountResponseManager: MutableLiveData<Account> = MutableLiveData()
     val accountResponseFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
-
-    val accountTeachersResponse: MutableLiveData<List<Account>> = MutableLiveData()
-    val accountTeachersResponseFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
-
-    val accountAddteachersUniversityGroups: MutableLiveData<String> = MutableLiveData()
-    val accountAddteachersUniversityGroupsFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
 
     constructor(customAccountPreferense: CustomAccountPreferense) : this() {
         this.customAccountPreferense = customAccountPreferense
@@ -41,8 +36,8 @@ class AccountRepository() {
     suspend fun accountRegistr(networkAccount: RegistrNetworkAccount) {
         withContext(Dispatchers.Main) {
             try {
-                val registr = Network.schedule.registration(networkAccount).await()
-                registrResponse.value = registr.asDomainAccountModel()
+                Network.schedule.registration(networkAccount).await()
+                registrResponse.value = "Success"
             }catch (exception: HttpException){
                 exception.printStackTrace()
                 handleApiError(exception,registrResponseFailure)
@@ -58,7 +53,7 @@ class AccountRepository() {
             try {
                 val auth = Network.schedule.authorization(networkAccount).await()
                 customAccountPreferense.addDatabaseAccount(auth.asDatabaseAccountModel())
-                authResponse.value = auth.asDomainAccountModel()
+                authResponse.value = "Success"
 
                 Timber.d("Tokens:%s", auth.jwtToken)
             }catch (exception: HttpException) {
@@ -71,7 +66,7 @@ class AccountRepository() {
         }
     }
 
-    suspend fun accountGetData() {
+    suspend fun accountGetAccountData() {
         withContext(Dispatchers.Main) {
             try {
                 val getAccount = Network.schedule.getAccountData(token="Bearer ${databaseAccount.jwtToken}").await()
@@ -79,8 +74,13 @@ class AccountRepository() {
                 Timber.d("Surname %s ", getAccount.surname)
                 Timber.d("Patronymic %s ", getAccount.patronymic)
                 Timber.d("Username %s", getAccount.username)
+                Timber.d("appAccess %s ", getAccount.appAccess.managerAccess)
 
-                accountResponse.value = getAccount.asDomainAccountModel()
+                if(getAccount.appAccess.managerAccess)
+                    accountResponseManager.value = getAccount.asDomainAccountModel()
+                else
+                    accountResponse.value = getAccount.asDomainAccountModel()
+
             }catch (exception : HttpException) {
                 exception.printStackTrace()
                 handleApiError(exception,accountResponseFailure)
@@ -91,43 +91,6 @@ class AccountRepository() {
         }
     }
 
-
-    suspend fun accountGetTeachersData(name: String,surname: String, patronymic: String) {
-        withContext(Dispatchers.Main) {
-            try {
-                val getTeachers: List<NetworkAccount> = Network.schedule.getTeacherData(token = "Bearer ${databaseAccount.jwtToken}",
-                    name = name,surname = surname,patronymic = patronymic).await()
-                // Глобал коллекция или же проверка accountGetTeachersData name,surname,patronymic
-                Timber.d("GETTEACHERS")
-            //    teachersContains(asDomainListAccountModel(getTeachers).get(0))
-                accountTeachersResponse.value = asDomainListAccountModel(getTeachers)
-            }catch (exception: HttpException) {
-                exception.printStackTrace()
-                handleApiError(exception,accountTeachersResponseFailure)
-            }catch (exception: Exception) {
-                exception.printStackTrace()
-                handleNetworkError(accountTeachersResponseFailure)
-            }
-        }
-    }
-
-
-    suspend fun accountAddteachersUniversityGroups(username: String,groups: String,university: String,networkSchedule: NetworkSchedule) {
-        withContext(Dispatchers.Main) {
-            try {
-                val addTeachersUniversityGroups = Network.schedule.teachersUniversityGroups(token = "Bearer ${databaseAccount.jwtToken}",
-                                                        username = username,groups = groups,university = university,networkSchedule = networkSchedule).await()
-
-                accountAddteachersUniversityGroups.value = "Success"
-            }catch (exception: HttpException) {
-                exception.printStackTrace()
-                handleApiError(exception,accountAddteachersUniversityGroupsFailure)
-            }catch (exception: Exception) {
-                exception.printStackTrace()
-                handleNetworkError(accountAddteachersUniversityGroupsFailure)
-            }
-        }
-    }
 
     fun accountLogout() {
         customAccountPreferense.removeDatabaseAccount()
