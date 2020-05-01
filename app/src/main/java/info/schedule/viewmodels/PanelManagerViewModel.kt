@@ -42,11 +42,9 @@ class PanelManagerViewModel (application : Application) : AndroidViewModel(appli
     val liveScheduleAddTeachersUniversityGroups : LiveData<String> = scheduleRepository.scheduleAddteachersUniversityGroups
     val liveScheduleAddTeachersUniversityGroupsFailure: LiveData<ErrorResponseNetwork> = scheduleRepository.scheduleAddteachersUniversityGroupsFailure
 
-    val liveScheduleAccount: MutableLiveData<Account> = MutableLiveData()
     val liveScheduleDate: MutableLiveData<String> = MutableLiveData()
     val liveScheduleStartTime: MutableLiveData<String> = MutableLiveData()
     val liveScheduleFinishTime: MutableLiveData<String> = MutableLiveData()
-
     init {
         viewModelScope.launch {
             scheduleRepository.scheduleGetData()
@@ -63,7 +61,6 @@ class PanelManagerViewModel (application : Application) : AndroidViewModel(appli
 
     fun setAccount(account: Account) {
         this.account = account
-        liveScheduleAccount.value = account
     }
 
 

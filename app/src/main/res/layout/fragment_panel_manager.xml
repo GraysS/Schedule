@@ -4,19 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.PanelManagerFragment">
 
-        <data>
-                <import type="java.util.List" />
-                <import type="info.schedule.domain.Account" />
-                <import type="androidx.lifecycle.LiveData" />
-              <variable
-                  name="viewModel"
-                  type="info.schedule.viewmodels.PanelManagerViewModel" />
-                
-                <variable
-                    name="accountList"
-                    type="LiveData&lt;List&lt;Account&gt;&gt;" />
-
-        </data>
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

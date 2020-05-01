@@ -57,10 +57,8 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
             R.layout.fragment_panel_manager,container,false)
 
         binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-        binding.accountList = viewModel.liveScheduleGetResponseAccount
 
-        initAdapters()
+        initAdapters(savedInstanceState)
 
         binding.btnAssign.setOnClickListener {
             if(binding.btnDateLecture.text != getString(R.string.btn_date) &&
@@ -105,11 +103,11 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
                 position: Int,
                 id: Long
             ) {
-//                val account: Account? = adapterAccount.getItem(position)
-                /*if(account != null) {
+                val account: Account? = adapterAccount.getItem(position)
+                if(account != null) {
                     viewModel.setAccount(account)
                     Timber.d("%s",adapterAccount.getPosition(viewModel.getAccount()))
-                }*/
+                }
             }
         }
 
@@ -214,26 +212,28 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
 
 
         viewModel.liveScheduleGetResponseAccount.observe(viewLifecycleOwner, Observer {
-            adapterAccount.addAll(it)
-            if(savedInstanceState != null) {
-                Timber.d("%s", adapterAccount.getPosition(viewModel.getAccount()))
-                binding.spListSearchesTeacher.setSelection(adapterAccount.getPosition(viewModel.getAccount()))
-            }
+            if(savedInstanceState == null)
+                adapterAccount.addAll(it)
         })
 
         viewModel.liveScheduleGetResponseGroup.observe(viewLifecycleOwner, Observer {
-            adapterGroup.addAll(it)
+            if(savedInstanceState == null)
+                adapterGroup.addAll(it)
         })
 
         viewModel.liveScheduleGetResponseUniversity.observe(viewLifecycleOwner, Observer {
-            adapterUniversity.addAll(it)
+            if(savedInstanceState == null)
+                adapterUniversity.addAll(it)
         })
 
         viewModel.liveScheduleGetResponseFailure.observe(viewLifecycleOwner, Observer {
             when {
                 ErrorResponseNetwork.NO_NETWORK == it -> Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
                 ErrorResponseNetwork.UNAVAILABLE == it -> Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
-                ErrorResponseNetwork.FORBIDDEN == it -> { Toast.makeText(context, R.string.reauth, Toast.LENGTH_LONG).show() }
+                ErrorResponseNetwork.FORBIDDEN == it -> {
+                    Toast.makeText(context, R.string.reauth, Toast.LENGTH_LONG).show()
+                    findNavController().navigate(R.id.action_panelManagerFragment_to_accountFragment)
+                }
             }
         })
 
@@ -253,7 +253,10 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
                 when {
                     ErrorResponseNetwork.NO_NETWORK == it -> Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
                     ErrorResponseNetwork.UNAVAILABLE == it -> Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
-                    ErrorResponseNetwork.FORBIDDEN == it -> Toast.makeText(context, R.string.reauth, Toast.LENGTH_LONG).show()
+                    ErrorResponseNetwork.FORBIDDEN == it -> {
+                        Toast.makeText(context, R.string.reauth, Toast.LENGTH_LONG).show()
+                        findNavController().navigate(R.id.action_panelManagerFragment_to_accountFragment)
+                    }
                 }
                 isLiveData = false
             }
@@ -270,8 +273,6 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
         })
     }
 
-
-
     override fun doPositiveClick(textDate: String) {
         viewModel.setDate(textDate)
     }
@@ -284,7 +285,7 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
         viewModel.setFinishTime(textDate)
     }
 
-    private fun initAdapters() {
+    private fun initAdapters(savedInstanceState: Bundle?) {
         adapterAccount = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item)
         adapterAccount.add(Account("","","",getString(R.string.teachers_username)))
         binding.spListSearchesTeacher.adapter = adapterAccount
@@ -298,10 +299,21 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
         binding.spListUniversity.adapter = adapterUniversity
 
 
-       /* binding.spListSearchesTeacher.setSelection(adapterAccount.getPosition(viewModel.getAccount()))
-        binding.spListSearchesTeacher.setSelection()*/
-
-
+        if(savedInstanceState != null) {
+            viewModel.liveScheduleGetResponseAccount.value?.let {
+                adapterAccount.addAll(it)
+            }
+            viewModel.liveScheduleGetResponseGroup.value?.let {
+                adapterGroup.addAll(it)
+            }
+            viewModel.liveScheduleGetResponseUniversity.value?.let {
+                adapterUniversity.addAll(it)
+            }
+            binding.spListSearchesTeacher.setSelection(adapterAccount.getPosition(viewModel.getAccount()))
+            binding.spListGroups.setSelection(adapterGroup.getPosition(viewModel.getGroups()))
+            binding.spListUniversity.setSelection(adapterUniversity.getPosition(viewModel.getUniversity()))
+        }
     }
+
 
 }

@@ -42,7 +42,6 @@ class AccountFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-
         binding.btnAuth.setOnClickListener {
             findNavController().navigate(R.id.action_accountFragment_to_authFragment)
         }
@@ -86,34 +85,6 @@ class AccountFragment : Fragment() {
                 }
             }
         })
-
-      /*  viewModel.liveAccountTeachersResponse.observe(viewLifecycleOwner, Observer {
-            viewModel.dataTeachers(it)
-        })
-
-        viewModel.liveAccountDataTeachers.observe(viewLifecycleOwner, Observer {
-            adapter.addAll(it)
-            binding.llAddovs.visibility = View.VISIBLE
-            if(isLiveData) {
-                Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
-                isLiveData = false
-            }
-        })*/
-
-        /*viewModel.liveAccountTeachersResponseFailure.observe(viewLifecycleOwner, Observer {
-            if(isLiveData) {
-                if (ErrorResponseNetwork.NO_NETWORK == it)
-                    Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
-                else if (ErrorResponseNetwork.UNAVAILABLE == it)
-                    Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
-                else if(ErrorResponseNetwork.FORBIDDEN == it) {
-                    Toast.makeText(context, R.string.reauth, Toast.LENGTH_LONG).show()
-                    findNavController().navigate(R.id.action_accountFragment_to_authFragment)
-                } else
-                    Toast.makeText(context, R.string.error_teachers, Toast.LENGTH_LONG).show()
-                isLiveData = false
-            }
-        })*/
 
     }
 

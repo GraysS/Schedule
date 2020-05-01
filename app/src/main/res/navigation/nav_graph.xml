@@ -67,8 +67,8 @@
         android:name="info.schedule.ui.PanelManagerFragment"
         tools:layout="@layout/fragment_panel_manager" >
         <action
-            android:id="@+id/action_panelManagerFragment_to_authFragment"
-            app:destination="@id/authFragment" />
+            android:id="@+id/action_panelManagerFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
     </fragment>
 
 </navigation>

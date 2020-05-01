@@ -72,4 +72,5 @@ class AuthFragment : Fragment() {
         })
     }
 
+
 }

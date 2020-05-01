@@ -21,10 +21,16 @@ class ScheduleFragment : Fragment() {
         val binding : FragmentScheduleBinding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_schedule,container,false)
 
+        viewActivity()
+        return binding.root
+    }
+
+
+    private fun viewActivity(){
         val activity: MainActivity = activity as MainActivity
         activity.itemToAccount?.setVisible(true)
         activity.itemToHome?.setVisible(false)
-        return binding.root
     }
+
 
 }

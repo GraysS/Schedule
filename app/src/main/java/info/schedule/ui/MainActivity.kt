@@ -10,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import info.schedule.R
+import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupToolbar()
+        Timber.d("OncreATE")
     }
 
     override fun onSupportNavigateUp() =
@@ -44,9 +46,22 @@ class MainActivity : AppCompatActivity() {
             R.id.scheduleFragment -> {
                 navController.navigate(R.id.scheduleFragment)
             }
+            /*navController.currentDestination?.id ->{
+                Timber.d("fuck YOU")
+            }*/
         }
         return super.onOptionsItemSelected(item)
     }
+
+ /*   override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean("account", itemToAccount?.isVisible!!)
+        outState.putBoolean("home", itemToHome?.isVisible!!)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+    }*/
 
     private fun setupToolbar() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
