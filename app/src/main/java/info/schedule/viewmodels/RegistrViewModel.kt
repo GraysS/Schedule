@@ -22,7 +22,7 @@ class RegistrViewModel(application: Application) : AndroidViewModel(application)
 
     private val accountRepository = AccountRepository()
 
-    val liveRegistrResponse: LiveData<String> = accountRepository.registrResponse
+    val liveRegistrResponse: LiveData<Account> = accountRepository.registrResponse
     val liveRegistrResponseFailure: LiveData<ErrorResponseNetwork> = accountRepository.registrResponseFailure
 
     fun registers(networkAccount: RegistrNetworkAccount) {

@@ -10,6 +10,12 @@
         android:id="@+id/scheduleFragment"
         android:name="info.schedule.ui.ScheduleFragment"
         tools:layout="@layout/fragment_schedule" >
+        <action
+            android:id="@+id/action_scheduleFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/action_scheduleFragment_to_choiceFragment"
+            app:destination="@id/choiceFragment" />
     </fragment>
 
     <fragment
@@ -17,14 +23,14 @@
         android:name="info.schedule.ui.AccountFragment"
         tools:layout="@layout/fragment_account" >
         <action
-            android:id="@+id/action_accountFragment_to_authFragment"
-            app:destination="@id/authFragment" />
-        <action
-            android:id="@+id/action_accountFragment_to_registrFragment"
-            app:destination="@id/registrFragment" />
-        <action
             android:id="@+id/action_accountFragment_to_panelManagerFragment"
             app:destination="@id/panelManagerFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_choiceFragment"
+            app:destination="@id/choiceFragment" />
     </fragment>
 
     <fragment
@@ -42,6 +48,9 @@
         <action
             android:id="@+id/action_registrFragment_to_authFragment"
             app:destination="@id/authFragment" />
+        <action
+            android:id="@+id/action_registrFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
     </fragment>
 
     <dialog
@@ -67,8 +76,31 @@
         android:name="info.schedule.ui.PanelManagerFragment"
         tools:layout="@layout/fragment_panel_manager" >
         <action
-            android:id="@+id/action_panelManagerFragment_to_accountFragment"
-            app:destination="@id/accountFragment" />
+            android:id="@+id/action_panelManagerFragment_to_choiceFragment"
+            app:destination="@id/choiceFragment" />
+        <action
+            android:id="@+id/action_panelManagerFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/choiceFragment"
+        android:name="info.schedule.ui.ChoiceFragment"
+        tools:layout="@layout/fragment_choice" >
+        <action
+            android:id="@+id/action_choiceFragment_to_authFragment"
+            app:destination="@id/authFragment" />
+        <action
+            android:id="@+id/action_choiceFragment_to_registrFragment"
+            app:destination="@id/registrFragment" />
+        <action
+            android:id="@+id/action_choiceFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/logoutDialogFragment"
+        android:name="info.schedule.ui.dialog.LogoutDialogFragment"
+        android:label="LogoutDialogFragment" />
 
 </navigation>

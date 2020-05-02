@@ -4,9 +4,7 @@ package info.schedule.ui
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -23,7 +21,7 @@ import info.schedule.viewmodels.AccountViewModel
  */
 class AccountFragment : Fragment() {
 
-    lateinit var binding: FragmentAccountBinding
+    private lateinit var binding: FragmentAccountBinding
 
     private val viewModel: AccountViewModel by lazy {
         val activity = requireNotNull(this.activity) {
@@ -40,15 +38,9 @@ class AccountFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_account,container,false)
 
+        setHasOptionsMenu(true)
+
         binding.lifecycleOwner = viewLifecycleOwner
-
-        binding.btnAuth.setOnClickListener {
-            findNavController().navigate(R.id.action_accountFragment_to_authFragment)
-        }
-
-        binding.btnRegistr.setOnClickListener{
-            findNavController().navigate(R.id.action_accountFragment_to_registrFragment)
-        }
 
         binding.btnManagerPanel.setOnClickListener{
             findNavController().navigate(R.id.action_accountFragment_to_panelManagerFragment)
@@ -61,31 +53,40 @@ class AccountFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.liveAccountResponse.observe(viewLifecycleOwner, Observer {
-            binding.llPleaseWait.visibility = View.INVISIBLE
         })
 
         viewModel.liveAccountManagerResponse.observe(viewLifecycleOwner, Observer {
-            binding.llPleaseWait.visibility = View.INVISIBLE
             binding.btnManagerPanel.visibility = View.VISIBLE
         })
 
         viewModel.liveAccountResponseFailure.observe(viewLifecycleOwner, Observer {
             when {
                 ErrorResponseNetwork.NO_NETWORK == it -> {
-                    binding.tvPleaseWait.text = getString(R.string.error_connect)
                     Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
                 }
                 ErrorResponseNetwork.UNAVAILABLE == it -> {
-                    binding.tvPleaseWait.text = getString(R.string.error_service)
                     Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
                 }
-                else -> {
-                    binding.llRegistrAndLogin.visibility = View.VISIBLE
-                    binding.llPleaseWait.visibility = View.INVISIBLE
+                ErrorResponseNetwork.FORBIDDEN == it -> {
+                    Toast.makeText(context, R.string.reauth, Toast.LENGTH_LONG).show()
+                    viewModel.accountLogout()
+                    findNavController().navigate(R.id.action_accountFragment_to_choiceFragment)
                 }
             }
         })
+    }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.home_toolbar,menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.scheduleFragment -> {
+                findNavController().navigate(R.id.action_accountFragment_to_scheduleFragment)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

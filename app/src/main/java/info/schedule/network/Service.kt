@@ -24,7 +24,7 @@ enum class ErrorResponseNetwork {
 interface ScheduleService {
 
     @POST("ubs/v1/registration")
-    fun registration(@Body networkAccount: RegistrNetworkAccount) : Deferred<Response<Void>>
+    fun registration(@Body networkAccount: RegistrNetworkAccount) : Deferred<NetworkAccount>
 
     @POST("ubs/v1/authenticate")
     fun authorization(@Body networkAccount: AuthNetworkAccount) : Deferred<NetworkAccountToken>

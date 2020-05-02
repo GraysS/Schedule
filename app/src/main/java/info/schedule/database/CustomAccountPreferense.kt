@@ -12,6 +12,7 @@ class CustomAccountPreferense(context: Context) {
     private val PREF_NAME = "AccountPreferense"
 
     private val jwtToken = "jwtToken"
+    private val isAuth = "isAuth"
 
     init {
         sharedPreferense = context.getSharedPreferences(PREF_NAME,PRIVATE_MODE)
@@ -20,6 +21,7 @@ class CustomAccountPreferense(context: Context) {
 
     fun addDatabaseAccount(databaseAccount: DatabaseAccount) {
         sharedPreferenseEditor.putString(jwtToken,databaseAccount.jwtToken)
+        sharedPreferenseEditor.putBoolean(isAuth,databaseAccount.isAuth)
         sharedPreferenseEditor.apply()
     }
 
@@ -30,10 +32,14 @@ class CustomAccountPreferense(context: Context) {
 
 
     fun asDatabaseAccountModel() : DatabaseAccount{
-        return DatabaseAccount(getToken())
+        return DatabaseAccount(getToken(),isAuth())
     }
 
     private fun getToken(): String? {
         return sharedPreferense.getString(jwtToken,"NotToken")
+    }
+
+    private fun isAuth() : Boolean {
+        return sharedPreferense.getBoolean(isAuth,false)
     }
 }

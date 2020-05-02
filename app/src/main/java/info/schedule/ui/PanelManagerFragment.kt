@@ -3,9 +3,7 @@
 package info.schedule.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -33,10 +31,10 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
     StartTimeDialogFragment.StartTimeDialogListener,
     FinishTimeDialogFragment.FinishTimeDialogListener {
 
-    lateinit var binding: FragmentPanelManagerBinding
-    lateinit var adapterAccount: ArrayAdapter<Account>
-    lateinit var adapterGroup: ArrayAdapter<Group>
-    lateinit var adapterUniversity: ArrayAdapter<University>
+    private lateinit var binding: FragmentPanelManagerBinding
+    private lateinit var adapterAccount: ArrayAdapter<Account>
+    private lateinit var adapterGroup: ArrayAdapter<Group>
+    private lateinit var adapterUniversity: ArrayAdapter<University>
 
     private var isLiveData: Boolean = false
 
@@ -56,7 +54,9 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
         binding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_panel_manager,container,false)
 
-        binding.lifecycleOwner = this
+        setHasOptionsMenu(true)
+
+        binding.lifecycleOwner = viewLifecycleOwner
 
         initAdapters(savedInstanceState)
 
@@ -232,7 +232,8 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
                 ErrorResponseNetwork.UNAVAILABLE == it -> Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
                 ErrorResponseNetwork.FORBIDDEN == it -> {
                     Toast.makeText(context, R.string.reauth, Toast.LENGTH_LONG).show()
-                    findNavController().navigate(R.id.action_panelManagerFragment_to_accountFragment)
+                    viewModel.accountLogout()
+                    findNavController().navigate(R.id.action_panelManagerFragment_to_choiceFragment)
                 }
             }
         })
@@ -255,7 +256,8 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
                     ErrorResponseNetwork.UNAVAILABLE == it -> Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
                     ErrorResponseNetwork.FORBIDDEN == it -> {
                         Toast.makeText(context, R.string.reauth, Toast.LENGTH_LONG).show()
-                        findNavController().navigate(R.id.action_panelManagerFragment_to_accountFragment)
+                        viewModel.accountLogout()
+                        findNavController().navigate(R.id.action_panelManagerFragment_to_choiceFragment)
                     }
                 }
                 isLiveData = false
@@ -283,6 +285,19 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
 
     override fun doPositiveClickFinish(textDate: String) {
         viewModel.setFinishTime(textDate)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.home_toolbar,menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.scheduleFragment -> {
+                findNavController().navigate(R.id.action_panelManagerFragment_to_scheduleFragment)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initAdapters(savedInstanceState: Bundle?) {

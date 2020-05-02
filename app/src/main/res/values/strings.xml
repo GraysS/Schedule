@@ -25,7 +25,7 @@
     <string name="tv_token">Токен действует 1 час.После 1 часа вы не сможете добавлять/изменять.Вам придеться повторно сделать авторизацию</string>
     <string name="error_teachers">Нету этого преподавателя</string>
 
-  <!--  <string-array name="array_teacher">
+    <!--  <string-array name="array_teacher">
         <item>Добавьте сверху преподавателя </item>
     </string-array>-->
 
@@ -78,6 +78,11 @@
     <string name="reauth">Токен просрочен! Авторизируйтеcь</string>
     <string name="btn_clearData">Очистить</string>
     <string name="toolbar_home">Home</string>
+    <string name="toolbar_logout">Logout</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_logout">Вы уверены что хотите выйти из учетной записи ?</string>
 
 
 </resources>

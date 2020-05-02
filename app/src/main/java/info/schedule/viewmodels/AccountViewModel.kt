@@ -35,9 +35,9 @@ class AccountViewModel(application : Application) : AndroidViewModel(application
     }
 
 
-  /*  fun accountLogout() {
+    fun accountLogout() {
         accountRepository.accountLogout()
-    }*/
+    }
 
     override fun onCleared() {
         super.onCleared()

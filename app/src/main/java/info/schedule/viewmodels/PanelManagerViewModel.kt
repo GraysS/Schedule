@@ -8,6 +8,7 @@ import info.schedule.domain.Group
 import info.schedule.domain.University
 import info.schedule.network.ErrorResponseNetwork
 import info.schedule.network.AddNetworkSchedule
+import info.schedule.repository.AccountRepository
 import info.schedule.repository.ScheduleRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +24,7 @@ class PanelManagerViewModel (application : Application) : AndroidViewModel(appli
     private val customAccountPreferense = CustomAccountPreferense(application)
 
     private val scheduleRepository = ScheduleRepository(customAccountPreferense)
+    private val accountRepository = AccountRepository(customAccountPreferense)
 
     private lateinit var account: Account
     private lateinit var groups: Group
@@ -49,6 +51,10 @@ class PanelManagerViewModel (application : Application) : AndroidViewModel(appli
         viewModelScope.launch {
             scheduleRepository.scheduleGetData()
         }
+    }
+
+    fun accountLogout() {
+        accountRepository.accountLogout()
     }
 
     fun addTeachersUniversityGroups() {

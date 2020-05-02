@@ -17,7 +17,7 @@ class AccountRepository() {
     private lateinit var customAccountPreferense: CustomAccountPreferense
     private lateinit var databaseAccount: DatabaseAccount
 
-    val registrResponse: MutableLiveData<String> = MutableLiveData()
+    val registrResponse: MutableLiveData<Account> = MutableLiveData()
     val registrResponseFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
 
     val authResponse: MutableLiveData<String> = MutableLiveData()
@@ -26,6 +26,9 @@ class AccountRepository() {
     val accountResponse: MutableLiveData<Account> = MutableLiveData()
     val accountResponseManager: MutableLiveData<Account> = MutableLiveData()
     val accountResponseFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
+
+    val accountIsAuth: MutableLiveData<Boolean> = MutableLiveData()
+
 
     constructor(customAccountPreferense: CustomAccountPreferense) : this() {
         this.customAccountPreferense = customAccountPreferense
@@ -36,8 +39,9 @@ class AccountRepository() {
     suspend fun accountRegistr(networkAccount: RegistrNetworkAccount) {
         withContext(Dispatchers.Main) {
             try {
-                Network.schedule.registration(networkAccount).await()
-                registrResponse.value = "Success"
+                val networks = Network.schedule.registration(networkAccount).await()
+
+                registrResponse.value = networks.asDomainAccountModel()
             }catch (exception: HttpException){
                 exception.printStackTrace()
                 handleApiError(exception,registrResponseFailure)
@@ -92,8 +96,16 @@ class AccountRepository() {
     }
 
 
+    fun getIsAuth() {
+        val isAuth = databaseAccount.isAuth
+        Timber.d("%s",isAuth)
+        accountIsAuth.value = isAuth
+    }
+
+
     fun accountLogout() {
         customAccountPreferense.removeDatabaseAccount()
+        accountIsAuth.value = false
     }
 
 }

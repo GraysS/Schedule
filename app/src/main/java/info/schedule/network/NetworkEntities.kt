@@ -119,6 +119,7 @@ fun NetworkAccount.asDomainAccountModel() : Account {
 }
 
 fun NetworkAccountToken.asDatabaseAccountModel() : DatabaseAccount {
-    return DatabaseAccount(jwtToken = jwtToken)
+    return DatabaseAccount(jwtToken = jwtToken,
+                            isAuth = true)
 }
 
