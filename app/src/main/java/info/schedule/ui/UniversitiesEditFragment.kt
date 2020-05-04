@@ -59,7 +59,7 @@ class UniversitiesEditFragment : Fragment() {
                 viewModel.getOldUniversity().universityName != getString(R.string.university) )
             {
                 isLiveData = true
-                viewModel.setNewUniversity(University(binding.etNameUniversity.text.toString()))
+                //viewModel.setNewUniversity(University(binding.etNameUniversity.text.toString()))
                 viewModel.updateUniversity(
                     binding.etNameUniversity.text.toString(),
                     binding.etLocationUniversity.text.toString(),
@@ -117,7 +117,7 @@ class UniversitiesEditFragment : Fragment() {
                 ErrorResponseNetwork.FORBIDDEN == it -> {
                     Toast.makeText(context, R.string.reauth, Toast.LENGTH_LONG).show()
                     viewModel.accountLogout()
-                    findNavController().navigate(R.id.action_panelManagerFragment_to_choiceFragment)
+                    findNavController().navigate(R.id.action_universitiesEditFragment_to_choiceFragment)
                 }
                 else -> Toast.makeText(context, R.string.error_lowInternet, Toast.LENGTH_LONG).show()
             }
@@ -125,12 +125,11 @@ class UniversitiesEditFragment : Fragment() {
 
         viewModel.liveDataUpdateUniversity.observe(viewLifecycleOwner, Observer {
             if(isLiveData) {
-                adapterUniversity.insert(viewModel.getNewUniversity(),adapterUniversity.getPosition(viewModel.getOldUniversity()))
-                adapterUniversity.remove(adapterUniversity.getItem(adapterUniversity.getPosition(viewModel.getOldUniversity())))
+             //   adapterUniversity.insert(viewModel.getNewUniversity(),adapterUniversity.getPosition(viewModel.getOldUniversity()))
+           //     adapterUniversity.remove(adapterUniversity.getItem(adapterUniversity.getPosition(viewModel.getOldUniversity())))
                 binding.etNameUniversity.text.clear()
                 binding.etLocationUniversity.text.clear()
                 binding.etAddressUniversity.text.clear()
-                binding.spListUniversity.setSelection(0)
                 Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
             }
         })

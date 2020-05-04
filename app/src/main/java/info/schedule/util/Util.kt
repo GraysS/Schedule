@@ -39,20 +39,6 @@ fun datesFormat(pattern: String, textlong: Long) : String {
 
 val listOld: MutableList<Any> = mutableListOf()
 
-// New data
-// KHIBS,gg
-
-// KHIBS,qw
-
-// 1) gg
-// KHIBS ,qw
-
-
-// oldList KHIBS qw
-// coupList KHIBS
-// ITOG GG
-
-
 fun listNoDuplicate(
     newList: MutableList<Any>
 )  : List<Any>

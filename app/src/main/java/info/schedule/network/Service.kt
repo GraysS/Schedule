@@ -54,6 +54,27 @@ interface ScheduleService {
                                     @Path("universityName") university: String,
                                     @Body addNetworkUniversities: AddNetworkUniversities) : Deferred<Response<Void>>
 
+    @GET("ubs/v1/user/find/all")
+    fun getUsersRoleDataAsync(@Header("Authorization") token: String) : Deferred<List<NetworkUsersRole>>
+
+    @POST("ubs/v1/permit/set/{username}")
+    fun assignUserRoleAsync(@Header("Authorization") token: String,
+                            @Path("username") username: String,
+                            @Body name: NetworkRole) : Deferred<Response<Void>>
+
+    @POST("ubs/v1/faculty/add/{universityName}")
+    fun addFacultyAsync(@Header("Authorization") token: String,
+                        @Path("universityName") universityName: String,
+                        @Body addNetworkFaculty: AddNetworkFaculty) : Deferred<Response<Void>>
+
+    @GET("ubs/v1/faculty/find/all")
+    fun getUniversityAndFaculties(@Header("Authorization") token: String) : Deferred<List<NetworkUniversityFaculties>>
+
+    @POST("ubs/v1/group/add/{universityName}/{facultyName}")
+    fun addGroupAsync(@Header("Authorization") token: String,
+                      @Path("universityName") universityName: String,
+                      @Path("facultyName") facultyName: String,
+                      @Body networkGroup: AddNetworkGroup) : Deferred<Response<Void>>
 }
 
 private val httpLoggingInterceptor = HttpLoggingInterceptor()

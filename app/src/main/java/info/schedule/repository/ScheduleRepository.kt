@@ -5,9 +5,7 @@ package info.schedule.repository
 import androidx.lifecycle.MutableLiveData
 import info.schedule.database.DatabaseAccount
 import info.schedule.database.DatabaseAccountPreferense
-import info.schedule.domain.Group
-import info.schedule.domain.University
-import info.schedule.domain.User
+import info.schedule.domain.*
 import info.schedule.network.*
 import info.schedule.util.handleApiError
 import info.schedule.util.handleNetworkError
@@ -37,6 +35,24 @@ class ScheduleRepository() {
 
     val scheduleUpdateUniversity: MutableLiveData<String> = MutableLiveData()
     val scheduleUpdateUniversityFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
+
+    val scheduleGetUsersRole: MutableLiveData<List<UserRole>> = MutableLiveData()
+    val scheduleGetUsersRoleUpdate: MutableLiveData<List<UserRole>> = MutableLiveData()
+    val scheduleGetUsersRoleFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
+
+    val scheduleAssignUserRole: MutableLiveData<String> = MutableLiveData()
+    val scheduleAssignUserRoleFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
+
+    val scheduleAddFaculty: MutableLiveData<String> = MutableLiveData()
+    val scheduleAddFacultyFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
+
+    val scheduleGetUniversity: MutableLiveData<List<University>> = MutableLiveData()
+    val scheduleGetFaculty: MutableLiveData<List<Faculty>> = MutableLiveData()
+    val scheduleGetUniversityFacultyFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
+
+    val scheduleAddGroup: MutableLiveData<String> = MutableLiveData()
+    val scheduleAddGroupFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
+
 
     constructor(customAccountPreferense: DatabaseAccountPreferense) : this() {
         this.databaseAccount = customAccountPreferense.asDatabaseAccountModel()
@@ -122,7 +138,7 @@ class ScheduleRepository() {
     suspend fun scheduleUpdateUniversity(universityName: String,addNetworkUniversities: AddNetworkUniversities) {
         withContext(Dispatchers.Main) {
             try {
-              Network.schedule.universityUpdateAsync(token = "Bearer ${databaseAccount.jwtToken}",
+                  Network.schedule.universityUpdateAsync(token = "Bearer ${databaseAccount.jwtToken}",
                     university = universityName,
                     addNetworkUniversities = addNetworkUniversities).await()
 
@@ -137,5 +153,120 @@ class ScheduleRepository() {
             }
         }
     }
+
+    suspend fun scheduleGetUsersRoles() {
+        withContext(Dispatchers.Main) {
+            try {
+                val listUsersRole = Network.schedule.getUsersRoleDataAsync(token = "Bearer ${databaseAccount.jwtToken}")
+                    .await()
+
+                val getUsersRole = asDomainListUsersRoleModel(listUsersRole)
+
+                scheduleGetUsersRole.value = getUsersRole
+
+                scheduleGetUsersRoleUpdate.value = getUsersRole
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception,scheduleGetUsersRoleFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleGetUsersRoleFailure)
+            }
+        }
+    }
+
+    suspend fun scheduleAssignUserRole(username: String,role: NetworkRole) {
+        withContext(Dispatchers.Main) {
+            try {
+                val response =  Network.schedule.assignUserRoleAsync(token ="Bearer ${databaseAccount.jwtToken}",
+                        username = username,
+                        name = role).await()
+
+                Timber.d("%s",response.code())
+                if(response.code() != 200)
+                    throw HttpException(response)
+
+                scheduleAssignUserRole.value = "Success"
+                scheduleGetUsersRoles()
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception,scheduleAssignUserRoleFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleAssignUserRoleFailure)
+            }
+        }
+    }
+
+    suspend fun scheduleAddFaculty(universityName: String,
+                                   addNetworkFaculty: AddNetworkFaculty) {
+        withContext(Dispatchers.Main) {
+            try {
+                val response = Network.schedule.addFacultyAsync(token ="Bearer ${databaseAccount.jwtToken}",
+                                                                                            universityName = universityName,
+                                                                                            addNetworkFaculty = addNetworkFaculty).await()
+                Timber.d("%s",response.code())
+                if(response.code() != 200)
+                    throw HttpException(response)
+
+                scheduleAddFaculty.value = "Success"
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception,scheduleAddFacultyFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleAddFacultyFailure)
+            }
+        }
+    }
+
+
+    suspend fun scheduleGetUniversityAndFaculties() {
+        withContext(Dispatchers.Main) {
+            try {
+                val getUniversityAndFaculty
+                        = Network.schedule.getUniversityAndFaculties(token ="Bearer ${databaseAccount.jwtToken}").await()
+
+                // Create Two Collections
+                for (networkUniversityFaculties: NetworkUniversityFaculties in getUniversityAndFaculty) {
+                    scheduleGetUniversity.value = listOf(networkUniversityFaculties.university.asDomainUniversityModel())
+                    scheduleGetFaculty.value =
+                        asDomainListFacultyModel(networkUniversityFaculties.faculties)
+                }
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception,scheduleGetUniversityFacultyFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleGetUniversityFacultyFailure)
+            }
+        }
+    }
+
+    suspend fun scheduleAddGroup(universityName: String,facultyName: String,addNetworkGroup: AddNetworkGroup) {
+        withContext(Dispatchers.Main) {
+            try {
+                val response = Network.schedule.addGroupAsync(token ="Bearer ${databaseAccount.jwtToken}",
+                    universityName = universityName,facultyName = facultyName,networkGroup = addNetworkGroup).await()
+
+                Timber.d("%s",response.code())
+                if(response.code() != 200)
+                    throw HttpException(response)
+
+                scheduleAddGroup.value = "Success"
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception,scheduleAddGroupFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleAddGroupFailure)
+            }
+        }
+    }
+
+
+
+
+
 
 }

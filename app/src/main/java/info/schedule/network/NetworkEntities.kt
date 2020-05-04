@@ -4,6 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import info.schedule.database.DatabaseAccount
 import info.schedule.domain.*
+import java.lang.StringBuilder
 
 
 // NetworkSchedule
@@ -28,6 +29,53 @@ data class NetworkUsers(val name: String="",
                         val patronymic: String="",
                         val username: String="")
 
+@JsonClass(generateAdapter = true)
+data class NetworkUsersRole(val name: String="",
+                             val surname: String="",
+                             val patronymic: String="",
+                             val username: String="",
+                             val roles: List<Role>)
+{
+    fun asStringRole() : String{
+        val rolesString = StringBuilder()
+        var listLenght = 1
+        for (role: Role in roles) {
+            when {
+                roles.size > listLenght -> {
+                    rolesString.append(role.role.substring(0, 1))
+                    rolesString.append(",")
+                    listLenght++
+                }
+                roles.size == 1 -> {
+                    rolesString.append(role.role.substring(0, 1))
+                }
+                roles.size == listLenght -> {
+                    rolesString.append(role.role.substring(0, 1))
+                }
+            }
+        }
+        return rolesString.toString()
+    }
+
+}
+
+@JsonClass(generateAdapter = true)
+data class NetworkRole(val name: String)
+
+@JsonClass(generateAdapter = true)
+data class Role(val role: String)
+
+fun asDomainListUsersRoleModel(listNetworkUsersRole: List<NetworkUsersRole>) : List<UserRole> {
+    return listNetworkUsersRole.map {
+        UserRole(
+            name = it.name,
+            surname = it.surname,
+            patronymic = it.patronymic,
+            username = it.username,
+            role = it.asStringRole()
+        )
+    }
+}
 
 fun asDomainListUsersModel(listNetworkUsers: List<NetworkUsers> ) : List<User> {
     return listNetworkUsers.map {
@@ -40,9 +88,37 @@ fun asDomainListUsersModel(listNetworkUsers: List<NetworkUsers> ) : List<User> {
     }
 }
 
+//NetworkFaculty
+@JsonClass(generateAdapter = true)
+data class NetworkFaculty(val facultyName: String)
+
+@JsonClass(generateAdapter = true)
+data class AddNetworkFaculty(val name: String)
+
+fun asDomainListFacultyModel(listNetworkFaculty: List<NetworkFaculty>) : List<Faculty> {
+    return listNetworkFaculty.map {
+        Faculty(facultyName = it.facultyName)
+    }
+}
+
+//NetworkUniversityFaculties
+@JsonClass(generateAdapter = true)
+data class NetworkUniversityFaculties(val university: NetworkUniversities,
+                                      val faculties: List<NetworkFaculty>)
+
+/*fun asNetworkUniversityFaculties(listNetworkUniversities: List<NetworkUniversityFaculties>) : NetworkUniversityFaculties {
+    return
+        NetworkUniversityFaculties(
+            lluniversity,
+            it.faculties)
+}*/
+
 //NetworkGroup
 @JsonClass(generateAdapter = true)
 data class NetworkGroup(val name: String)
+
+@JsonClass(generateAdapter = true)
+data class AddNetworkGroup(val name: String)
 
 
 fun asDomainListGroupModel(listNetworkGroup: List<NetworkGroup>) : List<Group> {
@@ -50,7 +126,6 @@ fun asDomainListGroupModel(listNetworkGroup: List<NetworkGroup>) : List<Group> {
         Group(name = it.name)
     }
 }
-
 
 //NetworkUniversities
 @JsonClass(generateAdapter = true)
@@ -61,6 +136,10 @@ data class AddNetworkUniversities(val universityName: String,
                                   val location: String,
                                   val address: String)
 
+
+fun NetworkUniversities.asDomainUniversityModel() : University {
+    return University(universityName = universityName)
+}
 fun asDomainListUniversityModel(listNetworkUniversities: List<NetworkUniversities>) : List<University> {
     return listNetworkUniversities.map {
         University(it.universityName)

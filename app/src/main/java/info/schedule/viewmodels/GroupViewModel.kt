@@ -6,8 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import info.schedule.database.DatabaseAccountPreferense
+import info.schedule.domain.Faculty
 import info.schedule.domain.University
-import info.schedule.network.AddNetworkUniversities
+import info.schedule.network.AddNetworkGroup
 import info.schedule.network.ErrorResponseNetwork
 import info.schedule.repository.AccountRepository
 import info.schedule.repository.ScheduleRepository
@@ -16,7 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
-class UniversitiesEditViewModel(application: Application) : AndroidViewModel(application) {
+class GroupViewModel(application: Application) : AndroidViewModel(application) {
 
     private val viewModelJob = SupervisorJob()
 
@@ -26,26 +27,26 @@ class UniversitiesEditViewModel(application: Application) : AndroidViewModel(app
     private val scheduleRepository = ScheduleRepository(customAccountPreferense)
     private val accountRepository = AccountRepository(customAccountPreferense)
 
-    private lateinit var oldUniversity: University
-  //  private lateinit var newUniversity: University
+    private lateinit var university: University
+    private lateinit var faculty: Faculty
 
-    val liveDataGetUniversity: LiveData<List<University>> = scheduleRepository.scheduleGetResponseAdminUniversities
-    val liveDataGetUpdateUniversities:  LiveData<List<University>> = scheduleRepository.scheduleGetResponseUpdateAdminUniversities
-    val liveDataGetUniversityFailure: LiveData<ErrorResponseNetwork> = scheduleRepository.scheduleGetResponseAdminUniversitiesFailure
+    val liveDataGetUniversity: LiveData<List<University>> = scheduleRepository.scheduleGetUniversity
+    val liveDataGetFaculty: LiveData<List<Faculty>> = scheduleRepository.scheduleGetFaculty
+    val liveDataGetUniversityFacultyFailure: LiveData<ErrorResponseNetwork> = scheduleRepository.scheduleGetUniversityFacultyFailure
 
-    val liveDataUpdateUniversity: LiveData<String> = scheduleRepository.scheduleUpdateUniversity
-    val liveDataUpdateUniversityFailure: LiveData<ErrorResponseNetwork> = scheduleRepository.scheduleUpdateUniversityFailure
+    val liveDataAddGroup: LiveData<String> = scheduleRepository.scheduleAddGroup
+    val liveDataAddGroupFailure: LiveData<ErrorResponseNetwork> = scheduleRepository.scheduleAddGroupFailure
 
     init {
         viewModelScope.launch {
-            scheduleRepository.scheduleGetUniversity()
+            scheduleRepository.scheduleGetUniversityAndFaculties()
         }
     }
 
-    fun updateUniversity(universityName: String,location: String,address: String) {
+    fun addGroup(name: String) {
         viewModelScope.launch {
-            scheduleRepository.scheduleUpdateUniversity(oldUniversity.universityName,
-                AddNetworkUniversities(universityName,location,address)
+            scheduleRepository.scheduleAddGroup(university.universityName,faculty.facultyName,
+                AddNetworkGroup(name)
             )
         }
     }
@@ -54,17 +55,16 @@ class UniversitiesEditViewModel(application: Application) : AndroidViewModel(app
         accountRepository.accountLogout()
     }
 
-    fun setOldUniversity(university: University) {
-        this.oldUniversity = university
+    fun setUniversity(university: University) {
+        this.university = university
     }
-    fun getOldUniversity() = oldUniversity
+    fun getUniversity() = university
 
-  /*  fun setNewUniversity(university: University) {
-        this.newUniversity = university
+    fun setFaculty(faculty: Faculty) {
+        this.faculty = faculty
     }
 
-    fun getNewUniversity()  = newUniversity*/
-
+    fun getFaculty()  = faculty
 
     override fun onCleared() {
         super.onCleared()
@@ -74,9 +74,9 @@ class UniversitiesEditViewModel(application: Application) : AndroidViewModel(app
 
     class Factory(val app: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(UniversitiesEditViewModel::class.java)) {
+            if (modelClass.isAssignableFrom(GroupViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return UniversitiesEditViewModel(app) as T
+                return GroupViewModel(app) as T
             }
             throw IllegalArgumentException("Unable to construct viewmodel")
         }

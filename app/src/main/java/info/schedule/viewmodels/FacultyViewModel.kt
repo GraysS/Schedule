@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import info.schedule.database.DatabaseAccountPreferense
 import info.schedule.domain.University
-import info.schedule.network.AddNetworkUniversities
+import info.schedule.network.AddNetworkFaculty
 import info.schedule.network.ErrorResponseNetwork
 import info.schedule.repository.AccountRepository
 import info.schedule.repository.ScheduleRepository
@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
-class UniversitiesEditViewModel(application: Application) : AndroidViewModel(application) {
+class FacultyViewModel(application: Application) : AndroidViewModel(application)  {
 
     private val viewModelJob = SupervisorJob()
 
@@ -26,15 +26,13 @@ class UniversitiesEditViewModel(application: Application) : AndroidViewModel(app
     private val scheduleRepository = ScheduleRepository(customAccountPreferense)
     private val accountRepository = AccountRepository(customAccountPreferense)
 
-    private lateinit var oldUniversity: University
-  //  private lateinit var newUniversity: University
+    private lateinit var university: University
 
     val liveDataGetUniversity: LiveData<List<University>> = scheduleRepository.scheduleGetResponseAdminUniversities
-    val liveDataGetUpdateUniversities:  LiveData<List<University>> = scheduleRepository.scheduleGetResponseUpdateAdminUniversities
     val liveDataGetUniversityFailure: LiveData<ErrorResponseNetwork> = scheduleRepository.scheduleGetResponseAdminUniversitiesFailure
 
-    val liveDataUpdateUniversity: LiveData<String> = scheduleRepository.scheduleUpdateUniversity
-    val liveDataUpdateUniversityFailure: LiveData<ErrorResponseNetwork> = scheduleRepository.scheduleUpdateUniversityFailure
+    val liveDataAddFaculty: LiveData<String> = scheduleRepository.scheduleAddFaculty
+    val liveDataAddFacultyFailure: LiveData<ErrorResponseNetwork> = scheduleRepository.scheduleAddFacultyFailure
 
     init {
         viewModelScope.launch {
@@ -42,11 +40,10 @@ class UniversitiesEditViewModel(application: Application) : AndroidViewModel(app
         }
     }
 
-    fun updateUniversity(universityName: String,location: String,address: String) {
+    fun addFaculty(name: String) {
         viewModelScope.launch {
-            scheduleRepository.scheduleUpdateUniversity(oldUniversity.universityName,
-                AddNetworkUniversities(universityName,location,address)
-            )
+            scheduleRepository.scheduleAddFaculty(university.universityName,
+                AddNetworkFaculty(name))
         }
     }
 
@@ -54,17 +51,11 @@ class UniversitiesEditViewModel(application: Application) : AndroidViewModel(app
         accountRepository.accountLogout()
     }
 
-    fun setOldUniversity(university: University) {
-        this.oldUniversity = university
-    }
-    fun getOldUniversity() = oldUniversity
-
-  /*  fun setNewUniversity(university: University) {
-        this.newUniversity = university
+    fun setUniversity(university: University) {
+        this.university = university
     }
 
-    fun getNewUniversity()  = newUniversity*/
-
+    fun getUniversity() = university
 
     override fun onCleared() {
         super.onCleared()
@@ -72,13 +63,15 @@ class UniversitiesEditViewModel(application: Application) : AndroidViewModel(app
     }
 
 
+
     class Factory(val app: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(UniversitiesEditViewModel::class.java)) {
+            if (modelClass.isAssignableFrom(FacultyViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return UniversitiesEditViewModel(app) as T
+                return FacultyViewModel(app) as T
             }
             throw IllegalArgumentException("Unable to construct viewmodel")
         }
     }
+
 }

@@ -1,6 +1,5 @@
 package info.schedule.domain
 
-
 // Account
 data class Account(val name : String,
                     val surname: String,
@@ -27,6 +26,23 @@ data class User(val name : String,
     }
 }
 
+data class UserRole(val name : String,
+                    val surname: String,
+                    val patronymic: String,
+                    val username: String,
+                    val role: String) {
+
+    override fun toString(): String {
+        val users: String?
+        users = if(surname.isNotEmpty() &&
+            name.isNotEmpty() &&
+            patronymic.isNotEmpty())
+            "$surname ${name.substring(0,1)}.${patronymic.substring(0,1)}. [${role}]"
+        else
+            username
+        return users
+    }
+}
 
 // Group
 data class Group(val name: String) {
@@ -41,5 +57,13 @@ data class University(val universityName: String) {
 
     override fun toString(): String {
         return universityName
+    }
+}
+
+// Faculty
+data class Faculty(val facultyName: String) {
+
+    override fun toString(): String {
+        return facultyName
     }
 }
