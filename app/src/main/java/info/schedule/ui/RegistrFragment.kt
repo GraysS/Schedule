@@ -77,6 +77,7 @@ class RegistrFragment : Fragment() {
                     ErrorResponseNetwork.BAD_REQUEST == it -> Toast.makeText(context, R.string.error_nickname, Toast.LENGTH_LONG).show()
                     ErrorResponseNetwork.NO_NETWORK == it -> Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
                     ErrorResponseNetwork.UNAVAILABLE == it -> Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
+                    else -> Toast.makeText(context, R.string.error_lowInternet, Toast.LENGTH_LONG).show()
                 }
                 isLiveData = false
             }

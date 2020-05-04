@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import info.schedule.database.CustomAccountPreferense
+import info.schedule.database.DatabaseAccountPreferense
 import info.schedule.network.AuthNetworkAccount
 import info.schedule.network.ErrorResponseNetwork
 import info.schedule.repository.AccountRepository
@@ -19,7 +19,7 @@ class AuthViewModel(application: Application)  : AndroidViewModel(application) {
 
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    private val customAccountPreferense = CustomAccountPreferense(application)
+    private val customAccountPreferense = DatabaseAccountPreferense(application)
     private val accountRepository = AccountRepository(customAccountPreferense)
 
     val liveAuthResponse: LiveData<String> = accountRepository.authResponse

@@ -24,23 +24,35 @@ enum class ErrorResponseNetwork {
 interface ScheduleService {
 
     @POST("ubs/v1/registration")
-    fun registration(@Body networkAccount: RegistrNetworkAccount) : Deferred<NetworkAccount>
+    fun registrationAsync(@Body networkAccount: RegistrNetworkAccount) : Deferred<NetworkAccount>
 
     @POST("ubs/v1/authenticate")
-    fun authorization(@Body networkAccount: AuthNetworkAccount) : Deferred<NetworkAccountToken>
+    fun authorizationAsync(@Body networkAccount: AuthNetworkAccount) : Deferred<NetworkAccountToken>
 
     @GET("ubs/v1/user/get")
-    fun getAccountData(@Header("Authorization") token: String) : Deferred<NetworkAccountAccess>
+    fun getAccountDataAsync(@Header("Authorization") token: String) : Deferred<NetworkAccountAccess>
 
     @GET("ubs/v1/schedule/get/control")
-    fun getScheduleData(@Header("Authorization") token: String) : Deferred<NetworkSchedule>
+    fun getScheduleDataAsync(@Header("Authorization") token: String) : Deferred<NetworkSchedule>
 
     @POST("ubs/v1/schedule/add/{username}/{groups}/{university}")
-    fun teachersUniversityGroups(@Header("Authorization") token: String,
-                                 @Path("username")  username: String,
-                                 @Path("groups") groups: String,
-                                 @Path("university") university: String,
-                                 @Body networkSchedule: AddNetworkSchedule) : Deferred<Response<Void>>
+    fun teachersUniversityGroupsAsync(@Header("Authorization") token: String,
+                                      @Path("username")  username: String,
+                                      @Path("groups") groups: String,
+                                      @Path("university") university: String,
+                                      @Body networkSchedule: AddNetworkSchedule) : Deferred<Response<Void>>
+
+    @POST("ubs/v1/university/add")
+    fun universityAddAsync(@Header("Authorization") token: String,
+                           @Body addNetworkUniversities: AddNetworkUniversities) : Deferred<Response<Void>>
+
+    @GET("ubs/v1/university/find/all")
+    fun getUniversityDataAsync(@Header("Authorization") token: String) : Deferred<List<NetworkUniversities>>
+
+    @PUT("ubs/v1/university/update/{universityName}")
+    fun universityUpdateAsync(@Header("Authorization") token: String,
+                                    @Path("universityName") university: String,
+                                    @Body addNetworkUniversities: AddNetworkUniversities) : Deferred<Response<Void>>
 
 }
 

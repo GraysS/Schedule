@@ -46,6 +46,9 @@ class AccountFragment : Fragment() {
             findNavController().navigate(R.id.action_accountFragment_to_panelManagerFragment)
         }
 
+        binding.btnAdminPanel.setOnClickListener {
+            findNavController().navigate(R.id.action_accountFragment_to_adminFragment)
+        }
 
         return binding.root
     }
@@ -57,6 +60,10 @@ class AccountFragment : Fragment() {
 
         viewModel.liveAccountManagerResponse.observe(viewLifecycleOwner, Observer {
             binding.btnManagerPanel.visibility = View.VISIBLE
+        })
+
+        viewModel.liveAccountAdminResponse.observe(viewLifecycleOwner, Observer {
+            binding.btnAdminPanel.visibility = View.VISIBLE
         })
 
         viewModel.liveAccountResponseFailure.observe(viewLifecycleOwner, Observer {
@@ -72,6 +79,7 @@ class AccountFragment : Fragment() {
                     viewModel.accountLogout()
                     findNavController().navigate(R.id.action_accountFragment_to_choiceFragment)
                 }
+                else -> Toast.makeText(context, R.string.error_lowInternet, Toast.LENGTH_LONG).show()
             }
         })
     }

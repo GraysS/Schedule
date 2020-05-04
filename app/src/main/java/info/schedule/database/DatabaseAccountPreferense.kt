@@ -3,7 +3,7 @@ package info.schedule.database
 import android.content.Context
 import android.content.SharedPreferences
 
-class CustomAccountPreferense(context: Context) {
+class DatabaseAccountPreferense(context: Context) {
 
     private val sharedPreferense: SharedPreferences
     private val sharedPreferenseEditor: SharedPreferences.Editor
@@ -19,7 +19,7 @@ class CustomAccountPreferense(context: Context) {
         sharedPreferenseEditor = sharedPreferense.edit()
     }
 
-    fun addDatabaseAccount(databaseAccount: DatabaseAccount) {
+    fun addDatabaseAccountToken(databaseAccount: DatabaseAccount) {
         sharedPreferenseEditor.putString(jwtToken,databaseAccount.jwtToken)
         sharedPreferenseEditor.putBoolean(isAuth,databaseAccount.isAuth)
         sharedPreferenseEditor.apply()

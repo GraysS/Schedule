@@ -1,8 +1,8 @@
 package info.schedule.repository
 
 import androidx.lifecycle.MutableLiveData
-import info.schedule.database.CustomAccountPreferense
 import info.schedule.database.DatabaseAccount
+import info.schedule.database.DatabaseAccountPreferense
 import info.schedule.domain.Account
 import info.schedule.network.*
 import info.schedule.util.handleApiError
@@ -14,7 +14,7 @@ import timber.log.Timber
 
 class AccountRepository() {
 
-    private lateinit var customAccountPreferense: CustomAccountPreferense
+    private lateinit var customAccountPreferense: DatabaseAccountPreferense
     private lateinit var databaseAccount: DatabaseAccount
 
     val registrResponse: MutableLiveData<Account> = MutableLiveData()
@@ -25,12 +25,13 @@ class AccountRepository() {
 
     val accountResponse: MutableLiveData<Account> = MutableLiveData()
     val accountResponseManager: MutableLiveData<Account> = MutableLiveData()
+    val accountResponseAdmin: MutableLiveData<Account> = MutableLiveData()
     val accountResponseFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
 
     val accountIsAuth: MutableLiveData<Boolean> = MutableLiveData()
 
 
-    constructor(customAccountPreferense: CustomAccountPreferense) : this() {
+    constructor(customAccountPreferense: DatabaseAccountPreferense) : this() {
         this.customAccountPreferense = customAccountPreferense
         this.databaseAccount = customAccountPreferense.asDatabaseAccountModel()
     }
@@ -39,7 +40,7 @@ class AccountRepository() {
     suspend fun accountRegistr(networkAccount: RegistrNetworkAccount) {
         withContext(Dispatchers.Main) {
             try {
-                val networks = Network.schedule.registration(networkAccount).await()
+                val networks = Network.schedule.registrationAsync(networkAccount).await()
 
                 registrResponse.value = networks.asDomainAccountModel()
             }catch (exception: HttpException){
@@ -55,8 +56,8 @@ class AccountRepository() {
     suspend fun accountAuth(networkAccount: AuthNetworkAccount) {
         withContext(Dispatchers.Main) {
             try {
-                val auth = Network.schedule.authorization(networkAccount).await()
-                customAccountPreferense.addDatabaseAccount(auth.asDatabaseAccountModel())
+                val auth = Network.schedule.authorizationAsync(networkAccount).await()
+                customAccountPreferense.addDatabaseAccountToken(auth.asDatabaseAccountModel())
                 authResponse.value = "Success"
 
                 Timber.d("Tokens:%s", auth.jwtToken)
@@ -73,17 +74,21 @@ class AccountRepository() {
     suspend fun accountGetAccountData() {
         withContext(Dispatchers.Main) {
             try {
-                val getAccount = Network.schedule.getAccountData(token="Bearer ${databaseAccount.jwtToken}").await()
+                val getAccount = Network.schedule.getAccountDataAsync(token="Bearer ${databaseAccount.jwtToken}").await()
                 Timber.d("Name %s ", getAccount.name)
                 Timber.d("Surname %s ", getAccount.surname)
                 Timber.d("Patronymic %s ", getAccount.patronymic)
                 Timber.d("Username %s", getAccount.username)
-                Timber.d("appAccess %s ", getAccount.appAccess.managerAccess)
+                Timber.d("appAccessManager %s ", getAccount.appAccess.managerAccess)
+                Timber.d("appAccessAdmin %s ", getAccount.appAccess.adminAccess)
+
+                accountResponse.value = getAccount.asDomainAccountModel()
 
                 if(getAccount.appAccess.managerAccess)
                     accountResponseManager.value = getAccount.asDomainAccountModel()
-                else
-                    accountResponse.value = getAccount.asDomainAccountModel()
+
+                if(getAccount.appAccess.adminAccess)
+                    accountResponseAdmin.value = getAccount.asDomainAccountModel()
 
             }catch (exception : HttpException) {
                 exception.printStackTrace()

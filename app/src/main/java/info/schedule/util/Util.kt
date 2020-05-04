@@ -6,7 +6,6 @@ import info.schedule.domain.Account
 import info.schedule.network.ErrorResponseNetwork
 import retrofit2.HttpException
 import timber.log.Timber
-import java.lang.StringBuilder
 import java.net.HttpURLConnection
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,6 +35,44 @@ fun datesFormat(pattern: String, textlong: Long) : String {
     val outputFormat = SimpleDateFormat(pattern, Locale.getDefault())
     val strDate: String = outputFormat.format(textlong)
     return strDate
+}
+
+val listOld: MutableList<Any> = mutableListOf()
+
+// New data
+// KHIBS,gg
+
+// KHIBS,qw
+
+// 1) gg
+// KHIBS ,qw
+
+
+// oldList KHIBS qw
+// coupList KHIBS
+// ITOG GG
+
+
+fun listNoDuplicate(
+    newList: MutableList<Any>
+)  : List<Any>
+{
+    if(listOld.isNotEmpty()) {
+        val iteratorNew = newList.iterator()
+        val iteratorOld = listOld.iterator()
+
+        while (iteratorNew.hasNext()) {
+            val elementNew = iteratorNew.next()
+            while (iteratorOld.hasNext()) {
+                if (elementNew == iteratorOld.next()) {
+                    iteratorNew.remove()
+                }
+            }
+        }
+    } else {
+        listOld.addAll(newList)
+    }
+    return newList
 }
 
 fun isDuplicatus(newListAccount: List<Account>,oldListAccount: List<Account>): Boolean {

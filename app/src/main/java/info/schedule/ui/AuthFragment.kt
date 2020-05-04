@@ -66,6 +66,7 @@ class AuthFragment : Fragment() {
                     ErrorResponseNetwork.FORBIDDEN == it -> Toast.makeText(context, R.string.failure_auth, Toast.LENGTH_LONG).show()
                     ErrorResponseNetwork.NO_NETWORK == it -> Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
                     ErrorResponseNetwork.UNAVAILABLE == it -> Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
+                    else -> Toast.makeText(context, R.string.error_lowInternet, Toast.LENGTH_LONG).show()
                 }
                 isLiveData = false
             }

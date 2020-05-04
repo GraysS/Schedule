@@ -18,16 +18,12 @@
     <string name="failure_auth">Неправильно введен логин или пароль</string>
     <string name="error_connect">Вы не подключенны к интернету, или же повторите запрос</string>
     <string name="button_logout">logout</string>
-    <string name="tv_pleaseWait">Пожалуйста!Подождите...</string>
+    <string name="tv_pleaseWait">Пожалуйста!Подождите…</string>
     <string name="btn_assign">Назначить</string>
     <string name="btn_addTeacher">Добавить преподавателя</string>
     <string name="btn_add">Добавить</string>
     <string name="tv_token">Токен действует 1 час.После 1 часа вы не сможете добавлять/изменять.Вам придеться повторно сделать авторизацию</string>
     <string name="error_teachers">Нету этого преподавателя</string>
-
-    <!--  <string-array name="array_teacher">
-        <item>Добавьте сверху преподавателя </item>
-    </string-array>-->
 
     <string name="teachers_username">Преподаватель</string>
     <string name="university">Учреждение</string>
@@ -75,14 +71,23 @@
     <string name="btn_clearText">Очистить поля</string>
     <string name="error_teachers_duplicates">Такой преподаватель уже есть в списке</string>
     <string name="incorrect">Выберите правильные данные и время</string>
-    <string name="reauth">Токен просрочен! Авторизируйтеcь</string>
+    <string name="reauth">Время авторизации истекло.Авторизируйтеcь</string>
     <string name="btn_clearData">Очистить</string>
     <string name="toolbar_home">Home</string>
     <string name="toolbar_logout">Logout</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="text_logout">Вы уверены что хотите выйти из учетной записи ?</string>
-
+    <string name="error_lowInternet">Низкая скорость соединения. Повторите запрос !!! </string>
+    <string name="btn_adminControl">Панель администратора</string>
+    <string name="btn_controlRole">Роль</string>
+    <string name="btn_controlUniversities">Учреждение</string>
+    <string name="btn_controlFaculty">Факультет</string>
+    <string name="btn_controlGroups">Группа</string>
+    <string name="et_nameUniversities">Учреждение</string>
+    <string name="et_location">Город</string>
+    <string name="et_address">Адресс</string>
+    <string name="btn_edit">Изменить</string>
+    <string name="tv_Manager">Управление:</string>
+    <string name="error_university">Институт с таким названием уже есть</string>
+    <string name="emptyAndUniversity">Заполните все поля.Выберите правильные данные</string>
 
 </resources>

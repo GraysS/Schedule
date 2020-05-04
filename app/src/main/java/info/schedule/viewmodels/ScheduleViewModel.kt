@@ -2,13 +2,13 @@ package info.schedule.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.*
-import info.schedule.database.CustomAccountPreferense
+import info.schedule.database.DatabaseAccountPreferense
 import info.schedule.repository.AccountRepository
 
 
 class ScheduleViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val customAccountPreferense = CustomAccountPreferense(application)
+    private val customAccountPreferense = DatabaseAccountPreferense(application)
     private val accountRepository = AccountRepository(customAccountPreferense)
 
     val liveMainIsAuth: MutableLiveData<Boolean> = accountRepository.accountIsAuth

@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.AccountFragment" >
 
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
         >
+        <Button
+            android:id="@+id/btn_managerPanel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/btn_panelControl"
+            android:visibility="invisible" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_managerAccess"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_adminPanel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/btn_adminControl"
+            android:visibility="invisible" />
 
-            <Button
-                android:id="@+id/btn_managerPanel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/btn_panelControl"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
       <!--  <LinearLayout
             android:id="@+id/ll_pleaseWait"
@@ -45,6 +46,6 @@
 
 
 
-    </FrameLayout>
+    </LinearLayout>
 
 </layout>

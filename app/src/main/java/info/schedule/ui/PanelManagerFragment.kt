@@ -14,9 +14,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import info.schedule.R
 import info.schedule.databinding.FragmentPanelManagerBinding
-import info.schedule.domain.Account
 import info.schedule.domain.Group
 import info.schedule.domain.University
+import info.schedule.domain.User
 import info.schedule.network.ErrorResponseNetwork
 import info.schedule.ui.dialog.DateDialogFragment
 import info.schedule.ui.dialog.FinishTimeDialogFragment
@@ -32,7 +32,7 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
     FinishTimeDialogFragment.FinishTimeDialogListener {
 
     private lateinit var binding: FragmentPanelManagerBinding
-    private lateinit var adapterAccount: ArrayAdapter<Account>
+    private lateinit var adapterUser: ArrayAdapter<User>
     private lateinit var adapterGroup: ArrayAdapter<Group>
     private lateinit var adapterUniversity: ArrayAdapter<University>
 
@@ -64,7 +64,7 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
             if(binding.btnDateLecture.text != getString(R.string.btn_date) &&
                 binding.btnStartTimeLecture.text != getString(R.string.btn_startTimeLecture) &&
                 binding.btnFinishTimeLecture.text != getString(R.string.btn_finishTimeLecture) &&
-                viewModel.getAccount().username != getString(R.string.teachers_username) &&
+                viewModel.getUser().username != getString(R.string.teachers_username) &&
                 viewModel.getGroups().name != getString(R.string.groups) &&
                 viewModel.getUniversity().universityName != getString(R.string.university) &&
                 viewModel.getSubjectName() != getString(R.string.subjectName) &&
@@ -103,10 +103,10 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
                 position: Int,
                 id: Long
             ) {
-                val account: Account? = adapterAccount.getItem(position)
-                if(account != null) {
-                    viewModel.setAccount(account)
-                    Timber.d("%s",adapterAccount.getPosition(viewModel.getAccount()))
+                val user: User? = adapterUser.getItem(position)
+                if(user != null) {
+                    viewModel.setUser(user)
+                    Timber.d("%s",adapterUser.getPosition(viewModel.getUser()))
                 }
             }
         }
@@ -211,9 +211,9 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
         super.onActivityCreated(savedInstanceState)
 
 
-        viewModel.liveScheduleGetResponseAccount.observe(viewLifecycleOwner, Observer {
+        viewModel.liveScheduleGetResponseUser.observe(viewLifecycleOwner, Observer {
             if(savedInstanceState == null)
-                adapterAccount.addAll(it)
+                adapterUser.addAll(it)
         })
 
         viewModel.liveScheduleGetResponseGroup.observe(viewLifecycleOwner, Observer {
@@ -241,9 +241,6 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
 
         viewModel.liveScheduleAddTeachersUniversityGroups.observe(viewLifecycleOwner, Observer {
             if(isLiveData) {
-                viewModel.setDate(getString(R.string.btn_date))
-                viewModel.setStartTime(getString(R.string.btn_startTimeLecture))
-                viewModel.setFinishTime(getString(R.string.btn_finishTimeLecture))
                 Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
                 isLiveData = false
             }
@@ -259,6 +256,7 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
                         viewModel.accountLogout()
                         findNavController().navigate(R.id.action_panelManagerFragment_to_choiceFragment)
                     }
+                    else -> Toast.makeText(context, R.string.error_lowInternet, Toast.LENGTH_LONG).show()
                 }
                 isLiveData = false
             }
@@ -301,9 +299,9 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
     }
 
     private fun initAdapters(savedInstanceState: Bundle?) {
-        adapterAccount = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item)
-        adapterAccount.add(Account("","","",getString(R.string.teachers_username)))
-        binding.spListSearchesTeacher.adapter = adapterAccount
+        adapterUser = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item)
+        adapterUser.add(User("","","",getString(R.string.teachers_username)))
+        binding.spListSearchesTeacher.adapter = adapterUser
 
         adapterGroup = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item)
         adapterGroup.add(Group(getString(R.string.groups)))
@@ -315,8 +313,8 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
 
 
         if(savedInstanceState != null) {
-            viewModel.liveScheduleGetResponseAccount.value?.let {
-                adapterAccount.addAll(it)
+            viewModel.liveScheduleGetResponseUser.value?.let {
+                adapterUser.addAll(it)
             }
             viewModel.liveScheduleGetResponseGroup.value?.let {
                 adapterGroup.addAll(it)
@@ -324,9 +322,11 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
             viewModel.liveScheduleGetResponseUniversity.value?.let {
                 adapterUniversity.addAll(it)
             }
-            binding.spListSearchesTeacher.setSelection(adapterAccount.getPosition(viewModel.getAccount()))
-            binding.spListGroups.setSelection(adapterGroup.getPosition(viewModel.getGroups()))
-            binding.spListUniversity.setSelection(adapterUniversity.getPosition(viewModel.getUniversity()))
+            binding.run {
+                spListSearchesTeacher.setSelection(adapterUser.getPosition(viewModel.getUser()))
+                spListGroups.setSelection(adapterGroup.getPosition(viewModel.getGroups()))
+                spListUniversity.setSelection(adapterUniversity.getPosition(viewModel.getUniversity()))
+            }
         }
     }
 

@@ -2,12 +2,12 @@ package info.schedule.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.*
-import info.schedule.database.CustomAccountPreferense
-import info.schedule.domain.Account
+import info.schedule.database.DatabaseAccountPreferense
 import info.schedule.domain.Group
 import info.schedule.domain.University
-import info.schedule.network.ErrorResponseNetwork
+import info.schedule.domain.User
 import info.schedule.network.AddNetworkSchedule
+import info.schedule.network.ErrorResponseNetwork
 import info.schedule.repository.AccountRepository
 import info.schedule.repository.ScheduleRepository
 import kotlinx.coroutines.CoroutineScope
@@ -21,12 +21,12 @@ class PanelManagerViewModel (application : Application) : AndroidViewModel(appli
 
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    private val customAccountPreferense = CustomAccountPreferense(application)
+    private val customAccountPreferense = DatabaseAccountPreferense(application)
 
     private val scheduleRepository = ScheduleRepository(customAccountPreferense)
     private val accountRepository = AccountRepository(customAccountPreferense)
 
-    private lateinit var account: Account
+    private lateinit var user: User
     private lateinit var groups: Group
     private lateinit var university: University
     private lateinit var subjectName: String
@@ -36,7 +36,7 @@ class PanelManagerViewModel (application : Application) : AndroidViewModel(appli
     private lateinit var timeStart: String
     private lateinit var timeFinish: String
 
-    val liveScheduleGetResponseAccount : LiveData<List<Account>> = scheduleRepository.scheduleGetResponseAccount
+    val liveScheduleGetResponseUser : LiveData<List<User>> = scheduleRepository.scheduleGetResponseUsers
     val liveScheduleGetResponseGroup: LiveData<List<Group>> = scheduleRepository.scheduleGetResponseGroup
     val liveScheduleGetResponseUniversity: LiveData<List<University>> = scheduleRepository.scheduleGetResponseUniversities
     val liveScheduleGetResponseFailure: LiveData<ErrorResponseNetwork> = scheduleRepository.scheduleGetResponseFailure
@@ -59,14 +59,14 @@ class PanelManagerViewModel (application : Application) : AndroidViewModel(appli
 
     fun addTeachersUniversityGroups() {
         viewModelScope.launch {
-            scheduleRepository.scheduleAddTeachersUniversityGroups(account.username,groups.name,university.universityName,
+            scheduleRepository.scheduleAddTeachersUniversityGroups(user.username,groups.name,university.universityName,
                 AddNetworkSchedule(subjectName,typeLecture,date,timeStart,timeFinish,lectureRoom)
             )
         }
     }
 
-    fun setAccount(account: Account) {
-        this.account = account
+    fun setUser(user: User) {
+        this.user = user
     }
 
 
@@ -105,7 +105,7 @@ class PanelManagerViewModel (application : Application) : AndroidViewModel(appli
         liveScheduleFinishTime.value = timeFinish
     }
 
-    fun getAccount() = account
+    fun getUser() = user
 
     fun getGroups() = groups
 

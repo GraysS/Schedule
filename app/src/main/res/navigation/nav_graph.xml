@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_accountFragment_to_choiceFragment"
             app:destination="@id/choiceFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_adminFragment"
+            app:destination="@id/adminFragment" />
     </fragment>
 
     <fragment
@@ -102,5 +105,85 @@
         android:id="@+id/logoutDialogFragment"
         android:name="info.schedule.ui.dialog.LogoutDialogFragment"
         android:label="LogoutDialogFragment" />
+
+    <fragment
+        android:id="@+id/adminFragment"
+        android:name="info.schedule.ui.AdminFragment"
+        tools:layout="@layout/fragment_admin" >
+        <action
+            android:id="@+id/action_adminFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
+        <action
+            android:id="@+id/action_adminFragment_to_groupFragment"
+            app:destination="@id/groupFragment" />
+        <action
+            android:id="@+id/action_adminFragment_to_facultyFragment"
+            app:destination="@id/facultyFragment" />
+        <action
+            android:id="@+id/action_adminFragment_to_universitiesAddFragment"
+            app:destination="@id/universitiesAddFragment" />
+        <action
+            android:id="@+id/action_adminFragment_to_roleFragment"
+            app:destination="@id/roleFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/facultyFragment"
+        android:name="info.schedule.ui.FacultyFragment"
+        tools:layout="@layout/fragment_faculty" >
+        <action
+            android:id="@+id/action_facultyFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
+        <action
+            android:id="@+id/action_facultyFragment_to_choiceFragment"
+            app:destination="@id/choiceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupFragment"
+        android:name="info.schedule.ui.GroupFragment"
+        tools:layout="@layout/fragment_group" >
+        <action
+            android:id="@+id/action_groupFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
+        <action
+            android:id="@+id/action_groupFragment_to_choiceFragment"
+            app:destination="@id/choiceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/roleFragment"
+        android:name="info.schedule.ui.RoleFragment"
+        tools:layout="@layout/fragment_role" >
+        <action
+            android:id="@+id/action_roleFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
+        <action
+            android:id="@+id/action_roleFragment_to_choiceFragment"
+            app:destination="@id/choiceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/universitiesAddFragment"
+        android:name="info.schedule.ui.UniversitiesAddFragment"
+        tools:layout="@layout/fragment_universities" >
+        <action
+            android:id="@+id/action_universitiesAddFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
+        <action
+            android:id="@+id/action_universitiesAddFragment_to_universitiesEditFragment"
+            app:destination="@id/universitiesEditFragment" />
+        <action
+            android:id="@+id/action_universitiesAddFragment_to_choiceFragment"
+            app:destination="@id/choiceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/universitiesEditFragment"
+        android:name="info.schedule.ui.UniversitiesEditFragment"
+        tools:layout="@layout/fragment_universities_edit" >
+        <action
+            android:id="@+id/action_universitiesEditFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
+        <action
+            android:id="@+id/action_universitiesEditFragment_to_choiceFragment"
+            app:destination="@id/choiceFragment" />
+    </fragment>
 
 </navigation>
