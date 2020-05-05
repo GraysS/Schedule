@@ -18,14 +18,16 @@
                 android:id="@+id/sp_listUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp"
+                style="@style/spinner_style"/>
 
             <Spinner
                 android:id="@+id/sp_listRoles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:entries="@array/array_roles"/>
+                android:entries="@array/array_roles"
+                style="@style/spinner_style"/>
 
             <Button
                 android:id="@+id/btn_assign"

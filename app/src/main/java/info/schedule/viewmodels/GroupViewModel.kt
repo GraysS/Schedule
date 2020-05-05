@@ -1,10 +1,7 @@
 package info.schedule.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import info.schedule.database.DatabaseAccountPreferense
 import info.schedule.domain.Faculty
 import info.schedule.domain.University
@@ -16,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class GroupViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -29,10 +27,13 @@ class GroupViewModel(application: Application) : AndroidViewModel(application) {
 
     private lateinit var university: University
     private lateinit var faculty: Faculty
+    private var isLiveFaculty: Boolean = false
 
-    val liveDataGetUniversity: LiveData<List<University>> = scheduleRepository.scheduleGetUniversity
-    val liveDataGetFaculty: LiveData<List<Faculty>> = scheduleRepository.scheduleGetFaculty
+ //   val liveDataGetUniversity: LiveData<List<University>> = scheduleRepository.scheduleGetUniversity
+   // val liveDataGetFaculty: LiveData<List<Faculty>> = scheduleRepository.scheduleGetFaculty
+    val liveDataGetUniversityFaculty: LiveData<Map<University,List<Faculty>>> = scheduleRepository.scheduleGetUniversityFaculty
     val liveDataGetUniversityFacultyFailure: LiveData<ErrorResponseNetwork> = scheduleRepository.scheduleGetUniversityFacultyFailure
+    val liveDataGetFaculty: MutableLiveData<List<Faculty>> = MutableLiveData()
 
     val liveDataAddGroup: LiveData<String> = scheduleRepository.scheduleAddGroup
     val liveDataAddGroupFailure: LiveData<ErrorResponseNetwork> = scheduleRepository.scheduleAddGroupFailure
@@ -57,6 +58,13 @@ class GroupViewModel(application: Application) : AndroidViewModel(application) {
 
     fun setUniversity(university: University) {
         this.university = university
+        try {
+            if (liveDataGetUniversityFaculty.value?.get(university)?.size!! > 0) {
+                isLiveFaculty = true
+                liveDataGetFaculty.value = liveDataGetUniversityFaculty.value?.get(university)
+            }
+        }catch (e: Exception) {
+        }
     }
     fun getUniversity() = university
 
@@ -65,6 +73,12 @@ class GroupViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getFaculty()  = faculty
+
+    fun getIsFaculty() = isLiveFaculty
+
+    fun setIsFaculty(isLiveFaculty: Boolean) {
+        this.isLiveFaculty = isLiveFaculty
+    }
 
     override fun onCleared() {
         super.onCleared()

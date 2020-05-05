@@ -44,7 +44,7 @@ class RegistrFragment : Fragment() {
                binding.etSurname.text.toString().isNotEmpty() &&
                binding.etPatronymic.text.toString().isNotEmpty() &&
                binding.etUsername.text.toString().isNotEmpty() &&
-               binding.etPassword.text.length >= 8) {
+               binding.etPassword.text?.length!! >= 8) {
                isLiveData = true
                viewModel.registers(
                    RegistrNetworkAccount(

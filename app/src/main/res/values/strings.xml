@@ -104,5 +104,6 @@
     <string name="et_group">Группа</string>
     <string name="faculty">Факультет</string>
     <string name="time">Конечное время должно быть больше начального</string>
+    <string name="error_faculty_duplicate">Такой факультет уже есть в этом учреждение</string>
 
 </resources>

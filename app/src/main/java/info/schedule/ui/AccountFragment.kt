@@ -56,6 +56,7 @@ class AccountFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.liveAccountResponse.observe(viewLifecycleOwner, Observer {
+            binding.pbLoading.visibility = View.INVISIBLE
         })
 
         viewModel.liveAccountManagerResponse.observe(viewLifecycleOwner, Observer {
@@ -70,6 +71,7 @@ class AccountFragment : Fragment() {
             when {
                 ErrorResponseNetwork.NO_NETWORK == it -> {
                     Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
+                    findNavController().navigate(R.id.action_accountFragment_to_scheduleFragment)
                 }
                 ErrorResponseNetwork.UNAVAILABLE == it -> {
                     Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()

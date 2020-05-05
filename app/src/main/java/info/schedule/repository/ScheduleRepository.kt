@@ -46,8 +46,9 @@ class ScheduleRepository() {
     val scheduleAddFaculty: MutableLiveData<String> = MutableLiveData()
     val scheduleAddFacultyFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
 
-    val scheduleGetUniversity: MutableLiveData<List<University>> = MutableLiveData()
-    val scheduleGetFaculty: MutableLiveData<List<Faculty>> = MutableLiveData()
+   // val scheduleGetUniversity: MutableLiveData<List<University>> = MutableLiveData()
+    //val scheduleGetFaculty: MutableLiveData<List<Faculty>> = MutableLiveData()
+    val scheduleGetUniversityFaculty: MutableLiveData<Map<University,List<Faculty>>> = MutableLiveData()
     val scheduleGetUniversityFacultyFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
 
     val scheduleAddGroup: MutableLiveData<String> = MutableLiveData()
@@ -227,8 +228,9 @@ class ScheduleRepository() {
                 val getUniversityAndFaculty
                         = Network.schedule.getUniversityAndFaculties(token ="Bearer ${databaseAccount.jwtToken}").await()
 
-                scheduleGetUniversity.value = asDomainListUniversityModel(asNetworkUniversities(getUniversityAndFaculty))
-                scheduleGetFaculty.value = asDomainListFacultyModel(asNetworkFaculty(getUniversityAndFaculty))
+                scheduleGetUniversityFaculty.value = asMapKeyUniversityValueFaculty(getUniversityAndFaculty)
+               // scheduleGetUniversity.value = asDomainListUniversityModel(asNetworkUniversities(getUniversityAndFaculty))
+             //   scheduleGetFaculty.value = asDomainListFacultyModel(asNetworkFaculty(getUniversityAndFaculty))
             }catch (exception: HttpException) {
                 exception.printStackTrace()
                 handleApiError(exception,scheduleGetUniversityFacultyFailure)

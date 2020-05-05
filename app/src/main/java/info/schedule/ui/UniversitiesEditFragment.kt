@@ -127,9 +127,9 @@ class UniversitiesEditFragment : Fragment() {
             if(isLiveData) {
              //   adapterUniversity.insert(viewModel.getNewUniversity(),adapterUniversity.getPosition(viewModel.getOldUniversity()))
            //     adapterUniversity.remove(adapterUniversity.getItem(adapterUniversity.getPosition(viewModel.getOldUniversity())))
-                binding.etNameUniversity.text.clear()
-                binding.etLocationUniversity.text.clear()
-                binding.etAddressUniversity.text.clear()
+                binding.etNameUniversity.text?.clear()
+                binding.etLocationUniversity.text?.clear()
+                binding.etAddressUniversity.text?.clear()
                 Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
             }
         })

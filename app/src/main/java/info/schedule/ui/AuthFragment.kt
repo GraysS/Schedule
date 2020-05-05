@@ -43,9 +43,18 @@ class AuthFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.btnAuth.setOnClickListener {
-            viewModel.auth(AuthNetworkAccount(binding.etUsername.text.toString(),
-                                              binding.etPassword.text.toString()))
-            isLiveData = true
+            if(binding.etUsername.text.toString().isNotEmpty() &&
+                binding.etPassword.text.toString().isNotEmpty()) {
+                isLiveData = true
+                viewModel.auth(
+                    AuthNetworkAccount(
+                        binding.etUsername.text.toString(),
+                        binding.etPassword.text.toString()
+                    )
+                )
+            } else {
+                Toast.makeText(context,R.string.empty,Toast.LENGTH_LONG).show()
+            }
         }
 
         return binding.root

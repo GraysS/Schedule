@@ -75,6 +75,10 @@ class GroupFragment : Fragment() {
 
                 val university: University? = adapterUniversity.getItem(position)
                 if(university != null) {
+                    if(viewModel.getIsFaculty()) {
+                        adapterFaculty.clear()
+                        adapterFaculty.add(Faculty(getString(R.string.faculty)))
+                    }
                     viewModel.setUniversity(university)
                 }
             }
@@ -101,13 +105,14 @@ class GroupFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.liveDataGetUniversity.observe(viewLifecycleOwner, Observer {
+        viewModel.liveDataGetUniversityFaculty.observe(viewLifecycleOwner, Observer {
             if(savedInstanceState == null)
-                adapterUniversity.addAll(it)
+                adapterUniversity.addAll(it.keys)
         })
         viewModel.liveDataGetFaculty.observe(viewLifecycleOwner, Observer {
-            if(savedInstanceState == null)
+            if(savedInstanceState == null || adapterFaculty.count == 1) {
                 adapterFaculty.addAll(it)
+            }
         })
         viewModel.liveDataGetUniversityFacultyFailure.observe(viewLifecycleOwner, Observer {
             when {
@@ -124,7 +129,7 @@ class GroupFragment : Fragment() {
 
         viewModel.liveDataAddGroup.observe(viewLifecycleOwner, Observer {
             if(isLiveData) {
-                binding.etGroup.text.clear()
+                binding.etGroup.text?.clear()
                 binding.spListUniversity.setSelection(0)
                 binding.spListFaculty.setSelection(0)
                 Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
@@ -182,10 +187,9 @@ class GroupFragment : Fragment() {
         binding.spListFaculty.adapter = adapterFaculty
 
         if(savedInstanceState != null)  {
-            viewModel.liveDataGetUniversity.value?.let {
-                adapterUniversity.addAll(it)
+           viewModel.liveDataGetUniversityFaculty.value?.let {
+                adapterUniversity.addAll(it.keys)
             }
-
             viewModel.liveDataGetFaculty.value?.let {
                 adapterFaculty.addAll(it)
             }

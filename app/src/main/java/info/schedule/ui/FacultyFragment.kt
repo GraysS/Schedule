@@ -104,7 +104,7 @@ class FacultyFragment : Fragment() {
 
         viewModel.liveDataAddFaculty.observe(viewLifecycleOwner, Observer {
             if(isLiveData) {
-                binding.etFaculty.text.clear()
+                binding.etFaculty.text?.clear()
                 Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
                 isLiveData = false
             }
@@ -118,6 +118,7 @@ class FacultyFragment : Fragment() {
                         viewModel.accountLogout()
                         findNavController().navigate(R.id.action_facultyFragment_to_choiceFragment)
                     }
+                    ErrorResponseNetwork.BAD_REQUEST == it -> Toast.makeText(context, R.string.error_faculty_duplicate, Toast.LENGTH_LONG).show()
                     ErrorResponseNetwork.NO_NETWORK == it -> Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
                     ErrorResponseNetwork.UNAVAILABLE == it -> Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
                     else -> Toast.makeText(context, R.string.error_lowInternet, Toast.LENGTH_LONG).show()

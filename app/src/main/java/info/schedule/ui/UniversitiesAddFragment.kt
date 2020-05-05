@@ -71,9 +71,9 @@ class UniversitiesAddFragment : Fragment() {
 
         viewModel.liveScheduleAddUniversity.observe(viewLifecycleOwner, Observer {
             if(isLiveData) {
-                binding.etNameUniversity.text.clear()
-                binding.etLocationUniversity.text.clear()
-                binding.etAddressUniversity.text.clear()
+                binding.etNameUniversity.text?.clear()
+                binding.etLocationUniversity.text?.clear()
+                binding.etAddressUniversity.text?.clear()
                 Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
                 isLiveData = false
             }
@@ -87,6 +87,7 @@ class UniversitiesAddFragment : Fragment() {
                         viewModel.accountLogout()
                         findNavController().navigate(R.id.action_universitiesAddFragment_to_choiceFragment)
                     }
+                    ErrorResponseNetwork.BAD_REQUEST == it -> Toast.makeText(context,R.string.error_university,Toast.LENGTH_LONG).show()
                     ErrorResponseNetwork.NO_NETWORK == it -> Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
                     ErrorResponseNetwork.UNAVAILABLE == it -> Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
                     ErrorResponseNetwork.INTERNAL_ERROR == it -> Toast.makeText(context, R.string.error_university, Toast.LENGTH_LONG).show()

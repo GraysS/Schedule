@@ -15,32 +15,54 @@
             android:padding="30dp"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/et_nameUniversity"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:imeOptions="actionNext"
-                android:singleLine="true"
-                android:hint="@string/et_nameUniversities"/>
+                android:hint="@string/et_nameUniversities"
+                style="@style/editText_style">
 
-            <EditText
-                android:id="@+id/et_locationUniversity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:imeOptions="actionNext"
-                android:singleLine="true"
-                android:hint="@string/et_location"/>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_nameUniversity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true" />
 
-            <EditText
-                android:id="@+id/et_addressUniversity"
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:imeOptions="actionDone"
-                android:singleLine="true"
-                android:hint="@string/et_address"/>
+                android:hint="@string/et_location"
+                style="@style/editText_style">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_locationUniversity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/et_address"
+                style="@style/editText_style">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_addressUniversity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btn_addUniversity"

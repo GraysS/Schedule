@@ -40,12 +40,13 @@ class ScheduleApplication : Application() {
         val repeatingRequest = PeriodicWorkRequestBuilder<RefreshDataWorker>(
             1,
             TimeUnit.HOURS)
+            .addTag(RefreshDataWorker.WORK_NAME)
             .setConstraints(containsts)
             .build()
 
         WorkManager.getInstance().enqueueUniquePeriodicWork(
             RefreshDataWorker.WORK_NAME,
-            ExistingPeriodicWorkPolicy.KEEP,
+            ExistingPeriodicWorkPolicy.REPLACE,
             repeatingRequest
         )
     }

@@ -2,10 +2,8 @@ package info.schedule.util
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
-import info.schedule.domain.Account
 import info.schedule.network.ErrorResponseNetwork
 import retrofit2.HttpException
-import timber.log.Timber
 import java.net.HttpURLConnection
 import java.text.SimpleDateFormat
 import java.util.*
@@ -33,10 +31,10 @@ fun handleNetworkError(mutableLiveData: MutableLiveData<ErrorResponseNetwork>) {
 @SuppressLint("SimpleDateFormat")
 fun datesFormat(pattern: String, textlong: Long) : String {
     val outputFormat = SimpleDateFormat(pattern, Locale.getDefault())
-    val strDate: String = outputFormat.format(textlong)
-    return strDate
+    return outputFormat.format(textlong)
 }
 
+/*
 val listOld: MutableList<Any> = mutableListOf()
 
 fun listNoDuplicate(
@@ -77,4 +75,4 @@ fun isDuplicatus(newListAccount: List<Account>,oldListAccount: List<Account>): B
         }
     }
     return isDuplicatus
-}
+}*/

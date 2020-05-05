@@ -107,7 +107,20 @@ data class NetworkUniversityFaculties(val university: NetworkUniversities,
                                       val faculties: List<NetworkFaculty>)
 
 
-fun asNetworkUniversities(getUniversityAndFaculty: List<NetworkUniversityFaculties>) : List<NetworkUniversities> {
+fun asMapKeyUniversityValueFaculty(listNetworkUniversities: List<NetworkUniversityFaculties>) : Map<University,List<Faculty>>
+{
+    val ls : HashMap<University,List<Faculty>> = HashMap()
+
+    listNetworkUniversities.map {
+        ls.put(it.university.asDomainUniversityModel(),asDomainListFacultyModel(it.faculties))
+    }
+
+    return ls
+
+}
+
+
+/*fun asNetworkUniversities(getUniversityAndFaculty: List<NetworkUniversityFaculties>) : List<NetworkUniversities> {
     return getUniversityAndFaculty.map {
         it.university
     }
@@ -132,7 +145,7 @@ fun asNetworkFaculty(getUniversityAndFaculty: List<NetworkUniversityFaculties>) 
         }
     }
     return listNewFaculty
-}
+}*/
 
 
 //NetworkGroup
@@ -162,11 +175,13 @@ data class AddNetworkUniversities(val universityName: String,
 fun NetworkUniversities.asDomainUniversityModel() : University {
     return University(universityName = universityName)
 }
+
 fun asDomainListUniversityModel(listNetworkUniversities: List<NetworkUniversities>) : List<University> {
     return listNetworkUniversities.map {
         University(it.universityName)
     }
 }
+
 
 
 // NetworkAccount
