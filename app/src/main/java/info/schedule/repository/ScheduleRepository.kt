@@ -227,12 +227,8 @@ class ScheduleRepository() {
                 val getUniversityAndFaculty
                         = Network.schedule.getUniversityAndFaculties(token ="Bearer ${databaseAccount.jwtToken}").await()
 
-                // Create Two Collections
-                for (networkUniversityFaculties: NetworkUniversityFaculties in getUniversityAndFaculty) {
-                    scheduleGetUniversity.value = listOf(networkUniversityFaculties.university.asDomainUniversityModel())
-                    scheduleGetFaculty.value =
-                        asDomainListFacultyModel(networkUniversityFaculties.faculties)
-                }
+                scheduleGetUniversity.value = asDomainListUniversityModel(asNetworkUniversities(getUniversityAndFaculty))
+                scheduleGetFaculty.value = asDomainListFacultyModel(asNetworkFaculty(getUniversityAndFaculty))
             }catch (exception: HttpException) {
                 exception.printStackTrace()
                 handleApiError(exception,scheduleGetUniversityFacultyFailure)

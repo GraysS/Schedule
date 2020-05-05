@@ -22,6 +22,7 @@ class StartTimeDialogFragment : DialogFragment() {
 
     private lateinit var dateDialogListener: StartTimeDialogListener
     private var textDate: String = datesFormat("HH:mm",Calendar.getInstance().time.time)
+    private var longDate: Long = Calendar.getInstance().time.time
 
     override fun onCreateDialog(
         savedInstanceState: Bundle?): Dialog {
@@ -48,6 +49,7 @@ class StartTimeDialogFragment : DialogFragment() {
             calendar.set(Calendar.HOUR_OF_DAY,i)
             calendar.set(Calendar.MINUTE,i1)
 
+            longDate = calendar.time.time
             textDate =  datesFormat("HH:mm",calendar.time.time)
             Timber.d(textDate)
         }
@@ -55,15 +57,15 @@ class StartTimeDialogFragment : DialogFragment() {
         return AlertDialog.Builder(context)
             .setView(view)
             .setPositiveButton(android.R.string.ok) { dialogInterface: DialogInterface, i: Int ->
-                dateDialogListener.doPositiveClickStart(textDate)
+                dateDialogListener.doPositiveClickStart(textDate,longDate)
                 dialogInterface.dismiss()
             }
             .setOnCancelListener {
-                dateDialogListener.doPositiveClickStart(textDate)
+                dateDialogListener.doPositiveClickStart(textDate,longDate)
                 it.dismiss()
             }
             .setOnDismissListener {
-                dateDialogListener.doPositiveClickStart(textDate)
+                dateDialogListener.doPositiveClickStart(textDate,longDate)
                 it.dismiss()
             }
             .create()
@@ -71,7 +73,7 @@ class StartTimeDialogFragment : DialogFragment() {
 
 
     interface StartTimeDialogListener : Serializable {
-        fun doPositiveClickStart(textDate: String)
+        fun doPositiveClickStart(textDate: String,longDate: Long)
     }
 
 }

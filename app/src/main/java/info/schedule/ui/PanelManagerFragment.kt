@@ -72,8 +72,12 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
                 viewModel.getLectureRoom() != getString(R.string.lectureRoom)
             )
             {
-                isLiveData = true
-                viewModel.addTeachersUniversityGroups()
+               if(viewModel.getFinishTimeLong() > viewModel.getStartTimeLong()) {
+                   isLiveData = true
+                   viewModel.addTeachersUniversityGroups()
+               }else{
+                   Toast.makeText(context, R.string.time, Toast.LENGTH_LONG).show()
+               }
             } else{
                 Toast.makeText(context, R.string.incorrect, Toast.LENGTH_LONG).show()
             }
@@ -87,8 +91,8 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
             binding.spTypeLecture.setSelection(0)
             binding.spListLectureRoom.setSelection(0)
             viewModel.setDate(getString(R.string.btn_date))
-            viewModel.setStartTime(getString(R.string.btn_startTimeLecture))
-            viewModel.setFinishTime(getString(R.string.btn_finishTimeLecture))
+            viewModel.setStartTime(getString(R.string.btn_startTimeLecture),0)
+            viewModel.setFinishTime(getString(R.string.btn_finishTimeLecture),0)
         }
 
 
@@ -277,12 +281,12 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
         viewModel.setDate(textDate)
     }
 
-    override fun doPositiveClickStart(textDate: String) {
-        viewModel.setStartTime(textDate)
+    override fun doPositiveClickStart(textDate: String, longDate: Long) {
+        viewModel.setStartTime(textDate,longDate)
     }
 
-    override fun doPositiveClickFinish(textDate: String) {
-        viewModel.setFinishTime(textDate)
+    override fun doPositiveClickFinish(textDate: String, longDate: Long) {
+        viewModel.setFinishTime(textDate,longDate)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

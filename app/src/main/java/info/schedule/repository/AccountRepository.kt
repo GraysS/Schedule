@@ -100,6 +100,17 @@ class AccountRepository() {
         }
     }
 
+    suspend fun accountGetAccountDataWork() {
+        withContext(Dispatchers.IO) {
+            val getAccount = Network.schedule.getAccountDataAsync(token="Bearer ${databaseAccount.jwtToken}").await()
+            Timber.d("Name %s ", getAccount.name)
+            Timber.d("Surname %s ", getAccount.surname)
+            Timber.d("Patronymic %s ", getAccount.patronymic)
+            Timber.d("Username %s", getAccount.username)
+            Timber.d("appAccessManager %s ", getAccount.appAccess.managerAccess)
+            Timber.d("appAccessAdmin %s ", getAccount.appAccess.adminAccess)
+        }
+    }
 
     fun getIsAuth() {
         val isAuth = databaseAccount.isAuth

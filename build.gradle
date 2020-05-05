@@ -20,6 +20,8 @@ buildscript {
         version_moshi = "1.8.0"
         version_glide = "4.8.0"
         version_timber = "4.7.1"
+        version_joda = "2.10"
+        version_work = "2.4.0-alpha03"
         version_google_material="1.1.0"
     }
     repositories {

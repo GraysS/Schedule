@@ -103,5 +103,6 @@
     <string name="et_faculty">Факультет</string>
     <string name="et_group">Группа</string>
     <string name="faculty">Факультет</string>
+    <string name="time">Конечное время должно быть больше начального</string>
 
 </resources>

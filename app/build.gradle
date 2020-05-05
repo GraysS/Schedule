@@ -45,7 +45,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version_kotlin"
-
     implementation 'com.android.support:multidex:1.0.3'
 
     // Support libraries
@@ -87,4 +86,10 @@ dependencies {
     // google
     implementation "com.google.android.material:material:$version_google_material"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    // WorkManager
+    implementation "android.arch.work:work-runtime-ktx:$version_work"
+
+    // Joda time library for dealing with time
+    implementation "joda-time:joda-time:$version_joda"
 }

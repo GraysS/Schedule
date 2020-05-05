@@ -22,6 +22,7 @@ class FinishTimeDialogFragment : DialogFragment() {
 
     private lateinit var dateDialogListener: FinishTimeDialogListener
     private var textDate: String = datesFormat("HH:mm", Calendar.getInstance().time.time)
+    private var longDate: Long = Calendar.getInstance().time.time
 
     override fun onCreateDialog(
         savedInstanceState: Bundle?): Dialog {
@@ -48,6 +49,7 @@ class FinishTimeDialogFragment : DialogFragment() {
             calendar.set(Calendar.HOUR_OF_DAY,i)
             calendar.set(Calendar.MINUTE,i1)
 
+            longDate = calendar.time.time
             textDate =  datesFormat("HH:mm",calendar.time.time)
             Timber.d(textDate)
         }
@@ -55,15 +57,15 @@ class FinishTimeDialogFragment : DialogFragment() {
         return AlertDialog.Builder(context)
             .setView(view)
             .setPositiveButton(android.R.string.ok) { dialogInterface: DialogInterface, i: Int ->
-                dateDialogListener.doPositiveClickFinish(textDate)
+                dateDialogListener.doPositiveClickFinish(textDate,longDate)
                 dialogInterface.dismiss()
             }
             .setOnCancelListener {
-                dateDialogListener.doPositiveClickFinish(textDate)
+                dateDialogListener.doPositiveClickFinish(textDate,longDate)
                 it.dismiss()
             }
             .setOnDismissListener {
-                dateDialogListener.doPositiveClickFinish(textDate)
+                dateDialogListener.doPositiveClickFinish(textDate,longDate)
                 it.dismiss()
             }
             .create()
@@ -71,7 +73,7 @@ class FinishTimeDialogFragment : DialogFragment() {
 
 
     interface FinishTimeDialogListener : Serializable {
-        fun doPositiveClickFinish(textDate: String)
+        fun doPositiveClickFinish(textDate: String, longDate: Long)
     }
 
 }

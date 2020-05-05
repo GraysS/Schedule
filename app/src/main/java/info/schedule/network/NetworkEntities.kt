@@ -97,7 +97,7 @@ data class AddNetworkFaculty(val name: String)
 
 fun asDomainListFacultyModel(listNetworkFaculty: List<NetworkFaculty>) : List<Faculty> {
     return listNetworkFaculty.map {
-        Faculty(facultyName = it.facultyName)
+        Faculty(it.facultyName)
     }
 }
 
@@ -106,12 +106,34 @@ fun asDomainListFacultyModel(listNetworkFaculty: List<NetworkFaculty>) : List<Fa
 data class NetworkUniversityFaculties(val university: NetworkUniversities,
                                       val faculties: List<NetworkFaculty>)
 
-/*fun asNetworkUniversityFaculties(listNetworkUniversities: List<NetworkUniversityFaculties>) : NetworkUniversityFaculties {
-    return
-        NetworkUniversityFaculties(
-            lluniversity,
-            it.faculties)
-}*/
+
+fun asNetworkUniversities(getUniversityAndFaculty: List<NetworkUniversityFaculties>) : List<NetworkUniversities> {
+    return getUniversityAndFaculty.map {
+        it.university
+    }
+}
+
+fun asNetworkFaculty(getUniversityAndFaculty: List<NetworkUniversityFaculties>) : List<NetworkFaculty> {
+
+    val listFaculty = mutableListOf<List<NetworkFaculty>>()
+    val listNewFaculty: MutableList<NetworkFaculty> = mutableListOf()
+    val iteratorFaculty: Iterator<NetworkUniversityFaculties> = getUniversityAndFaculty.iterator()
+
+    while (iteratorFaculty.hasNext()) {
+        listFaculty.add(iteratorFaculty.next().faculties)
+    }
+
+    val iteratorFacultyNew = listFaculty.iterator()
+    while (iteratorFacultyNew.hasNext()) {
+        val iteratorFacultyNewNew = iteratorFacultyNew.next()
+        val iteratorFacultyNewNewNew = iteratorFacultyNewNew.iterator()
+        while (iteratorFacultyNewNewNew.hasNext()) {
+            listNewFaculty.add(iteratorFacultyNewNewNew.next())
+        }
+    }
+    return listNewFaculty
+}
+
 
 //NetworkGroup
 @JsonClass(generateAdapter = true)

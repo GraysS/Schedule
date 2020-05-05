@@ -35,6 +35,8 @@ class PanelManagerViewModel (application : Application) : AndroidViewModel(appli
     private lateinit var date: String
     private lateinit var timeStart: String
     private lateinit var timeFinish: String
+    private var timeStartLong: Long = 0
+    private var timeFinishLong: Long = 0
 
     val liveScheduleGetResponseUser : LiveData<List<User>> = scheduleRepository.scheduleGetResponseUsers
     val liveScheduleGetResponseGroup: LiveData<List<Group>> = scheduleRepository.scheduleGetResponseGroup
@@ -95,13 +97,15 @@ class PanelManagerViewModel (application : Application) : AndroidViewModel(appli
         liveScheduleDate.value = date
     }
 
-    fun setStartTime(timeStart: String) {
+    fun setStartTime(timeStart: String,timeStartLong: Long) {
         this.timeStart = timeStart
+        this.timeStartLong = timeStartLong
         liveScheduleStartTime.value = timeStart
     }
 
-    fun setFinishTime(timeFinish: String) {
+    fun setFinishTime(timeFinish: String,timeFinishLong: Long) {
         this.timeFinish = timeFinish
+        this.timeFinishLong = timeFinishLong
         liveScheduleFinishTime.value = timeFinish
     }
 
@@ -116,6 +120,10 @@ class PanelManagerViewModel (application : Application) : AndroidViewModel(appli
     fun getTypeLecture() = typeLecture
 
     fun getLectureRoom() = lectureRoom
+
+    fun getStartTimeLong() = timeStartLong
+
+    fun getFinishTimeLong() = timeFinishLong
 
     override fun onCleared() {
         super.onCleared()
