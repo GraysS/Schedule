@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp() =
         findNavController(R.id.my_nav_host_fragment).navigateUp()
 
-
     private fun setupToolbar() {
         val navController: NavController = findNavController(R.id.my_nav_host_fragment)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)

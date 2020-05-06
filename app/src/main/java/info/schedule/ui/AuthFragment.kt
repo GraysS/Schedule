@@ -19,7 +19,7 @@ import info.schedule.viewmodels.AuthViewModel
 /**
  * A simple [Fragment] subclass.
  */
-class AuthFragment : Fragment() {
+class AuthFragment() : Fragment() {
 
     private var isLiveData: Boolean = false
 

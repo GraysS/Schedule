@@ -4,13 +4,14 @@ package info.schedule.ui
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
-import info.schedule.R
-import info.schedule.databinding.FragmentScheduleBinding
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import info.schedule.R
+import info.schedule.databinding.FragmentScheduleBinding
 import info.schedule.ui.dialog.LogoutDialogFragment
 import info.schedule.viewmodels.ScheduleViewModel
 import timber.log.Timber
@@ -36,6 +37,8 @@ class ScheduleFragment : Fragment(), LogoutDialogFragment.LogoutDialogListener {
             R.layout.fragment_schedule,container,false)
 
         setHasOptionsMenu(true)
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {}
 
         return binding.root
     }

@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import info.schedule.R
 import info.schedule.databinding.FragmentRegistrBinding
 import info.schedule.network.ErrorResponseNetwork
-import info.schedule.network.RegistrNetworkAccount
+import info.schedule.network.RegisterNetworkAccount
 import info.schedule.viewmodels.RegistrViewModel
 
 
@@ -47,7 +47,7 @@ class RegistrFragment : Fragment() {
                binding.etPassword.text?.length!! >= 8) {
                isLiveData = true
                viewModel.registers(
-                   RegistrNetworkAccount(
+                   RegisterNetworkAccount(
                        binding.etName.text.toString(),
                        binding.etSurname.text.toString(),
                        binding.etPatronymic.text.toString(),

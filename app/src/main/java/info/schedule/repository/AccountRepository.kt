@@ -17,8 +17,8 @@ class AccountRepository() {
     private lateinit var customAccountPreferense: DatabaseAccountPreferense
     private lateinit var databaseAccount: DatabaseAccount
 
-    val registrResponse: MutableLiveData<Account> = MutableLiveData()
-    val registrResponseFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
+    val registerResponse: MutableLiveData<String> = MutableLiveData()
+    val registerResponseFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
 
     val authResponse: MutableLiveData<String> = MutableLiveData()
     val authResponseFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
@@ -37,18 +37,22 @@ class AccountRepository() {
     }
 
 
-    suspend fun accountRegistr(networkAccount: RegistrNetworkAccount) {
+    suspend fun accountRegistr(networkAccount: RegisterNetworkAccount) {
         withContext(Dispatchers.Main) {
             try {
-                val networks = Network.schedule.registrationAsync(networkAccount).await()
+                val response = Network.schedule.registrationAsync(networkAccount).await()
 
-                registrResponse.value = networks.asDomainAccountModel()
+                Timber.d("%s",response.code())
+                if(response.code() != 200)
+                    throw HttpException(response)
+
+                registerResponse.value = "Success"
             }catch (exception: HttpException){
                 exception.printStackTrace()
-                handleApiError(exception,registrResponseFailure)
+                handleApiError(exception,registerResponseFailure)
             }catch (unknownHostException: Exception) {
                 unknownHostException.printStackTrace()
-                handleNetworkError(registrResponseFailure)
+                handleNetworkError(registerResponseFailure)
             }
         }
     }

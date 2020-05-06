@@ -24,13 +24,13 @@ enum class ErrorResponseNetwork {
 interface ScheduleService {
 
     @POST("ubs/v1/registration")
-    fun registrationAsync(@Body networkAccount: RegistrNetworkAccount) : Deferred<NetworkAccount>
+    fun registrationAsync(@Body networkAccount: RegisterNetworkAccount) : Deferred<Response<Void>>
 
     @POST("ubs/v1/authenticate")
     fun authorizationAsync(@Body networkAccount: AuthNetworkAccount) : Deferred<NetworkAccountToken>
 
     @GET("ubs/v1/user/get")
-    fun getAccountDataAsync(@Header("Authorization") token: String) : Deferred<NetworkAccountAccess>
+    fun getAccountDataAsync(@Header("Authorization") token: String) : Deferred<NetworkAccount>
 
     @GET("ubs/v1/schedule/get/control")
     fun getScheduleDataAsync(@Header("Authorization") token: String) : Deferred<NetworkSchedule>
@@ -68,7 +68,7 @@ interface ScheduleService {
                         @Body addNetworkFaculty: AddNetworkFaculty) : Deferred<Response<Void>>
 
     @GET("ubs/v1/faculty/find/all")
-    fun getUniversityAndFaculties(@Header("Authorization") token: String) : Deferred<List<NetworkUniversityFaculties>>
+    fun getUniversityAndFacultiesAsync(@Header("Authorization") token: String) : Deferred<List<NetworkUniversityFaculties>>
 
     @POST("ubs/v1/group/add/{universityName}/{facultyName}")
     fun addGroupAsync(@Header("Authorization") token: String,

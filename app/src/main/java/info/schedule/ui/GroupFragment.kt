@@ -140,6 +140,7 @@ class GroupFragment : Fragment() {
         viewModel.liveDataAddGroupFailure.observe(viewLifecycleOwner, Observer {
             if(isLiveData) {
                 when {
+                    ErrorResponseNetwork.BAD_REQUEST == it -> Toast.makeText(context,R.string.error_group_duplicate,Toast.LENGTH_LONG).show()
                     ErrorResponseNetwork.NO_NETWORK == it -> Toast.makeText(
                         context,
                         R.string.error_connect,

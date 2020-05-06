@@ -3,7 +3,7 @@ package info.schedule
 import android.app.Application
 import android.os.Build
 import androidx.work.*
-import info.schedule.work.RefreshDataWorker
+import info.schedule.work.RefreshTokenWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,15 +37,15 @@ class ScheduleApplication : Application() {
                 }
             }.build()
 
-        val repeatingRequest = PeriodicWorkRequestBuilder<RefreshDataWorker>(
-            1,
-            TimeUnit.HOURS)
-            .addTag(RefreshDataWorker.WORK_NAME)
+        val repeatingRequest = PeriodicWorkRequestBuilder<RefreshTokenWorker>(
+            33,
+            TimeUnit.MINUTES)
+            .addTag(RefreshTokenWorker.WORK_NAME)
             .setConstraints(containsts)
             .build()
 
         WorkManager.getInstance().enqueueUniquePeriodicWork(
-            RefreshDataWorker.WORK_NAME,
+            RefreshTokenWorker.WORK_NAME,
             ExistingPeriodicWorkPolicy.REPLACE,
             repeatingRequest
         )

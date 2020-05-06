@@ -5,9 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import info.schedule.domain.Account
 import info.schedule.network.ErrorResponseNetwork
-import info.schedule.network.RegistrNetworkAccount
+import info.schedule.network.RegisterNetworkAccount
 import info.schedule.repository.AccountRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,10 +21,10 @@ class RegistrViewModel(application: Application) : AndroidViewModel(application)
 
     private val accountRepository = AccountRepository()
 
-    val liveRegistrResponse: LiveData<Account> = accountRepository.registrResponse
-    val liveRegistrResponseFailure: LiveData<ErrorResponseNetwork> = accountRepository.registrResponseFailure
+    val liveRegistrResponse: LiveData<String> = accountRepository.registerResponse
+    val liveRegistrResponseFailure: LiveData<ErrorResponseNetwork> = accountRepository.registerResponseFailure
 
-    fun registers(networkAccount: RegistrNetworkAccount) {
+    fun registers(networkAccount: RegisterNetworkAccount) {
         viewModelScope.launch {
             accountRepository.accountRegistr(networkAccount)
         }

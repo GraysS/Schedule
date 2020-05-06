@@ -6,8 +6,9 @@ import androidx.work.WorkerParameters
 import info.schedule.database.DatabaseAccountPreferense
 import info.schedule.repository.AccountRepository
 import retrofit2.HttpException
+import timber.log.Timber
 
-class RefreshDataWorker(appContext: Context, params: WorkerParameters):
+class RefreshTokenWorker(appContext: Context, params: WorkerParameters):
     CoroutineWorker(appContext,params) {
 
     companion object {
@@ -19,10 +20,12 @@ class RefreshDataWorker(appContext: Context, params: WorkerParameters):
 
         return try {
             repository.accountGetAccountDataWork()
+            Timber.d("accountSuccess")
             Result.success()
         }catch (exception: HttpException) {
             when(exception.code()) {
                 403 -> {
+                    Timber.d("accountLoogout")
                     repository.accountLogout()
                     Result.success()
                 }

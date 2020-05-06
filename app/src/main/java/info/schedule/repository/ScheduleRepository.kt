@@ -226,9 +226,9 @@ class ScheduleRepository() {
         withContext(Dispatchers.Main) {
             try {
                 val getUniversityAndFaculty
-                        = Network.schedule.getUniversityAndFaculties(token ="Bearer ${databaseAccount.jwtToken}").await()
+                        = Network.schedule.getUniversityAndFacultiesAsync(token ="Bearer ${databaseAccount.jwtToken}").await()
 
-                scheduleGetUniversityFaculty.value = asMapKeyUniversityValueFaculty(getUniversityAndFaculty)
+                scheduleGetUniversityFaculty.value = asDomainMapKeyUniversityValueFaculty(getUniversityAndFaculty)
                // scheduleGetUniversity.value = asDomainListUniversityModel(asNetworkUniversities(getUniversityAndFaculty))
              //   scheduleGetFaculty.value = asDomainListFacultyModel(asNetworkFaculty(getUniversityAndFaculty))
             }catch (exception: HttpException) {

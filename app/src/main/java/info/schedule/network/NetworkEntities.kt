@@ -58,12 +58,13 @@ data class NetworkUsersRole(val name: String="",
     }
 
 }
+@JsonClass(generateAdapter = true)
+data class Role(val role: String)
+
 
 @JsonClass(generateAdapter = true)
 data class NetworkRole(val name: String)
 
-@JsonClass(generateAdapter = true)
-data class Role(val role: String)
 
 fun asDomainListUsersRoleModel(listNetworkUsersRole: List<NetworkUsersRole>) : List<UserRole> {
     return listNetworkUsersRole.map {
@@ -107,7 +108,7 @@ data class NetworkUniversityFaculties(val university: NetworkUniversities,
                                       val faculties: List<NetworkFaculty>)
 
 
-fun asMapKeyUniversityValueFaculty(listNetworkUniversities: List<NetworkUniversityFaculties>) : Map<University,List<Faculty>>
+fun asDomainMapKeyUniversityValueFaculty(listNetworkUniversities: List<NetworkUniversityFaculties>) : Map<University,List<Faculty>>
 {
     val ls : HashMap<University,List<Faculty>> = HashMap()
 
@@ -186,7 +187,7 @@ fun asDomainListUniversityModel(listNetworkUniversities: List<NetworkUniversitie
 
 // NetworkAccount
 @JsonClass(generateAdapter = true)
-data class RegistrNetworkAccount(val name: String,
+data class RegisterNetworkAccount(val name: String,
                                   val surname: String,
                                   val patronymic: String,
                                   val username: String,
@@ -196,19 +197,13 @@ data class RegistrNetworkAccount(val name: String,
 data class AuthNetworkAccount(val username: String,
                               val password: String)
 
-@JsonClass(generateAdapter = true)
-data class NetworkAccount(
-    val name: String="",
-    val surname: String="",
-    val patronymic: String="",
-    val username: String="")
 
 @JsonClass(generateAdapter = true)
 data class NetworkAccountToken(val jwtToken: String="")
 
 
 @JsonClass(generateAdapter = true)
-data class NetworkAccountAccess(
+data class NetworkAccount(
     val name: String="",
     val surname: String="",
     val patronymic: String="",
@@ -227,16 +222,6 @@ data class AppAccess(@Json(name = "managerAccess") val managerAccess: Boolean = 
                      @Json(name = "adminAccess") val adminAccess: Boolean = false,
                      @Json(name = "teacherAccess") val teacherAccess: Boolean = false,
                      @Json(name = "userAccess") val userAccess: Boolean = false)
-
-
-
-
-fun NetworkAccountAccess.asDomainAccountModel() : Account {
-    return Account(name = name,
-                    surname =  surname,
-                    patronymic = patronymic,
-                    username = username)
-}
 
 
 fun NetworkAccount.asDomainAccountModel() : Account {

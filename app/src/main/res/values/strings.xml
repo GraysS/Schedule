@@ -105,5 +105,6 @@
     <string name="faculty">Факультет</string>
     <string name="time">Конечное время должно быть больше начального</string>
     <string name="error_faculty_duplicate">Такой факультет уже есть в этом учреждение</string>
+    <string name="error_group_duplicate">Такая группа уже есть на таком учреждение и факультете</string>
 
 </resources>
