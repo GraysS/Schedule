@@ -111,15 +111,26 @@ class UniversitiesEditFragment : Fragment() {
         })
 
         viewModel.liveDataGetUniversityFailure.observe(viewLifecycleOwner, Observer {
-            when {
-                ErrorResponseNetwork.NO_NETWORK == it -> Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
-                ErrorResponseNetwork.UNAVAILABLE == it -> Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
-                ErrorResponseNetwork.FORBIDDEN == it -> {
-                    Toast.makeText(context, R.string.reauth, Toast.LENGTH_LONG).show()
-                    viewModel.accountLogout()
-                    findNavController().navigate(R.id.action_universitiesEditFragment_to_choiceFragment)
+            if(savedInstanceState == null) {
+                when {
+                    ErrorResponseNetwork.NO_NETWORK == it -> Toast.makeText(
+                        context,
+                        R.string.error_connect,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    ErrorResponseNetwork.UNAVAILABLE == it -> Toast.makeText(
+                        context,
+                        R.string.error_service,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    ErrorResponseNetwork.FORBIDDEN == it -> {
+                        Toast.makeText(context, R.string.reauth, Toast.LENGTH_LONG).show()
+                        viewModel.accountLogout()
+                        findNavController().navigate(R.id.action_universitiesEditFragment_to_choiceFragment)
+                    }
+                    else -> Toast.makeText(context, R.string.error_lowInternet, Toast.LENGTH_LONG)
+                        .show()
                 }
-                else -> Toast.makeText(context, R.string.error_lowInternet, Toast.LENGTH_LONG).show()
             }
         })
 

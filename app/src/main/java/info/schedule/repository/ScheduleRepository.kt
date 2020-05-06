@@ -19,8 +19,8 @@ class ScheduleRepository() {
     private lateinit var databaseAccount: DatabaseAccount
 
     val scheduleGetResponseUsers: MutableLiveData<List<User>> = MutableLiveData()
-    val scheduleGetResponseGroup: MutableLiveData<List<Group>> = MutableLiveData()
-    val scheduleGetResponseUniversities: MutableLiveData<List<University>> = MutableLiveData()
+    //val scheduleGetResponseGroup: MutableLiveData<List<Group>> = MutableLiveData()
+    val scheduleGetResponseUniversitiesGroup: MutableLiveData<Map<University, List<Group>>> = MutableLiveData()
     val scheduleGetResponseFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
 
     val scheduleAddteachersUniversityGroups: MutableLiveData<String> = MutableLiveData()
@@ -46,8 +46,6 @@ class ScheduleRepository() {
     val scheduleAddFaculty: MutableLiveData<String> = MutableLiveData()
     val scheduleAddFacultyFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
 
-   // val scheduleGetUniversity: MutableLiveData<List<University>> = MutableLiveData()
-    //val scheduleGetFaculty: MutableLiveData<List<Faculty>> = MutableLiveData()
     val scheduleGetUniversityFaculty: MutableLiveData<Map<University,List<Faculty>>> = MutableLiveData()
     val scheduleGetUniversityFacultyFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
 
@@ -64,8 +62,7 @@ class ScheduleRepository() {
             try {
                 val getTeachers: NetworkSchedule = Network.schedule.getScheduleDataAsync(token = "Bearer ${databaseAccount.jwtToken}").await()
                 scheduleGetResponseUsers.value = asDomainListUsersModel(getTeachers.users)
-                scheduleGetResponseGroup.value = asDomainListGroupModel(getTeachers.groups)
-                scheduleGetResponseUniversities.value = asDomainListUniversityModel(getTeachers.universities)
+                scheduleGetResponseUniversitiesGroup.value = getTeachers.asDomainMapKeyUniversityValueGroup()
             }catch (exception: HttpException) {
                 exception.printStackTrace()
                 handleApiError(exception,scheduleGetResponseFailure)
@@ -229,8 +226,6 @@ class ScheduleRepository() {
                         = Network.schedule.getUniversityAndFacultiesAsync(token ="Bearer ${databaseAccount.jwtToken}").await()
 
                 scheduleGetUniversityFaculty.value = asDomainMapKeyUniversityValueFaculty(getUniversityAndFaculty)
-               // scheduleGetUniversity.value = asDomainListUniversityModel(asNetworkUniversities(getUniversityAndFaculty))
-             //   scheduleGetFaculty.value = asDomainListFacultyModel(asNetworkFaculty(getUniversityAndFaculty))
             }catch (exception: HttpException) {
                 exception.printStackTrace()
                 handleApiError(exception,scheduleGetUniversityFacultyFailure)

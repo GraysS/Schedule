@@ -18,8 +18,24 @@ data class AddNetworkSchedule(val subjectName: String,
 
 @JsonClass(generateAdapter = true)
 data class NetworkSchedule(val users: List<NetworkUsers>,
-                           val groups: List<NetworkGroup>,
-                           val universities:List<NetworkUniversities>)
+                           val universities: List<NetworkUniversityGroups> )
+
+fun NetworkSchedule.asDomainMapKeyUniversityValueGroup() : Map<University,List<Group>>
+{
+    val ls: HashMap<University, List<Group>> = HashMap()
+
+    universities.map {
+        ls.put(it.university.asDomainUniversityModel(), asDomainListGroupModel(it.groups))
+    }
+
+    return ls
+}
+
+//NetworkUniversityGroups
+@JsonClass(generateAdapter = true)
+data class NetworkUniversityGroups(val university: NetworkUniversities,
+                                   val groups: List<NetworkGroup>)
+
 
 
 //NetworkUsers
@@ -119,34 +135,6 @@ fun asDomainMapKeyUniversityValueFaculty(listNetworkUniversities: List<NetworkUn
     return ls
 
 }
-
-
-/*fun asNetworkUniversities(getUniversityAndFaculty: List<NetworkUniversityFaculties>) : List<NetworkUniversities> {
-    return getUniversityAndFaculty.map {
-        it.university
-    }
-}
-
-fun asNetworkFaculty(getUniversityAndFaculty: List<NetworkUniversityFaculties>) : List<NetworkFaculty> {
-
-    val listFaculty = mutableListOf<List<NetworkFaculty>>()
-    val listNewFaculty: MutableList<NetworkFaculty> = mutableListOf()
-    val iteratorFaculty: Iterator<NetworkUniversityFaculties> = getUniversityAndFaculty.iterator()
-
-    while (iteratorFaculty.hasNext()) {
-        listFaculty.add(iteratorFaculty.next().faculties)
-    }
-
-    val iteratorFacultyNew = listFaculty.iterator()
-    while (iteratorFacultyNew.hasNext()) {
-        val iteratorFacultyNewNew = iteratorFacultyNew.next()
-        val iteratorFacultyNewNewNew = iteratorFacultyNewNew.iterator()
-        while (iteratorFacultyNewNewNew.hasNext()) {
-            listNewFaculty.add(iteratorFacultyNewNewNew.next())
-        }
-    }
-    return listNewFaculty
-}*/
 
 
 //NetworkGroup

@@ -126,8 +126,13 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
             ) {
 
                 val university: University? = adapterUniversity.getItem(position)
-                if(university != null)
+                if(university != null) {
+                    if(viewModel.getIsFaculty()) {
+                        adapterGroup.clear()
+                        adapterGroup.add(Group(getString(R.string.groups)))
+                    }
                     viewModel.setUniversity(university)
+                }
             }
         }
 
@@ -220,24 +225,35 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
                 adapterUser.addAll(it)
         })
 
-        viewModel.liveScheduleGetResponseGroup.observe(viewLifecycleOwner, Observer {
+        viewModel.liveScheduleGetResponseUniversityGroup.observe(viewLifecycleOwner, Observer {
             if(savedInstanceState == null)
+                adapterUniversity.addAll(it.keys)
+
+        })
+
+        viewModel.liveScheduleGetResponseGroup.observe(viewLifecycleOwner, Observer {
+            if(savedInstanceState == null || adapterGroup.count == 1)
                 adapterGroup.addAll(it)
         })
 
-        viewModel.liveScheduleGetResponseUniversity.observe(viewLifecycleOwner, Observer {
-            if(savedInstanceState == null)
-                adapterUniversity.addAll(it)
-        })
-
         viewModel.liveScheduleGetResponseFailure.observe(viewLifecycleOwner, Observer {
-            when {
-                ErrorResponseNetwork.NO_NETWORK == it -> Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
-                ErrorResponseNetwork.UNAVAILABLE == it -> Toast.makeText(context, R.string.error_service, Toast.LENGTH_LONG).show()
-                ErrorResponseNetwork.FORBIDDEN == it -> {
-                    Toast.makeText(context, R.string.reauth, Toast.LENGTH_LONG).show()
-                    viewModel.accountLogout()
-                    findNavController().navigate(R.id.action_panelManagerFragment_to_choiceFragment)
+            if(savedInstanceState == null) {
+                when {
+                    ErrorResponseNetwork.NO_NETWORK == it -> Toast.makeText(
+                        context,
+                        R.string.error_connect,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    ErrorResponseNetwork.UNAVAILABLE == it -> Toast.makeText(
+                        context,
+                        R.string.error_service,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    ErrorResponseNetwork.FORBIDDEN == it -> {
+                        Toast.makeText(context, R.string.reauth, Toast.LENGTH_LONG).show()
+                        viewModel.accountLogout()
+                        findNavController().navigate(R.id.action_panelManagerFragment_to_choiceFragment)
+                    }
                 }
             }
         })
@@ -323,8 +339,8 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
             viewModel.liveScheduleGetResponseGroup.value?.let {
                 adapterGroup.addAll(it)
             }
-            viewModel.liveScheduleGetResponseUniversity.value?.let {
-                adapterUniversity.addAll(it)
+            viewModel.liveScheduleGetResponseUniversityGroup.value?.let {
+                adapterUniversity.addAll(it.keys)
             }
             binding.run {
                 spListSearchesTeacher.setSelection(adapterUser.getPosition(viewModel.getUser()))

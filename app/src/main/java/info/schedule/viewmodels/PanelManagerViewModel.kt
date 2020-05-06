@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class PanelManagerViewModel (application : Application) : AndroidViewModel(application)  {
 
@@ -37,10 +38,13 @@ class PanelManagerViewModel (application : Application) : AndroidViewModel(appli
     private lateinit var timeFinish: String
     private var timeStartLong: Long = 0
     private var timeFinishLong: Long = 0
+    private var isLiveFaculty: Boolean = false
+
 
     val liveScheduleGetResponseUser : LiveData<List<User>> = scheduleRepository.scheduleGetResponseUsers
-    val liveScheduleGetResponseGroup: LiveData<List<Group>> = scheduleRepository.scheduleGetResponseGroup
-    val liveScheduleGetResponseUniversity: LiveData<List<University>> = scheduleRepository.scheduleGetResponseUniversities
+   // val liveScheduleGetResponseGroup: LiveData<List<Group>> = scheduleRepository.scheduleGetResponseGroup
+    val liveScheduleGetResponseUniversityGroup: LiveData<Map<University,List<Group>>> = scheduleRepository.scheduleGetResponseUniversitiesGroup
+    val liveScheduleGetResponseGroup: MutableLiveData<List<Group>> = MutableLiveData()
     val liveScheduleGetResponseFailure: LiveData<ErrorResponseNetwork> = scheduleRepository.scheduleGetResponseFailure
 
     val liveScheduleAddTeachersUniversityGroups : LiveData<String> = scheduleRepository.scheduleAddteachersUniversityGroups
@@ -78,6 +82,14 @@ class PanelManagerViewModel (application : Application) : AndroidViewModel(appli
 
     fun setUniversity(university: University) {
         this.university = university
+        try {
+            if (liveScheduleGetResponseUniversityGroup.value?.get(university)?.size!! > 0)
+            {
+                isLiveFaculty = true
+                liveScheduleGetResponseGroup.value = liveScheduleGetResponseUniversityGroup.value?.get(university)
+            }
+        } catch (e: Exception) {
+        }
     }
 
     fun setSubjectName(subjectName: String) {
@@ -124,6 +136,8 @@ class PanelManagerViewModel (application : Application) : AndroidViewModel(appli
     fun getStartTimeLong() = timeStartLong
 
     fun getFinishTimeLong() = timeFinishLong
+
+    fun getIsFaculty() = isLiveFaculty
 
     override fun onCleared() {
         super.onCleared()

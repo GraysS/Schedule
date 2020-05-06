@@ -76,9 +76,9 @@ class GroupViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getIsFaculty() = isLiveFaculty
 
-    fun setIsFaculty(isLiveFaculty: Boolean) {
+  /*  fun setIsFaculty(isLiveFaculty: Boolean) {
         this.isLiveFaculty = isLiveFaculty
-    }
+    }*/
 
     override fun onCleared() {
         super.onCleared()
