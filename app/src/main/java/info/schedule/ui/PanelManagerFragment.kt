@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -221,23 +222,27 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
 
 
         viewModel.liveScheduleGetResponseUser.observe(viewLifecycleOwner, Observer {
-            if(savedInstanceState == null)
+            if(savedInstanceState == null || adapterUser.count == 1) {
                 adapterUser.addAll(it)
+            }
         })
 
         viewModel.liveScheduleGetResponseUniversityGroup.observe(viewLifecycleOwner, Observer {
-            if(savedInstanceState == null)
+            if(savedInstanceState == null || adapterUniversity.count == 1) {
                 adapterUniversity.addAll(it.keys)
-
+                binding.pbLoading.visibility = View.INVISIBLE
+                binding.llAddovs.visibility = View.VISIBLE
+            }
         })
 
         viewModel.liveScheduleGetResponseGroup.observe(viewLifecycleOwner, Observer {
-            if(savedInstanceState == null || adapterGroup.count == 1)
+            if(savedInstanceState == null || adapterGroup.count == 1) {
                 adapterGroup.addAll(it)
+            }
         })
 
         viewModel.liveScheduleGetResponseFailure.observe(viewLifecycleOwner, Observer {
-            if(savedInstanceState == null) {
+            if(savedInstanceState == null || binding.pbLoading.isVisible) {
                 when {
                     ErrorResponseNetwork.NO_NETWORK == it -> Toast.makeText(
                         context,
@@ -341,6 +346,8 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
             }
             viewModel.liveScheduleGetResponseUniversityGroup.value?.let {
                 adapterUniversity.addAll(it.keys)
+                binding.pbLoading.visibility = View.INVISIBLE
+                binding.llAddovs.visibility = View.VISIBLE
             }
             binding.run {
                 spListSearchesTeacher.setSelection(adapterUser.getPosition(viewModel.getUser()))

@@ -1,44 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.RoleFragment">
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top">
 
-        <LinearLayout
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
+            android:id="@+id/scrollView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_margin="30dp"
-            android:orientation="vertical">
+            android:fillViewport="true">
 
-            <Spinner
-                android:id="@+id/sp_listUser"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                style="@style/spinner_style"/>
+                <LinearLayout
+                    android:id="@+id/ll_addovs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="30dp"
+                    android:visibility="invisible">
 
-            <Spinner
-                android:id="@+id/sp_listRoles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:entries="@array/array_roles"
-                style="@style/spinner_style"/>
+                    <Spinner
+                        android:id="@+id/sp_listUser"
+                        style="@style/spinner_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp" />
 
-            <Button
-                android:id="@+id/btn_assign"
-                android:layout_height="wrap_content"
+                    <Spinner
+                        android:id="@+id/sp_listRoles"
+                        style="@style/spinner_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:entries="@array/array_roles" />
+
+                    <Button
+                        android:id="@+id/btn_assign"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="200dp"
+                        android:text="@string/btn_assign" />
+
+                </LinearLayout>
+            </ScrollView>
+
+            <ProgressBar
+                android:id="@+id/pb_loading"
                 android:layout_width="wrap_content"
-                android:minWidth="200dp"
-                android:text="@string/btn_assign"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:minWidth="40dp"
+                android:minHeight="40dp"
                 />
-
-
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+    </FrameLayout>
 
 </layout>

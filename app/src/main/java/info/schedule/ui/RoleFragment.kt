@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -102,9 +103,11 @@ class RoleFragment : Fragment() {
 
 
         viewModel.liveDataGetUsersRole.observe(viewLifecycleOwner, Observer {
-            if(savedInstanceState == null  && isLiveFirstData) {
+            if(savedInstanceState == null  && isLiveFirstData || adapterUsersRole.count == 1) {
                 adapterUsersRole.addAll(it)
                 isLiveFirstData = false
+                binding.pbLoading.visibility = View.INVISIBLE
+                binding.llAddovs.visibility = View.VISIBLE
             }
         })
 
@@ -126,7 +129,7 @@ class RoleFragment : Fragment() {
         })
 
         viewModel.liveDataGetUsersRoleFailure.observe(viewLifecycleOwner, Observer {
-            if(savedInstanceState == null) {
+            if(savedInstanceState == null || binding.pbLoading.isVisible) {
                 when {
                     ErrorResponseNetwork.NO_NETWORK == it -> Toast.makeText(
                         context,
@@ -203,6 +206,8 @@ class RoleFragment : Fragment() {
         if(savedInstanceState != null)  {
             viewModel.liveDataGetUsersRole.value?.let {
                 adapterUsersRole.addAll(it)
+                binding.pbLoading.visibility = View.INVISIBLE
+                binding.llAddovs.visibility = View.VISIBLE
             }
 
             binding.spListUser.setSelection(adapterUsersRole.getPosition(viewModel.getUsersRole()))

@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -94,9 +95,11 @@ class UniversitiesEditFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.liveDataGetUniversity.observe(viewLifecycleOwner, Observer {
-            if(savedInstanceState == null && isLiveFirstData) {
+            if(savedInstanceState == null && isLiveFirstData  || adapterUniversity.count == 1) {
                 adapterUniversity.addAll(it)
                 isLiveFirstData = false
+                binding.pbLoading.visibility = View.INVISIBLE
+                binding.llAddovs.visibility = View.VISIBLE
             }
         })
 
@@ -111,7 +114,7 @@ class UniversitiesEditFragment : Fragment() {
         })
 
         viewModel.liveDataGetUniversityFailure.observe(viewLifecycleOwner, Observer {
-            if(savedInstanceState == null) {
+            if(savedInstanceState == null || binding.pbLoading.isVisible) {
                 when {
                     ErrorResponseNetwork.NO_NETWORK == it -> Toast.makeText(
                         context,
@@ -185,6 +188,8 @@ class UniversitiesEditFragment : Fragment() {
         if(savedInstanceState != null)  {
             viewModel.liveDataGetUniversity.value?.let {
                 adapterUniversity.addAll(it)
+                binding.pbLoading.visibility = View.INVISIBLE
+                binding.llAddovs.visibility = View.VISIBLE
             }
            binding.spListUniversity.setSelection(adapterUniversity.getPosition(viewModel.getOldUniversity()))
         }

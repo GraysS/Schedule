@@ -1,84 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.UniversitiesEditFragment">
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
 
-        <LinearLayout
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/scrollView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:padding="30dp"
-            android:orientation="vertical">
+            android:layout_gravity="center_vertical"
+            android:fillViewport="true">
 
-            <Spinner
-                android:id="@+id/sp_listUniversity"
+            <LinearLayout
+                android:id="@+id/ll_addovs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                style="@style/spinner_style"/>
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="30dp"
+                android:visibility="invisible">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/et_nameUniversities"
-                style="@style/editText_style">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_nameUniversity"
+                <Spinner
+                    android:id="@+id/sp_listUniversity"
+                    style="@style/spinner_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:imeOptions="actionNext"
-                    android:singleLine="true" />
+                    android:layout_marginBottom="10dp" />
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/et_location"
-                style="@style/editText_style">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_locationUniversity"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/editText_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:imeOptions="actionNext"
-                    android:singleLine="true" />
+                    android:hint="@string/et_nameUniversities">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_nameUniversity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:imeOptions="actionNext"
+                        android:singleLine="true" />
 
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/et_address"
-                style="@style/editText_style">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_addressUniversity"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/editText_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:imeOptions="actionDone"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:hint="@string/et_location">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_locationUniversity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:imeOptions="actionNext"
+                        android:singleLine="true" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
 
-            <Button
-                android:id="@+id/btn_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="200dp"
-                android:text="@string/btn_edit"
-                />
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/editText_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/et_address">
 
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_addressUniversity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <Button
+                    android:id="@+id/btn_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="200dp"
+                    android:text="@string/btn_edit" />
+            </LinearLayout>
+
+        </ScrollView>
+
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:minWidth="40dp"
+            android:minHeight="40dp"
+            />
+    </FrameLayout>
 
 </layout>

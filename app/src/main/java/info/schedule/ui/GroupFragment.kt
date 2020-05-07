@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -106,8 +107,11 @@ class GroupFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.liveDataGetUniversityFaculty.observe(viewLifecycleOwner, Observer {
-            if(savedInstanceState == null)
+            if(savedInstanceState == null  || adapterUniversity.count == 1 ) {
                 adapterUniversity.addAll(it.keys)
+                binding.pbLoading.visibility = View.INVISIBLE
+                binding.llAddovs.visibility = View.VISIBLE
+            }
         })
         viewModel.liveDataGetFaculty.observe(viewLifecycleOwner, Observer {
             if(savedInstanceState == null || adapterFaculty.count == 1) {
@@ -115,7 +119,7 @@ class GroupFragment : Fragment() {
             }
         })
         viewModel.liveDataGetUniversityFacultyFailure.observe(viewLifecycleOwner, Observer {
-            if(savedInstanceState == null) {
+            if(savedInstanceState == null || binding.pbLoading.isVisible) {
                 when {
                     ErrorResponseNetwork.NO_NETWORK == it -> Toast.makeText(
                         context,
@@ -200,7 +204,9 @@ class GroupFragment : Fragment() {
 
         if(savedInstanceState != null)  {
            viewModel.liveDataGetUniversityFaculty.value?.let {
-                adapterUniversity.addAll(it.keys)
+               adapterUniversity.addAll(it.keys)
+               binding.pbLoading.visibility = View.INVISIBLE
+               binding.llAddovs.visibility = View.VISIBLE
             }
             viewModel.liveDataGetFaculty.value?.let {
                 adapterFaculty.addAll(it)

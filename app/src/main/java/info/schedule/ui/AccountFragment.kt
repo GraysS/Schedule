@@ -6,6 +6,7 @@ package info.schedule.ui
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -68,7 +69,7 @@ class AccountFragment : Fragment() {
         })
 
         viewModel.liveAccountResponseFailure.observe(viewLifecycleOwner, Observer {
-            if(savedInstanceState == null) {
+            if(savedInstanceState == null || binding.pbLoading.isVisible) {
                 when {
                     ErrorResponseNetwork.NO_NETWORK == it -> {
                         Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show()
