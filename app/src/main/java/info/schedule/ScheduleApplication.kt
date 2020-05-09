@@ -38,8 +38,8 @@ class ScheduleApplication : Application() {
             }.build()
 
         val repeatingRequest = PeriodicWorkRequestBuilder<RefreshTokenWorker>(
-            33,
-            TimeUnit.MINUTES)
+            1,
+            TimeUnit.HOURS)
             .addTag(RefreshTokenWorker.WORK_NAME)
             .setConstraints(containsts)
             .build()

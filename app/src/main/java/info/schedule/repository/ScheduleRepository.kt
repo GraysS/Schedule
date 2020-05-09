@@ -3,11 +3,13 @@
 package info.schedule.repository
 
 import androidx.lifecycle.MutableLiveData
+import com.squareup.moshi.JsonDataException
 import info.schedule.database.DatabaseAccount
 import info.schedule.database.DatabaseAccountPreferense
 import info.schedule.domain.*
 import info.schedule.network.*
 import info.schedule.util.handleApiError
+import info.schedule.util.handleDataError
 import info.schedule.util.handleNetworkError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -52,6 +54,9 @@ class ScheduleRepository() {
     val scheduleAddGroup: MutableLiveData<String> = MutableLiveData()
     val scheduleAddGroupFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
 
+    val scheduleGetSchedule: MutableLiveData<List<Schedule>> = MutableLiveData()
+    val scheduleGetScheduleFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
+
 
     constructor(customAccountPreferense: DatabaseAccountPreferense) : this() {
         this.databaseAccount = customAccountPreferense.asDatabaseAccountModel()
@@ -60,7 +65,7 @@ class ScheduleRepository() {
     suspend fun scheduleGetData() {
         withContext(Dispatchers.Main) {
             try {
-                val getTeachers: NetworkSchedule = Network.schedule.getScheduleDataAsync(token = "Bearer ${databaseAccount.jwtToken}").await()
+                val getTeachers: NetworkUsersUniversityGroups = Network.schedule.getScheduleDataAsync(token = "Bearer ${databaseAccount.jwtToken}").await()
                 scheduleGetResponseUsers.value = asDomainListUsersModel(getTeachers.users)
                 scheduleGetResponseUniversitiesGroup.value = getTeachers.asDomainMapKeyUniversityValueGroup()
             }catch (exception: HttpException) {
@@ -173,12 +178,12 @@ class ScheduleRepository() {
         }
     }
 
-    suspend fun scheduleAssignUserRole(username: String,role: NetworkRole) {
+    suspend fun scheduleAssignUserRole(username: String, roleAdd: AddNetworkRole) {
         withContext(Dispatchers.Main) {
             try {
                 val response =  Network.schedule.assignUserRoleAsync(token ="Bearer ${databaseAccount.jwtToken}",
                         username = username,
-                        name = role).await()
+                        name = roleAdd).await()
 
                 Timber.d("%s",response.code())
                 if(response.code() != 200)
@@ -257,8 +262,81 @@ class ScheduleRepository() {
         }
     }
 
+    suspend fun scheduleGetMainSchedule(universityName: String,dateStart: String) {
+        withContext(Dispatchers.Main) {
+            try {
+                val responseGet = Network.schedule.getMainScheduleAsync(universityName,dateStart).await()
 
+                scheduleGetSchedule.value = asDomainListScheduleModel(responseGet)
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception,scheduleGetScheduleFailure)
+            }catch (json: JsonDataException)    {
+                json.printStackTrace()
+                handleDataError(scheduleGetScheduleFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleGetScheduleFailure)
+            }
+        }
+    }
 
+    suspend fun scheduleGetMainEndDaySchedule(universityName: String,dateStart: String,dateFinish: String) {
+        withContext(Dispatchers.Main) {
+            try {
+                val responseGet = Network.schedule.getMainScheduleEndDayAsync(universityName,dateStart,dateFinish).await()
+
+                scheduleGetSchedule.value = asDomainListScheduleModel(responseGet)
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception,scheduleGetScheduleFailure)
+            }catch (json: JsonDataException)    {
+                json.printStackTrace()
+                handleDataError(scheduleGetScheduleFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleGetScheduleFailure)
+            }
+        }
+    }
+
+   suspend fun scheduleGetMainEndDayGroupSchedule(universityName: String,groupName:String,dateStart: String,dateFinish: String) {
+        withContext(Dispatchers.Main) {
+            try {
+                val responseGet = Network.schedule.getMainScheduleEndDayGroupAsync(universityName,groupName,dateStart,dateFinish).await()
+
+                scheduleGetSchedule.value = asDomainListScheduleModel(responseGet)
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception,scheduleGetScheduleFailure)
+            }catch (json: JsonDataException)    {
+                json.printStackTrace()
+                handleDataError(scheduleGetScheduleFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleGetScheduleFailure)
+            }
+        }
+    }
+
+    suspend fun scheduleGetMainGroupSchedule(universityName: String,groupName:String,dateStart: String) {
+        withContext(Dispatchers.Main) {
+            try {
+                val responseGet = Network.schedule.getMainScheduleGroupAsync(universityName,groupName,dateStart).await()
+
+                scheduleGetSchedule.value = asDomainListScheduleModel(responseGet)
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception, scheduleGetScheduleFailure)
+            }catch (json: JsonDataException)    {
+                json.printStackTrace()
+                handleDataError(scheduleGetScheduleFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleGetScheduleFailure)
+            }
+        }
+    }
 
 
 

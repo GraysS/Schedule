@@ -10,6 +10,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fillViewport="true">
+
                         <LinearLayout
                             android:id="@+id/ll_addovs"
                             android:layout_width="match_parent"
@@ -18,6 +19,7 @@
                             android:orientation="vertical"
                             android:padding="30dp"
                             android:visibility="invisible">
+
                                 <Spinner
                                     android:id="@+id/sp_listSearchesTeacher"
                                     style="@style/spinner_style"
@@ -30,8 +32,7 @@
                                     style="@style/spinner_style"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginBottom="20dp"
-                                    android:entries="@array/array_university" />
+                                    android:layout_marginBottom="20dp" />
 
 
                                 <Spinner
@@ -39,8 +40,7 @@
                                     style="@style/spinner_style"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginBottom="20dp"
-                                    android:entries="@array/array_groups" />
+                                    android:layout_marginBottom="20dp" />
 
                                 <Spinner
                                     android:id="@+id/sp_listSubjectName"

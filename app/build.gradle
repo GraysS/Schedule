@@ -89,4 +89,5 @@ dependencies {
     // Joda time library for dealing with time
     implementation "joda-time:joda-time:$version_joda"
 
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

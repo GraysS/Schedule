@@ -67,3 +67,18 @@ data class Faculty(val facultyName: String) {
         return facultyName
     }
 }
+
+
+data class Schedule(val subjectName: String,
+                    val typeLecture: String,
+                    val lectureRoom: String,
+                    val groupName: String,
+                    val nameUser: String,
+                    val surnameUser: String,
+                    val patronymicUser: String,
+                    val universityName: String,
+                    val date: String,
+                    val startLecture: String,
+                    val finishLecture: String) {
+
+}

@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import info.schedule.database.DatabaseAccountPreferense
 import info.schedule.domain.UserRole
 import info.schedule.network.ErrorResponseNetwork
-import info.schedule.network.NetworkRole
+import info.schedule.network.AddNetworkRole
 import info.schedule.repository.AccountRepository
 import info.schedule.repository.ScheduleRepository
 import kotlinx.coroutines.CoroutineScope
@@ -44,7 +44,7 @@ class RoleViewModel(application: Application) : AndroidViewModel(application) {
 
     fun assignUserRole() {
         viewModelScope.launch {
-            scheduleRepository.scheduleAssignUserRole(userRole.username,NetworkRole(roles))
+            scheduleRepository.scheduleAssignUserRole(userRole.username,AddNetworkRole(roles))
         }
     }
 

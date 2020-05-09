@@ -1,5 +1,6 @@
 package info.schedule.ui.dialog
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
@@ -18,12 +19,14 @@ import java.util.*
 /**
  * A simple [Fragment] subclass.
  */
+@Suppress("DEPRECATION")
 class StartTimeDialogFragment : DialogFragment() {
 
     private lateinit var dateDialogListener: StartTimeDialogListener
     private var textDate: String = datesFormat("HH:mm",Calendar.getInstance().time.time)
     private var longDate: Long = Calendar.getInstance().time.time
 
+    @SuppressLint("InflateParams")
     override fun onCreateDialog(
         savedInstanceState: Bundle?): Dialog {
         val view : View = activity?.layoutInflater?.inflate(R.layout.fragment_start_time_dialog,null)!!
@@ -45,7 +48,7 @@ class StartTimeDialogFragment : DialogFragment() {
 
         timePicker.setIs24HourView(true)
         timePicker.setOnTimeChangedListener {
-                timePicker: TimePicker, i: Int, i1: Int ->
+                _timePickers: TimePicker, i: Int, i1: Int ->
             calendar.set(Calendar.HOUR_OF_DAY,i)
             calendar.set(Calendar.MINUTE,i1)
 

@@ -74,6 +74,13 @@
         android:label="FinishTimeDialogFragment"
         tools:layout="@layout/fragment_finish_time_dialog"/>
 
+    <dialog
+        android:id="@+id/twoDateDialogFragment"
+        android:name="info.schedule.ui.dialog.TwoDateDialogFragment"
+        android:label="TwoDateDialogFragment"
+        tools:layout="@layout/fragment_date_dialog"/>
+
+
     <fragment
         android:id="@+id/panelManagerFragment"
         android:name="info.schedule.ui.PanelManagerFragment"
@@ -185,5 +192,4 @@
             android:id="@+id/action_universitiesEditFragment_to_choiceFragment"
             app:destination="@id/choiceFragment" />
     </fragment>
-
 </navigation>

@@ -27,6 +27,10 @@ fun handleNetworkError(mutableLiveData: MutableLiveData<ErrorResponseNetwork>) {
     mutableLiveData.value = ErrorResponseNetwork.NO_NETWORK
 }
 
+fun handleDataError(scheduleGetScheduleFailure: MutableLiveData<ErrorResponseNetwork>) {
+    scheduleGetScheduleFailure.value = ErrorResponseNetwork.NO_DATA
+}
+
 
 @SuppressLint("SimpleDateFormat")
 fun datesFormat(pattern: String, textlong: Long) : String {

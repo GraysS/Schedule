@@ -17,10 +17,40 @@ data class AddNetworkSchedule(val subjectName: String,
                            val lectureRoom: String)
 
 @JsonClass(generateAdapter = true)
-data class NetworkSchedule(val users: List<NetworkUsers>,
-                           val universities: List<NetworkUniversityGroups> )
+data class NetworkSchedule(val subjectName: String,
+                           val typeLecture: String,
+                           val lectureRoom: String,
+                           val group: NetworkGroup,
+                           val teacher: NetworkUsers,
+                           val university: NetworkUniversities,
+                           val date: String,
+                           val startLecture: String,
+                           val finishLecture: String)
 
-fun NetworkSchedule.asDomainMapKeyUniversityValueGroup() : Map<University,List<Group>>
+
+fun asDomainListScheduleModel(listSchedule: List<NetworkSchedule>) : List<Schedule>
+{
+    return listSchedule.map {
+        Schedule(subjectName = it.subjectName,
+                typeLecture = it.typeLecture,
+                lectureRoom = it.lectureRoom,
+                groupName =  it.group.name,
+                nameUser = it.teacher.name,
+                surnameUser = it.teacher.surname,
+                patronymicUser = it.teacher.patronymic,
+                universityName = it.university.universityName,
+                date = it.date,
+                startLecture = it.startLecture,
+                finishLecture = it.finishLecture)
+    }
+}
+
+// NetworkUsersUniversityGroups
+@JsonClass(generateAdapter = true)
+data class NetworkUsersUniversityGroups(val users: List<NetworkUsers>,
+                                        val universities: List<NetworkUniversityGroups> )
+
+fun NetworkUsersUniversityGroups.asDomainMapKeyUniversityValueGroup() : Map<University,List<Group>>
 {
     val ls: HashMap<University, List<Group>> = HashMap()
 
@@ -79,7 +109,7 @@ data class Role(val role: String)
 
 
 @JsonClass(generateAdapter = true)
-data class NetworkRole(val name: String)
+data class AddNetworkRole(val name: String)
 
 
 fun asDomainListUsersRoleModel(listNetworkUsersRole: List<NetworkUsersRole>) : List<UserRole> {

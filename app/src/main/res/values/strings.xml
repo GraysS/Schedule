@@ -24,7 +24,7 @@
     <string name="btn_add">Добавить</string>
     <string name="tv_token">Токен действует 1 час.После 1 часа вы не сможете добавлять/изменять.Вам придеться повторно сделать авторизацию</string>
     <string name="error_teachers">Нету этого преподавателя</string>
-    
+
     <string name="user">Пользователь</string>
     <string name="teachers_username">Преподаватель</string>
     <string name="university">Учреждение</string>
@@ -106,5 +106,13 @@
     <string name="time">Конечное время должно быть больше начального</string>
     <string name="error_faculty_duplicate">Такой факультет уже есть в этом учреждение</string>
     <string name="error_group_duplicate">Такая группа уже есть на таком учреждение и факультете</string>
+    <string name="btn_lectionStart">Лекция от:</string>
+    <string name="btn_lectionEnd">Лекция до:</string>
+    <string name="btn_find">Найти</string>
+    <string name="btn_advancedSearch">Расширенный поиск</string>
+    <string name="tv_schedule">Расписание</string>
+
+    <string name="emptySchedule">Название учреждение и дата начала лекции (Лекция от:) обязательно</string>
+    <string name="error_data">Нету занятий на этот день (Либо вы выбрали не существующую группу или учреждение)</string>
 
 </resources>

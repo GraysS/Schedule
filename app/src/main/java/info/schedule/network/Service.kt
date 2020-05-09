@@ -18,7 +18,8 @@ enum class ErrorResponseNetwork {
     NO_NETWORK,
     FORBIDDEN,
     INTERNAL_ERROR,
-    UNAVAILABLE
+    UNAVAILABLE,
+    NO_DATA
 }
 
 interface ScheduleService {
@@ -33,7 +34,7 @@ interface ScheduleService {
     fun getAccountDataAsync(@Header("Authorization") token: String) : Deferred<NetworkAccount>
 
     @GET("ubs/v1/schedule/get/control")
-    fun getScheduleDataAsync(@Header("Authorization") token: String) : Deferred<NetworkSchedule>
+    fun getScheduleDataAsync(@Header("Authorization") token: String) : Deferred<NetworkUsersUniversityGroups>
 
     @POST("ubs/v1/schedule/add/{username}/{groups}/{university}")
     fun teachersUniversityGroupsAsync(@Header("Authorization") token: String,
@@ -60,7 +61,7 @@ interface ScheduleService {
     @POST("ubs/v1/permit/set/{username}")
     fun assignUserRoleAsync(@Header("Authorization") token: String,
                             @Path("username") username: String,
-                            @Body name: NetworkRole) : Deferred<Response<Void>>
+                            @Body name: AddNetworkRole) : Deferred<Response<Void>>
 
     @POST("ubs/v1/faculty/add/{universityName}")
     fun addFacultyAsync(@Header("Authorization") token: String,
@@ -75,6 +76,28 @@ interface ScheduleService {
                       @Path("universityName") universityName: String,
                       @Path("facultyName") facultyName: String,
                       @Body networkGroup: AddNetworkGroup) : Deferred<Response<Void>>
+
+    @GET("ubs/v1/schedule/get")
+    fun getMainScheduleAsync(@Query("universityName") universityName: String,
+                             @Query("startDay") startDay: String) : Deferred<List<NetworkSchedule>>
+
+    @GET("ubs/v1/schedule/get")
+    fun getMainScheduleEndDayAsync(@Query("universityName") universityName: String,
+                             @Query("startDay") startDay: String,
+                             @Query("endDay") endDay: String) : Deferred<List<NetworkSchedule>>
+
+    @GET("ubs/v1/schedule/get")
+    fun getMainScheduleEndDayGroupAsync(@Query("universityName") universityName: String,
+                                        @Query("groupName") groupName: String,
+                                        @Query("startDay") dateStart: String,
+                                        @Query("endDay") dateFinish: String): Deferred<List<NetworkSchedule>>
+
+    @GET("ubs/v1/schedule/get")
+    fun getMainScheduleGroupAsync(@Query("universityName") universityName: String,
+                                  @Query("groupName") groupName: String,
+                                  @Query("startDay") dateStart: String): Deferred<List<NetworkSchedule>>
+
+
 }
 
 private val httpLoggingInterceptor = HttpLoggingInterceptor()
