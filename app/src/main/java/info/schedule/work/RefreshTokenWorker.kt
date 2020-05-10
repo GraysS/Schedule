@@ -18,11 +18,11 @@ class RefreshTokenWorker(appContext: Context, params: WorkerParameters):
         val repository = AccountRepository(customAccountPreferense)
 
         return try {
-            repository.accountLogout()
+            repository.accountLogoutWork()
             Timber.d("accountLoogout")
             Result.success()
         }catch (exception: Exception) {
-            repository.accountLogout()
+            repository.accountLogoutWork()
             Timber.d("accountLoogoutException")
             Result.success()
         }

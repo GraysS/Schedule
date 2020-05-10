@@ -113,6 +113,24 @@
     <string name="tv_schedule">Расписание</string>
 
     <string name="emptySchedule">Название учреждение и дата начала лекции (Лекция от:) обязательно</string>
-    <string name="error_data">Нету занятий на этот день (Либо вы выбрали не существующую группу или учреждение)</string>
+    <string name="error_data">Нету занятий на этот день</string>
+    <string name="error_noElement">Вы выбрали не существующую группу или учреждение</string>
 
+    <string name="tv_advancedSearch">Расширенный поиск</string>
+    <string name="btn_lecture">Лекция</string>
+    <string name="btn_autditore">Аудитория</string>
+    <string name="btn_teachers">Преподаватель</string>
+    <string name="btn_university">Учреждение</string>
+
+
+    <string name="tv_search">Поиск</string>
+    <string name="et_audithore">Аудитория</string>
+    <string name="emptyScheduleAuditory">Название учреждение,аудитории и дата начала лекции (Лекция от:) обязательно</string>
+    <string name="error_noData">Данные не найдены</string>
+    <string name="et_typeLecture">Лекция</string>
+    <string name="emptyScheduleLection">Название учреждение,лекции и дата начала лекции (Лекция от:) обязательно</string>
+    <string name="btn_lectionTimeStart">Время от:</string>
+    <string name="btn_lectionTimeEnd">Время до:</string>
+    <string name="emptyScheduleUniversity">Название учреждение и дата,время начала лекции (Лекция от:) (Время от:) обязательно</string>
+    <string name="emptyScheduleTeacher">Заполните все поля и дату начала лекции (Лекция от:) обязательно</string>
 </resources>

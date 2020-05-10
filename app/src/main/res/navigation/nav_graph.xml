@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_scheduleFragment_to_choiceFragment"
             app:destination="@id/choiceFragment" />
+        <action
+            android:id="@+id/action_scheduleFragment_to_advancedSearchFragment"
+            app:destination="@id/advancedSearchFragment" />
     </fragment>
 
     <fragment
@@ -191,5 +194,58 @@
         <action
             android:id="@+id/action_universitiesEditFragment_to_choiceFragment"
             app:destination="@id/choiceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/advancedSearchFragment"
+        android:name="info.schedule.ui.AdvancedSearchFragment"
+        tools:layout="@layout/fragment_advanced_search" >
+        <action
+            android:id="@+id/action_advancedSearchFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
+        <action
+            android:id="@+id/action_advancedSearchFragment_to_lectureSearchFragment"
+            app:destination="@id/lectureSearchFragment" />
+        <action
+            android:id="@+id/action_advancedSearchFragment_to_universitySearchFragment"
+            app:destination="@id/universitySearchFragment" />
+        <action
+            android:id="@+id/action_advancedSearchFragment_to_teacherSearchFragment"
+            app:destination="@id/teacherSearchFragment" />
+        <action
+            android:id="@+id/action_advancedSearchFragment_to_audithoreSearchFragment"
+            app:destination="@id/audithoreSearchFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/audithoreSearchFragment"
+        android:name="info.schedule.ui.AudithoreSearchFragment"
+        tools:layout="@layout/fragment_audithore_search">
+        <action
+            android:id="@+id/action_audithoreSearchFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/lectureSearchFragment"
+        android:name="info.schedule.ui.LectureSearchFragment"
+        tools:layout="@layout/fragment_lecture_search" >
+        <action
+            android:id="@+id/action_lectureSearchFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/teacherSearchFragment"
+        android:name="info.schedule.ui.TeacherSearchFragment"
+        tools:layout="@layout/fragment_teacher_search" >
+        <action
+            android:id="@+id/action_teacherSearchFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/universitySearchFragment"
+        android:name="info.schedule.ui.UniversitySearchFragment"
+        tools:layout="@layout/fragment_university_search" >
+        <action
+            android:id="@+id/action_universitySearchFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
     </fragment>
 </navigation>

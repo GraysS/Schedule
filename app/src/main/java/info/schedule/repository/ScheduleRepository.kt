@@ -3,13 +3,11 @@
 package info.schedule.repository
 
 import androidx.lifecycle.MutableLiveData
-import com.squareup.moshi.JsonDataException
 import info.schedule.database.DatabaseAccount
 import info.schedule.database.DatabaseAccountPreferense
 import info.schedule.domain.*
 import info.schedule.network.*
 import info.schedule.util.handleApiError
-import info.schedule.util.handleDataError
 import info.schedule.util.handleNetworkError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -271,9 +269,6 @@ class ScheduleRepository() {
             }catch (exception: HttpException) {
                 exception.printStackTrace()
                 handleApiError(exception,scheduleGetScheduleFailure)
-            }catch (json: JsonDataException)    {
-                json.printStackTrace()
-                handleDataError(scheduleGetScheduleFailure)
             }catch (exception: Exception) {
                 exception.printStackTrace()
                 handleNetworkError(scheduleGetScheduleFailure)
@@ -290,9 +285,6 @@ class ScheduleRepository() {
             }catch (exception: HttpException) {
                 exception.printStackTrace()
                 handleApiError(exception,scheduleGetScheduleFailure)
-            }catch (json: JsonDataException)    {
-                json.printStackTrace()
-                handleDataError(scheduleGetScheduleFailure)
             }catch (exception: Exception) {
                 exception.printStackTrace()
                 handleNetworkError(scheduleGetScheduleFailure)
@@ -309,9 +301,6 @@ class ScheduleRepository() {
             }catch (exception: HttpException) {
                 exception.printStackTrace()
                 handleApiError(exception,scheduleGetScheduleFailure)
-            }catch (json: JsonDataException)    {
-                json.printStackTrace()
-                handleDataError(scheduleGetScheduleFailure)
             }catch (exception: Exception) {
                 exception.printStackTrace()
                 handleNetworkError(scheduleGetScheduleFailure)
@@ -328,9 +317,197 @@ class ScheduleRepository() {
             }catch (exception: HttpException) {
                 exception.printStackTrace()
                 handleApiError(exception, scheduleGetScheduleFailure)
-            }catch (json: JsonDataException)    {
-                json.printStackTrace()
-                handleDataError(scheduleGetScheduleFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleGetScheduleFailure)
+            }
+        }
+    }
+
+    suspend fun  scheduleGetAuditorySchedule(universityName: String,lectureRoom: String,dateStart: String) {
+        withContext(Dispatchers.Main) {
+            try {
+                val responseGet = Network.schedule.getAuditoryScheduleAsync(lectureRoom,universityName,dateStart).await()
+
+                scheduleGetSchedule.value = asDomainListScheduleModel(responseGet)
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception, scheduleGetScheduleFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleGetScheduleFailure)
+            }
+        }
+    }
+
+
+    suspend fun  scheduleGetAuditoryEndDaySchedule(universityName: String,lectureRoom: String,dateStart: String,dateFinish: String) {
+        withContext(Dispatchers.Main) {
+            try {
+                val responseGet = Network.schedule.getAuditoryScheduleEndDayAsync(lectureRoom,universityName,dateStart,dateFinish)
+                    .await()
+
+                scheduleGetSchedule.value = asDomainListScheduleModel(responseGet)
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception, scheduleGetScheduleFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleGetScheduleFailure)
+            }
+        }
+    }
+
+    suspend fun scheduleGetLectionSchedule(nameUniversity: String, typeLecture: String, dateStart: String) {
+        withContext(Dispatchers.Main) {
+            try {
+                val responseGet = Network.schedule.getLectionScheduleAsync(typeLecture,nameUniversity,dateStart)
+                    .await()
+
+                scheduleGetSchedule.value = asDomainListScheduleModel(responseGet)
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception, scheduleGetScheduleFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleGetScheduleFailure)
+            }
+        }
+    }
+
+    suspend fun scheduleGetLectionEndDaySchedule(nameUniversity: String, typeLecture: String, dateStart: String, dateFinish: String) {
+        withContext(Dispatchers.Main) {
+            try {
+                val responseGet = Network.schedule.getLectionScheduleEndDayAsync(typeLecture,nameUniversity,dateStart,dateFinish)
+                        .await()
+
+                scheduleGetSchedule.value = asDomainListScheduleModel(responseGet)
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception, scheduleGetScheduleFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleGetScheduleFailure)
+            }
+        }
+    }
+
+
+    suspend fun scheduleGetUniversitySchedule(nameUniversity: String,startDay :String,startTime :String) {
+        withContext(Dispatchers.Main) {
+            try {
+                val responseGet = Network.schedule.getUniversityScheduleAsync(nameUniversity,startDay,startTime)
+                    .await()
+
+                scheduleGetSchedule.value = asDomainListScheduleModel(responseGet)
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception, scheduleGetScheduleFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleGetScheduleFailure)
+            }
+        }
+    }
+
+    suspend fun scheduleGetUniversityScheduleEndDay(nameUniversity: String,startDay :String,endDay: String,startTime :String) {
+        withContext(Dispatchers.Main) {
+            try {
+                val responseGet = Network.schedule.getUniversityScheduleEndDayAsync(nameUniversity,startDay,endDay,startTime)
+                    .await()
+
+                scheduleGetSchedule.value = asDomainListScheduleModel(responseGet)
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception, scheduleGetScheduleFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleGetScheduleFailure)
+            }
+        }
+    }
+
+    suspend fun scheduleGetUniversityScheduleEndTime(nameUniversity: String,
+                                                     startDay :String,
+                                                     startTime :String,
+                                                     endTime: String)
+    {
+        withContext(Dispatchers.Main) {
+            try {
+                val responseGet = Network.schedule.getUniversityScheduleEndTimeAsync(nameUniversity,startDay,startTime,endTime)
+                    .await()
+
+                scheduleGetSchedule.value = asDomainListScheduleModel(responseGet)
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception, scheduleGetScheduleFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleGetScheduleFailure)
+            }
+        }
+    }
+
+    suspend fun scheduleGetUniversityScheduleEndDayEndTime(nameUniversity: String,
+                                                     startDay: String,
+                                                     endDay: String,
+                                                     startTime :String,
+                                                     endTime: String)
+    {
+        withContext(Dispatchers.Main) {
+            try {
+                val responseGet = Network.schedule.getUniversityScheduleEndDayEndTimeAsync(nameUniversity,startDay,endDay,startTime,endTime)
+                    .await()
+
+                scheduleGetSchedule.value = asDomainListScheduleModel(responseGet)
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception, scheduleGetScheduleFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleGetScheduleFailure)
+            }
+        }
+    }
+
+    suspend fun scheduleGetTeachersSchedule(teacherName: String,
+                                            teacherSurname: String,
+                                            teacherPatronymic: String,
+                                            universityName: String,
+                                            startDay: String)
+    {
+        withContext(Dispatchers.Main) {
+            try {
+                val responseGet = Network.schedule.getTeachersScheduleAsync(teacherName,teacherSurname,teacherPatronymic,universityName,startDay)
+                    .await()
+
+                scheduleGetSchedule.value = asDomainListScheduleModel(responseGet)
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception, scheduleGetScheduleFailure)
+            }catch (exception: Exception) {
+                exception.printStackTrace()
+                handleNetworkError(scheduleGetScheduleFailure)
+            }
+        }
+    }
+
+    suspend fun scheduleGetTeachersScheduleEndDay(teacherName: String,
+                                            teacherSurname: String,
+                                            teacherPatronymic: String,
+                                            universityName: String,
+                                            startDay: String,
+                                            endDay: String)
+    {
+        withContext(Dispatchers.Main) {
+            try {
+                val responseGet = Network.schedule.getTeachersScheduleEndDayAsync(teacherName,teacherSurname,teacherPatronymic,universityName,startDay,endDay)
+                    .await()
+
+                scheduleGetSchedule.value = asDomainListScheduleModel(responseGet)
+            }catch (exception: HttpException) {
+                exception.printStackTrace()
+                handleApiError(exception, scheduleGetScheduleFailure)
             }catch (exception: Exception) {
                 exception.printStackTrace()
                 handleNetworkError(scheduleGetScheduleFailure)

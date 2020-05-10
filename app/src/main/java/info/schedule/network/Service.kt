@@ -97,6 +97,68 @@ interface ScheduleService {
                                   @Query("groupName") groupName: String,
                                   @Query("startDay") dateStart: String): Deferred<List<NetworkSchedule>>
 
+    @GET("ubs/v1/schedule/get")
+    fun getAuditoryScheduleAsync(@Query("lectureRoom") lectureRoom: String,
+                                 @Query("universityName") universityName: String,
+                                   @Query("startDay") startDay: String) : Deferred<List<NetworkSchedule>>
+
+    @GET("ubs/v1/schedule/get")
+    fun getAuditoryScheduleEndDayAsync(@Query("lectureRoom") lectureRoom: String,
+                                 @Query("universityName") universityName: String,
+                                 @Query("startDay") startDay: String,
+                                 @Query("endDay") endDay: String) : Deferred<List<NetworkSchedule>>
+
+    @GET("ubs/v1/schedule/get")
+    fun getLectionScheduleAsync(@Query("typeLecture") lectureType: String,
+                                @Query("universityName") universityName: String,
+                                @Query("startDay") startDay: String) : Deferred<List<NetworkSchedule>>
+
+    @GET("ubs/v1/schedule/get")
+    fun getLectionScheduleEndDayAsync(@Query("typeLecture") lectureType: String,
+                                @Query("universityName") universityName: String,
+                                @Query("startDay") startDay: String,
+                                      @Query("endDay") endDay: String) : Deferred<List<NetworkSchedule>>
+
+    @GET("ubs/v1/schedule/get")
+    fun getUniversityScheduleAsync(@Query("universityName") universityName: String,
+                                   @Query("startDay") startDay: String,
+                                    @Query("startTime",encoded=true) startTime: String) : Deferred<List<NetworkSchedule>>
+
+
+    @GET("ubs/v1/schedule/get")
+    fun getUniversityScheduleEndDayAsync(@Query("universityName") universityName: String,
+                                         @Query("startDay") startDay: String,
+                                         @Query("endDay") endDay: String,
+                                         @Query("startTime",encoded=true) startTime: String) : Deferred<List<NetworkSchedule>>
+
+    @GET("ubs/v1/schedule/get")
+    fun getUniversityScheduleEndTimeAsync(@Query("universityName") universityName: String,
+                                         @Query("startDay") startDay: String,
+                                         @Query("startTime",encoded=true) startTime: String,
+                                         @Query("endTime",encoded=true) endTime: String) : Deferred<List<NetworkSchedule>>
+
+    @GET("ubs/v1/schedule/get")
+    fun getUniversityScheduleEndDayEndTimeAsync(
+                                    @Query("universityName") universityName: String,
+                                   @Query("startDay") startDay: String,
+                                    @Query("endDay") endDay: String,
+                                   @Query("startTime",encoded=true) startTime: String,
+                                    @Query("endTime",encoded=true) endTime: String) : Deferred<List<NetworkSchedule>>
+
+    @GET("ubs/v1/schedule/get")
+    fun getTeachersScheduleAsync(@Query("teacherName") teacherName: String,
+                                 @Query("teacherSurname") teacherSurname: String,
+                                 @Query("teacherPatronymic") teacherPatronymic: String,
+                                 @Query("universityName") universityName: String,
+                                 @Query("startDay") startDay: String) : Deferred<List<NetworkSchedule>>
+
+    @GET("ubs/v1/schedule/get")
+    fun getTeachersScheduleEndDayAsync(@Query("teacherName") teacherName: String,
+                                 @Query("teacherSurname") teacherSurname: String,
+                                 @Query("teacherPatronymic") teacherPatronymic: String,
+                                 @Query("universityName") universityName: String,
+                                 @Query("startDay") startDay: String,
+                                       @Query("endDay") endDay: String) : Deferred<List<NetworkSchedule>>
 
 }
 

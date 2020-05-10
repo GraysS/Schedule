@@ -26,7 +26,8 @@ import timber.log.Timber
 /**
  * A simple [Fragment] subclass.
  */
-class ScheduleFragment : Fragment(), LogoutDialogFragment.LogoutDialogListener,
+class ScheduleFragment : Fragment(),
+    LogoutDialogFragment.LogoutDialogListener,
     DateDialogFragment.DateDialogListener,
     TwoDateDialogFragment.DateDialogListener {
 
@@ -119,6 +120,10 @@ class ScheduleFragment : Fragment(), LogoutDialogFragment.LogoutDialogListener,
             findNavController().navigate(R.id.twoDateDialogFragment,bundles)
         }
 
+        binding.btnAdvancedSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_scheduleFragment_to_advancedSearchFragment)
+        }
+
         return binding.root
     }
 
@@ -147,16 +152,16 @@ class ScheduleFragment : Fragment(), LogoutDialogFragment.LogoutDialogListener,
         viewModel.liveGetScheduleFailure.observe(viewLifecycleOwner, Observer {
             if(isLiveData) {
                 when {
+                    ErrorResponseNetwork.BAD_REQUEST == it ->  Toast.makeText(
+                        context,
+                        R.string.error_noData,
+                        Toast.LENGTH_LONG
+                    ).show()
                     ErrorResponseNetwork.NO_NETWORK == it -> Toast.makeText(
                         context,
                         R.string.error_connect,
                         Toast.LENGTH_LONG
                     ).show()
-                    ErrorResponseNetwork.NO_DATA == it -> Toast.makeText(
-                        context,
-                        R.string.error_data,
-                        Toast.LENGTH_LONG)
-                        .show()
                     ErrorResponseNetwork.UNAVAILABLE == it -> Toast.makeText(
                         context,
                         R.string.error_service,
@@ -218,7 +223,8 @@ class ScheduleFragment : Fragment(), LogoutDialogFragment.LogoutDialogListener,
     }
 
     private fun clickerFind() {
-        viewModelAdapter?.clearSchedules()
+      //  viewModelAdapter?.clearSchedules()
+        viewModel.liveGetSchedule.value = emptyList()
         binding.pbLoading.visibility = View.VISIBLE
         isLiveData = true
     }

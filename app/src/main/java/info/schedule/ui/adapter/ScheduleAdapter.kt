@@ -63,12 +63,12 @@ class ScheduleAdapter() : RecyclerView.Adapter<BaseViewHolder>() {
             scheduleDateTimestamp.clear()
     }
 
-    fun clearSchedules() {
+ /*   fun clearSchedules() {
         if(schedules.isNotEmpty()) {
             schedules = emptyList()
             notifyDataSetChanged()
         }
-    }
+    }*/
 
 
 }

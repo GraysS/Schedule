@@ -22,7 +22,7 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
     private val customAccountPreferense = DatabaseAccountPreferense(application)
 
     private val accountRepository = AccountRepository(customAccountPreferense)
-    private val scheduleRepository = ScheduleRepository(customAccountPreferense)
+    private val scheduleRepository = ScheduleRepository()
 
     private lateinit var dateStart: String
     private lateinit var dateFinish: String
@@ -31,7 +31,7 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
     val liveScheduleStartDate: MutableLiveData<String> = MutableLiveData()
     val liveScheduleFinishDate: MutableLiveData<String> = MutableLiveData()
 
-    val liveGetSchedule: LiveData<List<Schedule>> = scheduleRepository.scheduleGetSchedule
+    val liveGetSchedule: MutableLiveData<List<Schedule>> = scheduleRepository.scheduleGetSchedule
     val liveGetScheduleFailure: LiveData<ErrorResponseNetwork> = scheduleRepository.scheduleGetScheduleFailure
 
     init {
