@@ -29,14 +29,13 @@ class GroupViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var faculty: Faculty
     private var isLiveFaculty: Boolean = false
 
- //   val liveDataGetUniversity: LiveData<List<University>> = scheduleRepository.scheduleGetUniversity
-   // val liveDataGetFaculty: LiveData<List<Faculty>> = scheduleRepository.scheduleGetFaculty
     val liveDataGetUniversityFaculty: LiveData<Map<University,List<Faculty>>> = scheduleRepository.scheduleGetUniversityFaculty
     val liveDataGetUniversityFacultyFailure: LiveData<ErrorResponseNetwork> = scheduleRepository.scheduleGetUniversityFacultyFailure
     val liveDataGetFaculty: MutableLiveData<List<Faculty>> = MutableLiveData()
 
     val liveDataAddGroup: LiveData<String> = scheduleRepository.scheduleAddGroup
     val liveDataAddGroupFailure: LiveData<ErrorResponseNetwork> = scheduleRepository.scheduleAddGroupFailure
+    val liveIsFacultyEnabled: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
         viewModelScope.launch {
@@ -59,11 +58,16 @@ class GroupViewModel(application: Application) : AndroidViewModel(application) {
     fun setUniversity(university: University) {
         this.university = university
         try {
-            if (liveDataGetUniversityFaculty.value?.get(university)?.size!! > 0) {
+            if (liveDataGetUniversityFaculty.value?.get(university)?.size!! > 0)
+            {
                 isLiveFaculty = true
+                liveIsFacultyEnabled.value = true
                 liveDataGetFaculty.value = liveDataGetUniversityFaculty.value?.get(university)
+            } else {
+                liveIsFacultyEnabled.value = false
             }
         }catch (e: Exception) {
+            liveIsFacultyEnabled.value = false
         }
     }
     fun getUniversity() = university

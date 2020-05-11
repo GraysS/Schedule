@@ -28,7 +28,7 @@
                 style="@style/editText_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/et_nameUniversities">
+                android:hint="@string/et_nameUniversities_required">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_university"

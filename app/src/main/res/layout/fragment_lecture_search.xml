@@ -24,27 +24,21 @@
                 android:text="@string/tv_search"
                 />
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/editText_style"
+            <Spinner
+                android:id="@+id/sp_typeLecture"
+                style="@style/spinner_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/et_typeLecture">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_typeLecture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="300dp"
-                    android:layout_marginBottom="10dp"
-                    android:imeOptions="actionNext"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:minWidth="300dp"
+                android:layout_marginBottom="10dp"
+                android:entries="@array/array_typeLecture"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/editText_style"
+                android:id="@+id/il_university"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/et_nameUniversities">
+                android:hint="@string/et_nameUniversities_required">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_university"

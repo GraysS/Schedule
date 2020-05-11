@@ -26,6 +26,7 @@ class AccountRepository() {
     val accountResponse: MutableLiveData<Account> = MutableLiveData()
     val accountResponseManager: MutableLiveData<Account> = MutableLiveData()
     val accountResponseAdmin: MutableLiveData<Account> = MutableLiveData()
+    val accountViewVisible: MutableLiveData<String> = MutableLiveData()
     val accountResponseFailure: MutableLiveData<ErrorResponseNetwork> = MutableLiveData()
 
     val accountIsAuth: MutableLiveData<Boolean> = MutableLiveData()
@@ -93,6 +94,9 @@ class AccountRepository() {
 
                 if(getAccount.appAccess.adminAccess)
                     accountResponseAdmin.value = getAccount.asDomainAccountModel()
+
+                if(!getAccount.appAccess.managerAccess && getAccount.appAccess.adminAccess)
+                    accountViewVisible.value = "string"
 
             }catch (exception : HttpException) {
                 exception.printStackTrace()

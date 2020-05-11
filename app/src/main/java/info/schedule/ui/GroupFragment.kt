@@ -177,6 +177,10 @@ class GroupFragment : Fragment() {
                 isLiveData = false
             }
         })
+
+        viewModel.liveIsFacultyEnabled.observe(viewLifecycleOwner, Observer {
+            spFacultyEnabled(it)
+        })
     }
 
 
@@ -200,6 +204,7 @@ class GroupFragment : Fragment() {
 
         adapterFaculty = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item)
         adapterFaculty.add(Faculty(getString(R.string.faculty)))
+        spFacultyEnabled(false)
         binding.spListFaculty.adapter = adapterFaculty
 
         if(savedInstanceState != null)  {
@@ -216,6 +221,11 @@ class GroupFragment : Fragment() {
                 spListFaculty.setSelection(adapterFaculty.getPosition(viewModel.getFaculty()))
             }
         }
+    }
+
+    private fun spFacultyEnabled(isEnabled: Boolean) {
+        binding.spListFaculty.isEnabled = isEnabled
+        binding.spListFaculty.isClickable = isEnabled
     }
 
 }

@@ -111,7 +111,6 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
                 val user: User? = adapterUser.getItem(position)
                 if(user != null) {
                     viewModel.setUser(user)
-                    Timber.d("%s",adapterUser.getPosition(viewModel.getUser()))
                 }
             }
         }
@@ -147,8 +146,9 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
                 id: Long
             ) {
                 val group: Group? = adapterGroup.getItem(position)
-                if(group != null)
+                if(group != null) {
                     viewModel.setGroups(group)
+                }
             }
         }
 
@@ -219,7 +219,6 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
 
         viewModel.liveScheduleGetResponseUser.observe(viewLifecycleOwner, Observer {
             if(savedInstanceState == null || adapterUser.count == 1) {
@@ -296,6 +295,10 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
         viewModel.liveScheduleFinishTime.observe(viewLifecycleOwner, Observer {
             binding.btnFinishTimeLecture.text = it
         })
+
+        viewModel.liveIsGroupEnabled.observe(viewLifecycleOwner, Observer {
+            spGroupEnabled(it)
+        })
     }
 
     override fun doPositiveClick(textDate: String) {
@@ -330,6 +333,7 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
 
         adapterGroup = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item)
         adapterGroup.add(Group(getString(R.string.groups)))
+        spGroupEnabled(false)
         binding.spListGroups.adapter = adapterGroup
 
         adapterUniversity = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item)
@@ -356,6 +360,12 @@ class PanelManagerFragment : Fragment(), DateDialogFragment.DateDialogListener,
             }
         }
     }
+
+    private fun spGroupEnabled(isEnabled: Boolean) {
+        binding.spListGroups.isEnabled = isEnabled
+        binding.spListGroups.isClickable = isEnabled
+    }
+
 
 
 }

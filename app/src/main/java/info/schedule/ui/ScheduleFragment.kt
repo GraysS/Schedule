@@ -3,9 +3,11 @@
 package info.schedule.ui
 
 import android.os.Bundle
+import android.text.Html
 import android.view.*
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.core.graphics.toColorInt
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -63,6 +65,7 @@ class ScheduleFragment : Fragment(),
             adapter = viewModelAdapter
         }
 
+
         binding.btnFind.setOnClickListener {
             when {
                 binding.etUniversity.text.toString().isNotEmpty() &&
@@ -104,7 +107,7 @@ class ScheduleFragment : Fragment(),
                     viewModel.getScheduleGroupData(binding.etUniversity.text.toString(),
                                                     binding.etGroup.text.toString())
                 }
-                else -> Toast.makeText(context, R.string.emptySchedule, Toast.LENGTH_LONG).show()
+                else -> Toast.makeText(context, R.string.empty, Toast.LENGTH_LONG).show()
             }
         }
 

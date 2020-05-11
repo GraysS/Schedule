@@ -88,7 +88,7 @@ class AudithoreSearchFragment : Fragment(),
                     viewModel.getScheduleAuditoryEndDayData(binding.etUniversity.text.toString(),
                                                             binding.etAudithore.text.toString())
                 }
-                else -> Toast.makeText(context, R.string.emptyScheduleAuditory, Toast.LENGTH_LONG).show()
+                else ->Toast.makeText(context, R.string.empty, Toast.LENGTH_LONG).show()
             }
         }
 

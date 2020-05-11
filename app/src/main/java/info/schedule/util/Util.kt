@@ -1,13 +1,16 @@
 package info.schedule.util
 
 import android.annotation.SuppressLint
+import android.graphics.Color
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import androidx.lifecycle.MutableLiveData
 import info.schedule.network.ErrorResponseNetwork
 import retrofit2.HttpException
 import java.net.HttpURLConnection
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 fun handleApiError(
     error: HttpException,

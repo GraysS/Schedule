@@ -137,7 +137,7 @@ class UniversitySearchFragment : Fragment(),
                         Toast.makeText(context, R.string.time, Toast.LENGTH_LONG).show()
                     }
                 }
-                else -> Toast.makeText(context, R.string.emptyScheduleUniversity, Toast.LENGTH_LONG).show()
+                else -> Toast.makeText(context, R.string.empty, Toast.LENGTH_LONG).show()
             }
         }
 

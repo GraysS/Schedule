@@ -14,6 +14,7 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             >
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -26,9 +27,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/editText_style"
+                android:id="@+id/il_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/et_group">
+                android:hint="@string/et_group_required">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_group"
@@ -36,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:minWidth="300dp"
                     android:layout_marginBottom="10dp"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
                     android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -44,7 +46,7 @@
                 style="@style/editText_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/et_nameUniversities">
+                android:hint="@string/et_nameUniversities_required">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_university"

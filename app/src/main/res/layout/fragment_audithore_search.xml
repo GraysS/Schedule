@@ -28,7 +28,7 @@
                 style="@style/editText_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/et_audithore">
+                android:hint="@string/et_audithore_required">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_audithore"
@@ -36,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:minWidth="300dp"
                     android:layout_marginBottom="10dp"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
                     android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -44,7 +44,7 @@
                 style="@style/editText_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/et_nameUniversities">
+                android:hint="@string/et_nameUniversities_required">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_university"

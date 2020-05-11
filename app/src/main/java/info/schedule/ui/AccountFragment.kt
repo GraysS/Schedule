@@ -5,8 +5,10 @@ package info.schedule.ui
 
 import android.os.Bundle
 import android.view.*
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.core.view.marginTop
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,6 +18,7 @@ import info.schedule.R
 import info.schedule.databinding.FragmentAccountBinding
 import info.schedule.network.ErrorResponseNetwork
 import info.schedule.viewmodels.AccountViewModel
+
 
 /**
  * A simple [Fragment] subclass.
@@ -66,6 +69,12 @@ class AccountFragment : Fragment() {
 
         viewModel.liveAccountAdminResponse.observe(viewLifecycleOwner, Observer {
             binding.btnAdminPanel.visibility = View.VISIBLE
+        })
+
+        viewModel.liveAccountViewVisible.observe(viewLifecycleOwner, Observer {
+            val layoutParams = binding.btnAdminPanel.layoutParams as MarginLayoutParams
+            layoutParams.topMargin = 150
+            binding.btnAdminPanel.layoutParams = layoutParams
         })
 
         viewModel.liveAccountResponseFailure.observe(viewLifecycleOwner, Observer {

@@ -4,17 +4,17 @@
     <string name="button_registr">Регистрация</string>
     <string name="toolbar_account">Account</string>
 
-    <string name="et_name">Имя</string>
-    <string name="et_surname">Фамилия</string>
-    <string name="et_patronymic">Очество</string>
-    <string name="et_username">Идентификатор</string>
-    <string name="et_password">Пароль</string>
+    <string name="et_name">Имя*</string>
+    <string name="et_surname">Фамилия*</string>
+    <string name="et_patronymic">Очество*</string>
+    <string name="et_username">Идентификатор*</string>
+    <string name="et_password">Пароль*</string>
     <string name="btn_registr">Регистрация</string>
     <string name="btn_auth">Авторизация</string>
     <string name="error_nickname">Такой никнейм уже есть, придумайте другой никнейм</string>
     <string name="success">Success</string>
     <string name="lenght_password">"Заполните все поля.У пароля должно быть минимум 8 букв/цифр "</string>
-    <string name="empty">Заполните все поля</string>
+    <string name="empty">Заполните поля</string>
     <string name="failure_auth">Неправильно введен логин или пароль</string>
     <string name="error_connect">Вы не подключенны к интернету, или же повторите запрос</string>
     <string name="button_logout">logout</string>
@@ -25,55 +25,55 @@
     <string name="tv_token">Токен действует 1 час.После 1 часа вы не сможете добавлять/изменять.Вам придеться повторно сделать авторизацию</string>
     <string name="error_teachers">Нету этого преподавателя</string>
 
-    <string name="user">Пользователь</string>
-    <string name="teachers_username">Преподаватель</string>
-    <string name="university">Учреждение</string>
-    <string name="groups">Группа</string>
-    <string name="subjectName">Занятие</string>
-    <string name="typeLecture">Тип</string>
-    <string name="lectureRoom">Кабинет</string>
+    <string name="user">Пользователь*</string>
+    <string name="teachers_username">Преподаватель*</string>
+    <string name="university">Учреждение*</string>
+    <string name="groups">Группа*</string>
+    <string name="subjectName">Занятие*</string>
+    <string name="typeLecture">Тип*</string>
+    <string name="lectureRoom">Кабинет*</string>
 
     <string-array name="array_university">
-        <item>Учреждение</item>
+        <item>Учреждение*</item>
         <item>KHIBS</item>
     </string-array>
 
     <string-array name="array_groups">
-        <item>Группа</item>
+        <item>Группа*</item>
         <item>304-KH-X</item>
         <item>206-KH-CK-X</item>
     </string-array>
 
 
     <string-array name="array_subjectName">
-        <item>Занятие</item>
+        <item>Занятие*</item>
         <item>Программирование</item>
         <item>Интелектуальний анализ данных</item>
     </string-array>
 
     <string-array name="array_typeLecture">
-        <item>Тип</item>
+        <item>Тип*</item>
         <item>Практика</item>
         <item>Лекцыя</item>
     </string-array>
 
     <string-array name="array_lectureRoom">
-        <item>Кабинет</item>
+        <item>Кабинет*</item>
         <item>221</item>
         <item>220</item>
         <item>133</item>
     </string-array>
 
     <string-array name="array_roles">
-        <item>Роль</item>
+        <item>Роль*</item>
         <item>ADMIN</item>
         <item>MANAGER</item>
         <item>TEACHER</item>
     </string-array>
 
-    <string name="btn_date">Дата</string>
-    <string name="btn_startTimeLecture">Начало лекции</string>
-    <string name="btn_finishTimeLecture">Назначить Конец лекции</string>
+    <string name="btn_date">Дата*</string>
+    <string name="btn_startTimeLecture">Начало лекции*</string>
+    <string name="btn_finishTimeLecture">Назначить Конец лекции*</string>
     <string name="btn_panelControl">Панель управления</string>
     <string name="error_service">Сервер не отвечает</string>
     <string name="btn_clearText">Очистить поля</string>
@@ -90,9 +90,9 @@
     <string name="btn_controlUniversities">Учреждение</string>
     <string name="btn_controlFaculty">Факультет</string>
     <string name="btn_controlGroups">Группа</string>
-    <string name="et_nameUniversities">Учреждение</string>
-    <string name="et_location">Город</string>
-    <string name="et_address">Адресс</string>
+    <string name="et_nameUniversities">Учреждение*</string>
+    <string name="et_location">Город*</string>
+    <string name="et_address">Адресс*</string>
     <string name="btn_edit">Изменить</string>
     <string name="tv_Manager">Управление:</string>
     <string name="error_university">Институт с таким названием уже есть</string>
@@ -100,13 +100,13 @@
 
     <string name="role">Роль</string>
     <string name="incorrect_roles">Выберите пользователя и роль</string>
-    <string name="et_faculty">Факультет</string>
-    <string name="et_group">Группа</string>
-    <string name="faculty">Факультет</string>
+    <string name="et_faculty">Факультет*</string>
+    <string name="et_group">Группа*</string>
+    <string name="faculty">Факультет*</string>
     <string name="time">Конечное время должно быть больше начального</string>
     <string name="error_faculty_duplicate">Такой факультет уже есть в этом учреждение</string>
     <string name="error_group_duplicate">Такая группа уже есть на таком учреждение и факультете</string>
-    <string name="btn_lectionStart">Лекция от:</string>
+    <string name="btn_lectionStart">Лекция от*:</string>
     <string name="btn_lectionEnd">Лекция до:</string>
     <string name="btn_find">Найти</string>
     <string name="btn_advancedSearch">Расширенный поиск</string>
@@ -124,13 +124,21 @@
 
 
     <string name="tv_search">Поиск</string>
-    <string name="et_audithore">Аудитория</string>
+    <string name="et_audithore">Аудитория*</string>
     <string name="emptyScheduleAuditory">Название учреждение,аудитории и дата начала лекции (Лекция от:) обязательно</string>
     <string name="error_noData">Данные не найдены</string>
     <string name="et_typeLecture">Лекция</string>
-    <string name="emptyScheduleLection">Название учреждение,лекции и дата начала лекции (Лекция от:) обязательно</string>
-    <string name="btn_lectionTimeStart">Время от:</string>
+    <string name="emptyScheduleLection">Название учреждение выбор тип лекции и дата начала лекции (Лекция от:) обязательно</string>
+    <string name="btn_lectionTimeStart">Время от*:</string>
     <string name="btn_lectionTimeEnd">Время до:</string>
     <string name="emptyScheduleUniversity">Название учреждение и дата,время начала лекции (Лекция от:) (Время от:) обязательно</string>
     <string name="emptyScheduleTeacher">Заполните все поля и дату начала лекции (Лекция от:) обязательно</string>
+    <string name="et_group_required">Группа*</string>
+    <string name="et_nameUniversities_required">Учреждение*</string>
+    <string name="et_audithore_required">Аудитория*</string>
+    <string name="et_surname_required">Фамилия*</string>
+    <string name="et_name_required">Имя*</string>
+    <string name="et_patronymic_required">Очество*</string>
+    <string name="btn_yes">Да</string>
+    <string name="btn_no">Нет</string>
 </resources>

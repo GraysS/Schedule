@@ -26,6 +26,7 @@ class AccountViewModel(application : Application) : AndroidViewModel(application
     val liveAccountResponse: LiveData<Account> = accountRepository.accountResponse
     val liveAccountManagerResponse: LiveData<Account> = accountRepository.accountResponseManager
     val liveAccountAdminResponse: LiveData<Account> = accountRepository.accountResponseAdmin
+    val liveAccountViewVisible: LiveData<String> = accountRepository.accountViewVisible
     val liveAccountResponseFailure: LiveData<ErrorResponseNetwork> = accountRepository.accountResponseFailure
 
     init {

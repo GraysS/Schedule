@@ -21,6 +21,7 @@ class LectureSearchViewModel : ViewModel()
 
     private lateinit var dateStart: String
     private lateinit var dateFinish: String
+    private lateinit var typeLecture: String
 
     val liveScheduleStartDate: MutableLiveData<String> = MutableLiveData()
     val liveScheduleFinishDate: MutableLiveData<String> = MutableLiveData()
@@ -29,16 +30,22 @@ class LectureSearchViewModel : ViewModel()
     val liveGetScheduleFailure: LiveData<ErrorResponseNetwork> = scheduleRepository.scheduleGetScheduleFailure
 
 
-    fun getScheduleLectionData(nameUniversity: String,typeLecture: String) {
+    fun getScheduleLectionData(nameUniversity: String) {
         viewModelScope.launch {
             scheduleRepository.scheduleGetLectionSchedule(nameUniversity,typeLecture,dateStart)
         }
     }
 
-    fun getScheduleLectionEndDayData(nameUniversity: String,typeLecture: String) {
+    fun getScheduleLectionEndDayData(nameUniversity: String) {
         viewModelScope.launch {
             scheduleRepository.scheduleGetLectionEndDaySchedule(nameUniversity,typeLecture,dateStart,dateFinish)
         }
+    }
+
+    fun getTypeLecture() = typeLecture
+
+    fun setTypeLecture(typeLecture: String) {
+        this.typeLecture = typeLecture
     }
 
     fun setStartDate(timeStart: String) {

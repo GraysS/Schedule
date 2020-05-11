@@ -1,13 +1,17 @@
 package info.schedule.ui.dialog
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.view.View
+import android.widget.Button
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import info.schedule.R
+import kotlinx.android.synthetic.main.fragment_logout_dialog.view.*
 import java.io.Serializable
+
 
 /**
  * A simple [Fragment] subclass.
@@ -15,21 +19,32 @@ import java.io.Serializable
 class LogoutDialogFragment : DialogFragment() {
     private lateinit var dateDialogListener: LogoutDialogListener
 
+    @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val view : View = activity?.layoutInflater?.inflate(R.layout.fragment_logout_dialog,null)!!
         dateDialogListener = arguments?.getSerializable("dialog")
                 as LogoutDialogListener
         isCancelable = false
-        return AlertDialog.Builder(context)
-            .setTitle(R.string.app_name)
-            .setMessage(R.string.text_logout)
-            .setPositiveButton(android.R.string.ok)  { dialogInterface: DialogInterface, i: Int ->
-                dateDialogListener.doPositiveClickFinish(true)
-                dialogInterface.dismiss()
-            }
-            .setNegativeButton(android.R.string.no) { dialogInterface: DialogInterface, i: Int ->
-                dialogInterface.dismiss()
-            }
-            .create()
+
+        val builder = AlertDialog.Builder(context)
+
+        builder.setView(view)
+
+        val dialog = builder.create()
+
+        dialog.show()
+        val btnOk: Button = view.findViewById(R.id.btn_yes) as Button
+        val btnNo: Button = view.findViewById(R.id.btn_no) as Button
+
+        btnNo.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnOk.setOnClickListener {
+            dateDialogListener.doPositiveClickFinish(true)
+            dialog.dismiss()
+        }
+        return dialog
     }
 
     interface LogoutDialogListener : Serializable {

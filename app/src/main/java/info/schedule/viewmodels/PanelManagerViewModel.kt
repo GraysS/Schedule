@@ -53,6 +53,8 @@ class PanelManagerViewModel (application : Application) : AndroidViewModel(appli
     val liveScheduleDate: MutableLiveData<String> = MutableLiveData()
     val liveScheduleStartTime: MutableLiveData<String> = MutableLiveData()
     val liveScheduleFinishTime: MutableLiveData<String> = MutableLiveData()
+    val liveIsGroupEnabled: MutableLiveData<Boolean> = MutableLiveData()
+
     init {
         viewModelScope.launch {
             scheduleRepository.scheduleGetData()
@@ -86,9 +88,13 @@ class PanelManagerViewModel (application : Application) : AndroidViewModel(appli
             if (liveScheduleGetResponseUniversityGroup.value?.get(university)?.size!! > 0)
             {
                 isLiveFaculty = true
+                liveIsGroupEnabled.value = true
                 liveScheduleGetResponseGroup.value = liveScheduleGetResponseUniversityGroup.value?.get(university)
+            } else {
+                liveIsGroupEnabled.value = false
             }
         } catch (e: Exception) {
+            liveIsGroupEnabled.value = false
         }
     }
 

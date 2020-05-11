@@ -4,6 +4,7 @@ package info.schedule.ui
 
 import android.os.Bundle
 import android.view.*
+import android.widget.AdapterView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
@@ -72,26 +73,41 @@ class LectureSearchFragment : Fragment() ,
                 binding.etUniversity.text.toString().isNotEmpty() &&
                         binding.etHintLectionStart.hint != getString(R.string.btn_lectionStart) &&
                         binding.etHintLectionEnd.hint == getString(R.string.btn_lectionEnd) &&
-                        binding.etTypeLecture.text.toString().isNotEmpty()   ->
+                        viewModel.getTypeLecture() != getString(R.string.typeLecture)
+                ->
                 {
                     clickerFind()
                     Timber.d("ONE")
                     viewModel.getScheduleLectionData(
-                        binding.etUniversity.text.toString(),
-                        binding.etTypeLecture.text.toString())
+                        binding.etUniversity.text.toString())
                 }
                 binding.etUniversity.text.toString().isNotEmpty() &&
                         binding.etHintLectionStart.hint != getString(R.string.btn_lectionStart) &&
                         binding.etHintLectionEnd.hint != getString(R.string.btn_lectionEnd) &&
-                        binding.etTypeLecture.text.toString().isNotEmpty() ->
+                        viewModel.getTypeLecture() != getString(R.string.typeLecture)
+                ->
                 {
                     clickerFind()
                     Timber.d("TWO")
                     viewModel.getScheduleLectionEndDayData(
-                        binding.etUniversity.text.toString(),
-                        binding.etTypeLecture.text.toString())
+                        binding.etUniversity.text.toString())
                 }
-                else -> Toast.makeText(context, R.string.emptyScheduleLection, Toast.LENGTH_LONG).show()
+                else -> Toast.makeText(context, R.string.empty, Toast.LENGTH_LONG).show()
+            }
+        }
+
+
+        binding.spTypeLecture.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                viewModel.setTypeLecture(parent?.getItemAtPosition(position).toString())
             }
         }
 
@@ -174,5 +190,4 @@ class LectureSearchFragment : Fragment() ,
         binding.pbLoading.visibility = View.VISIBLE
         isLiveData = true
     }
-
 }

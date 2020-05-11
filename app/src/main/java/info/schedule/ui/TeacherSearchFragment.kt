@@ -101,7 +101,7 @@ class TeacherSearchFragment : Fragment(),
                         binding.etPatronymic.text.toString(),
                         binding.etUniversity.text.toString())
                 }
-                else -> Toast.makeText(context, R.string.emptyScheduleTeacher, Toast.LENGTH_LONG).show()
+                else ->Toast.makeText(context, R.string.empty, Toast.LENGTH_LONG).show()
             }
         }
 
