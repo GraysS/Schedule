@@ -17,7 +17,8 @@
             android:id="@+id/btn_auth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="150dp"
+            android:minWidth="200dp"
+            android:maxWidth="200dp"
             android:layout_marginBottom="5dp"
             android:text="@string/button_auth" />
 
@@ -25,7 +26,8 @@
             android:id="@+id/btn_registr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="150dp"
+            android:minWidth="200dp"
+            android:maxWidth="200dp"
             android:layout_marginTop="5dp"
             android:text="@string/button_registr" />
 

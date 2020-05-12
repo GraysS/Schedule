@@ -30,6 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="300dp"
+                android:maxWidth="300dp"
                 android:layout_marginBottom="10dp"
                 android:entries="@array/array_typeLecture"/>
 
@@ -45,6 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minWidth="300dp"
+                    android:maxWidth="300dp"
                     android:layout_marginBottom="10dp"
                     android:imeOptions="actionDone"
                     android:singleLine="true" />
@@ -61,13 +63,13 @@
                     style="@style/editText_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minWidth="240dp"
                     android:hint="@string/btn_lectionStart">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:minWidth="240dp"
+                        android:maxWidth="240dp"
                         android:layout_marginBottom="10dp"
                         android:inputType="none"
                         android:enabled="false"
@@ -82,6 +84,8 @@
                     android:layout_height="wrap_content"
                     android:minHeight="65dp"
                     android:minWidth="65dp"
+                    android:maxHeight="65dp"
+                    android:maxWidth="65dp"
                     android:drawableEnd="@drawable/baseline_date_range_24" />
 
             </LinearLayout>
@@ -97,13 +101,13 @@
                     style="@style/editText_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minWidth="240dp"
                     android:hint="@string/btn_lectionEnd">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:minWidth="240dp"
+                        android:maxWidth="240dp"
                         android:layout_marginBottom="10dp"
                         android:inputType="none"
                         android:enabled="false"
@@ -118,6 +122,8 @@
                     android:layout_height="wrap_content"
                     android:minHeight="65dp"
                     android:minWidth="65dp"
+                    android:maxHeight="65dp"
+                    android:maxWidth="65dp"
                     android:drawableEnd="@drawable/baseline_date_range_24" />
 
             </LinearLayout>

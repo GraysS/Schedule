@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:minWidth="250dp"
+                android:maxWidth="250dp"
                 android:text="@string/btn_autditore" />
 
             <Button
@@ -36,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:minWidth="250dp"
+                android:maxWidth="250dp"
                 android:text="@string/btn_lecture" />
             <Button
                 android:id="@+id/btn_teachers"
@@ -43,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:minWidth="250dp"
+                android:maxWidth="250dp"
                 android:text="@string/btn_teachers" />
 
             <Button
@@ -51,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:minWidth="250dp"
+                android:maxWidth="250dp"
                 android:text="@string/btn_university" />
         </LinearLayout>
 
